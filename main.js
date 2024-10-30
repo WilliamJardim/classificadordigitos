@@ -87,3 +87,52 @@ function baixarJSON(nomeArquivo = "dados.json") {
     // Revogar a URL temporária para liberar memória
     URL.revokeObjectURL(url);
 }
+
+// Selecionar o elemento de upload
+const inputJSON = document.getElementById("jsonUpload");
+inputJSON.style.visibility = 'hidden';
+inputJSON.style.display = 'none';
+
+// Adicionar um ouvinte de eventos para quando um arquivo é selecionado
+inputJSON.addEventListener("change", function(event) {
+    const arquivo = event.target.files[0];
+
+    // Verificar se o arquivo é válido e se tem a extensão .json
+    if (arquivo && arquivo.type === "application/json") {
+        const leitor = new FileReader();
+
+        // Definir a função que executa quando o arquivo é lido
+        leitor.onload = function(e) {
+            try {
+                const jsonData = JSON.parse(e.target.result); // Parse do conteúdo JSON
+                carregarDataset(jsonData); // Chamar a função passando o JSON carregado
+            } catch (error) {
+                console.error("Erro ao analisar o arquivo JSON:", error);
+                alert("Arquivo JSON inválido.");
+            }
+        };
+
+        // Ler o arquivo como texto
+        leitor.readAsText(arquivo);
+        
+    } else {
+        alert("Por favor, selecione um arquivo JSON válido.");
+    }
+});
+
+document.getElementById('botao-salvar-dataset').addEventListener("click", function(event) {
+    baixarJSON();
+});
+
+document.getElementById('botao-abrir-dataset').addEventListener("click", function(event) {
+    if( !inputJSON.aberto )
+    {
+        inputJSON.style.visibility = 'visible';
+        inputJSON.style.display = 'block';
+        inputJSON.aberto = true;
+    }else{
+        inputJSON.style.visibility = 'hidden';
+        inputJSON.style.display = 'none';
+        inputJSON.aberto = false;
+    }
+});
