@@ -3,7 +3,7 @@ const dataset = new Dataset();
 const editorCaracter = new Editor({
     resolucao: 300,
     top: 100,
-    left: 100,
+    left: 800,
     titulo: 'Desenhe a letra W',
     backgroundColor: 'rgb(0,0,0)',
 
@@ -27,7 +27,15 @@ const editorCaracter = new Editor({
     
     onEnviar: function( desenho ){
         dataset.insert( desenho );
+        adicionarImagemNaLista(desenho);
     }
 
 });
 
+function adicionarImagemNaLista( desenho ){
+   const visualizador = new Viewer( 'lista-dataset', 
+                                    editorCaracter.getCursor(), 
+                                    editorCaracter.config ); 
+                                    
+   visualizador.loadImage( desenho );
+}
