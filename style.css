@@ -1,0 +1,63 @@
+body {
+    background: radial-gradient(circle, rgb(22, 22, 22) 0%, rgb(10, 10, 10) 100%);
+    color: #00ffcc !important;
+    font-family: 'Orbitron', sans-serif; /* Fonte futurista opcional */
+    padding: 10px;
+}
+
+
+h1{
+    font-family: 'Orbitron', sans-serif; /* Fonte futurista opcional */
+}
+
+div {
+    background: rgba(22, 22, 22, 0.9) !important;
+    color: #00ffcc !important;
+    box-shadow: 0 0 20px rgba(0, 255, 204, 0.1), inset 0 0 5px rgba(0, 255, 204, 0.05);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+canvas {
+    box-shadow: 0 0 20px rgba(0, 255, 204, 0.6), 0 0 40px rgba(0, 255, 204, 0.3);
+    background-color: rgba(0, 255, 204, 0.15) !important;
+    color: #00ffcc !important;
+    border-radius: 10px;
+    animation: neonPulse 2s infinite alternate;
+}
+
+button {
+    border: none;
+    border-radius: 16px !important;
+    box-shadow: 0 0 15px rgba(0, 255, 204, 0.5), inset 0 0 5px rgba(0, 255, 204, 0.3);
+    background: linear-gradient(145deg, rgba(0, 255, 204, 0.15), rgba(0, 255, 204, 0.05)) !important;;
+    color: #00ffcc !important;
+    transition: background 0.3s, box-shadow 0.3s;
+    font-size: 28pt !important;
+    font-weight: bolder;
+    font-family: 'Orbitron', sans-serif; /* Fonte futurista opcional */
+}
+
+button:hover {
+    background: rgba(0, 255, 204, 0.2) !important;
+    box-shadow: 0 0 25px rgba(0, 255, 204, 0.7), inset 0 0 10px rgba(0, 255, 204, 0.3);
+}
+
+button.botao-excluir{
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.5), inset 0 0 5px rgba(192, 0, 0, 0.3);
+    background: linear-gradient(145deg, rgba(212, 0, 0, 0.15), rgba(255, 38, 0, 0.05)) !important;;
+    color: #ffffff !important;
+}
+button.botao-excluir:hover{
+    background: rgba(255, 16, 16, 0.2) !important;
+    box-shadow: 0 0 25px rgba(255, 0, 0, 0.7), inset 0 0 10px rgba(182, 0, 0, 0.3);
+}
+
+@keyframes neonPulse {
+    from {
+        box-shadow: 0 0 15px rgba(0, 255, 204, 0.5), 0 0 30px rgba(0, 255, 204, 0.3);
+    }
+    to {
+        box-shadow: 0 0 25px rgba(0, 255, 204, 0.7), 0 0 45px rgba(0, 255, 204, 0.4);
+    }
+}
