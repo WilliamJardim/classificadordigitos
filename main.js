@@ -58,4 +58,32 @@ function carregarDatasetMemoria(){
 function salvarDataset(){
     const dadosAtuais = dataset.getDados();
     localStorage.setItem( 'dataset', JSON.stringify(dadosAtuais) )
+    return dadosAtuais;
+}
+
+// Função para gerar e baixar o arquivo JSON
+function baixarJSON(nomeArquivo = "dados.json") {
+    // Converter o array em uma string JSON
+    const jsonString = JSON.stringify( salvarDataset() , null, 2);
+
+    // Criar um Blob com o JSON e definir o tipo de conteúdo
+    const blob = new Blob([jsonString], { type: "application/json" });
+  
+    // Gerar uma URL temporária para o Blob
+    const url = URL.createObjectURL(blob);
+  
+    // Criar um elemento <a> temporário para o download
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = nomeArquivo;
+  
+    // Adicionar o elemento ao DOM e clicar nele para iniciar o download
+    document.body.appendChild(a);
+    a.click();
+  
+    // Remover o elemento do DOM
+    document.body.removeChild(a);
+  
+    // Revogar a URL temporária para liberar memória
+    URL.revokeObjectURL(url);
 }
