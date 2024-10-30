@@ -1,10 +1,10 @@
 const dataset = new Dataset();
 
 const editorCaracter = new Editor({
-    resolucao: 300,
+    resolucao: 256,
     top: 100,
     left: 900,
-    titulo: 'Desenhe a letra W',
+    titulo: 'Desenhe',
     backgroundColor: 'rgb(0,0,0)',
 
     //Configurações iniciais do cursor
