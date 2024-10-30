@@ -3,7 +3,7 @@ const dataset = new Dataset();
 const editorCaracter = new Editor({
     resolucao: 300,
     top: 100,
-    left: 800,
+    left: 900,
     titulo: 'Desenhe a letra W',
     backgroundColor: 'rgb(0,0,0)',
 
