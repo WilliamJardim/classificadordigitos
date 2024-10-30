@@ -39,3 +39,23 @@ function adicionarImagemNaLista( desenho ){
                                     
    visualizador.loadImage( desenho );
 }
+
+//Carrega um dataset
+function carregarDataset( datasetArray = [] ){
+    dataset.setDados(datasetArray);
+    dataset.getDados().forEach(function( desenho ){
+        adicionarImagemNaLista(desenho);
+    })
+}
+
+//Carrega o dataset do LocalStorage
+function carregarDatasetMemoria(){
+    const dadosAtuais = JSON.parse( localStorage.getItem( 'dataset' ) );
+    carregarDataset(dadosAtuais);
+}
+
+//Salva o dataset no LocalStorage e retorna o objeto
+function salvarDataset(){
+    const dadosAtuais = dataset.getDados();
+    localStorage.setItem( 'dataset', JSON.stringify(dadosAtuais) )
+}
