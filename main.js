@@ -1,27 +1,47 @@
 const dataset        = new Dataset();
+
+const dadosCursor    = {
+    color: 'rgb(255,255,255)',
+    X: 0,
+    Y: 0,
+    width: 5,
+    height: 5,
+    insertionRate: 2, //Será inserido 5% do width e height do cursor na matrix, isso afeta a espessura de cada pixel 
+    opacity: 0.4,
+    forcaBorracha: 0.5
+};
+
+const configEditor = {
+    //Limita quais serão a faixa de valores dos pixels a serem desenhados
+    limites: {
+        crescimento: 1,
+        decremento:  0
+    }
+}
+
 const editorCaracter = null;
 
-function adicionarImagemNaLista( desenho, contextoEditor )
+function adicionarImagemNaLista( desenho, cursor )
 {
    const visualizador = new Viewer( 'lista-dataset', 
-                                    contextoEditor.getCursor(), 
-                                    contextoEditor.config ); 
+                                    cursor, 
+                                    configEditor ); 
                                     
    visualizador.loadImage( desenho );
 }
 
 //Carrega um dataset
-function carregarDataset( datasetArray = [] ){
+function carregarDataset( datasetArray = [], cursor ){
     dataset.setDados(datasetArray);
     dataset.getDados().forEach(function( desenho ){
-        adicionarImagemNaLista(desenho);
+        adicionarImagemNaLista(desenho, cursor);
     })
 }
 
 //Carrega o dataset do LocalStorage
 function carregarDatasetMemoria(){
     const dadosAtuais = JSON.parse( localStorage.getItem( 'dataset' ) );
-    carregarDataset(dadosAtuais);
+    carregarDataset(dadosAtuais, editorCaracter);
 }
 
 //Salva o dataset no LocalStorage e retorna o objeto
@@ -73,13 +93,11 @@ inputJSON.addEventListener("change", function(event) {
 
         // Definir a função que executa quando o arquivo é lido
         leitor.onload = function(e) {
-            try {
+            
                 const jsonData = JSON.parse(e.target.result); // Parse do conteúdo JSON
-                carregarDataset(jsonData); // Chamar a função passando o JSON carregado
-            } catch (error) {
-                console.error("Erro ao analisar o arquivo JSON:", error);
-                alert("Arquivo JSON inválido.");
-            }
+                carregarDataset(jsonData, dadosCursor); // Chamar a função passando o JSON carregado
+
+           
         };
 
         // Ler o arquivo como texto
@@ -157,11 +175,6 @@ function treinarModelo(){
     return mlp;
 }
 
-function estimarUltimoDesenho(){
-    let ultimoDesenho = dataset.getDados().slice(-1)[0] ; 
-    return mlp.estimate( planificarDesenho( ultimoDesenho ) );
-}
-
 document.getElementById('botao-adicionar-desenho').addEventListener('click', function(){
     window.editorCaracter = new Editor({
         resolucao: 256,
@@ -171,28 +184,51 @@ document.getElementById('botao-adicionar-desenho').addEventListener('click', fun
         backgroundColor: 'rgb(0,0,0)',
     
         //Configurações iniciais do cursor
-        cursor: {
-            color: 'rgb(255,255,255)',
-            X: 0,
-            Y: 0,
-            width: 5,
-            height: 5,
-            insertionRate: 2, //Será inserido 5% do width e height do cursor na matrix, isso afeta a espessura de cada pixel 
-            opacity: 0.4,
-            forcaBorracha: 0.5
-        },
+        cursor: {...dadosCursor},
     
         //Limita quais serão a faixa de valores dos pixels a serem desenhados
-        limites: {
-            crescimento: 1,
-            decremento:  0
-        },
+        limites: configEditor.limites,
         
         onEnviar: function( desenho ){
             dataset.insert( desenho );
-            adicionarImagemNaLista(desenho, this);
+            adicionarImagemNaLista( desenho, this.getCursor() );
             this.deletarInstancia();
         }
     
     });
 })
+
+document.getElementById('botao-testar-modelo').addEventListener('click', function(){
+
+    document.getElementById('resultados-testes').innerHTML = '';
+
+    const editorTeste = new Editor({
+        resolucao: 256,
+        top: 100,
+        left: 900,
+        titulo: 'Desenhe',
+        backgroundColor: 'rgb(0,0,0)',
+    
+        //Configurações iniciais do cursor
+        cursor: {...dadosCursor},
+    
+        //Limita quais serão a faixa de valores dos pixels a serem desenhados
+        limites: configEditor.limites,
+        
+        onEnviar: function( desenho ){
+            const estimativa = window.mlp.estimate( planificarDesenho( desenho ) );
+
+            console.log(estimativa);
+
+            const visualizador = new Viewer( 'resultados-testes', 
+                                 window.editorCaracter.getCursor(), 
+                                 window.editorCaracter.config);
+                                 
+            visualizador.loadImage( desenho );
+
+            this.deletarInstancia();
+        }
+    
+    });
+
+});
