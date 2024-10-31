@@ -250,6 +250,7 @@ class Editor{
     }
 
     deletarInstancia(){
+        document.body.removeChild( this.divTitulo );
         document.body.removeChild( this.drawCanvas );
         document.body.removeChild( this.previewCanvas );
         document.body.removeChild( this.divFerramentas );

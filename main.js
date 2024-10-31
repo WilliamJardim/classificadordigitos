@@ -1,41 +1,11 @@
-const dataset = new Dataset();
+const dataset        = new Dataset();
+const editorCaracter = null;
 
-const editorCaracter = new Editor({
-    resolucao: 256,
-    top: 100,
-    left: 900,
-    titulo: 'Desenhe',
-    backgroundColor: 'rgb(0,0,0)',
-
-    //Configurações iniciais do cursor
-    cursor: {
-        color: 'rgb(255,255,255)',
-        X: 0,
-        Y: 0,
-        width: 5,
-        height: 5,
-        insertionRate: 2, //Será inserido 5% do width e height do cursor na matrix, isso afeta a espessura de cada pixel 
-        opacity: 0.4,
-        forcaBorracha: 0.5
-    },
-
-    //Limita quais serão a faixa de valores dos pixels a serem desenhados
-    limites: {
-        crescimento: 1,
-        decremento:  0
-    },
-    
-    onEnviar: function( desenho ){
-        dataset.insert( desenho );
-        adicionarImagemNaLista(desenho);
-    }
-
-});
-
-function adicionarImagemNaLista( desenho ){
+function adicionarImagemNaLista( desenho, contextoEditor )
+{
    const visualizador = new Viewer( 'lista-dataset', 
-                                    editorCaracter.getCursor(), 
-                                    editorCaracter.config ); 
+                                    contextoEditor.getCursor(), 
+                                    contextoEditor.config ); 
                                     
    visualizador.loadImage( desenho );
 }
@@ -192,22 +162,37 @@ function estimarUltimoDesenho(){
     return mlp.estimate( planificarDesenho( ultimoDesenho ) );
 }
 
-/*
-// Saídas esperadas para o XOR
-const targets = [
-    [0],
-    [1],
-    [1],
-    [0]
-];
-
-// Treinando a rede
-mlp.train(inputs, targets, 0.1, 10000);
-
-// Testando a rede
-console.log('Estimativas:');
-inputs.forEach(input => {
-    const output = mlp.estimate(input);
-    console.log(`Entrada: ${input}, Estimativa: ${output}`);
-});
-*/
+document.getElementById('botao-adicionar-desenho').addEventListener('click', function(){
+    window.editorCaracter = new Editor({
+        resolucao: 256,
+        top: 100,
+        left: 900,
+        titulo: 'Desenhe',
+        backgroundColor: 'rgb(0,0,0)',
+    
+        //Configurações iniciais do cursor
+        cursor: {
+            color: 'rgb(255,255,255)',
+            X: 0,
+            Y: 0,
+            width: 5,
+            height: 5,
+            insertionRate: 2, //Será inserido 5% do width e height do cursor na matrix, isso afeta a espessura de cada pixel 
+            opacity: 0.4,
+            forcaBorracha: 0.5
+        },
+    
+        //Limita quais serão a faixa de valores dos pixels a serem desenhados
+        limites: {
+            crescimento: 1,
+            decremento:  0
+        },
+        
+        onEnviar: function( desenho ){
+            dataset.insert( desenho );
+            adicionarImagemNaLista(desenho, this);
+            this.deletarInstancia();
+        }
+    
+    });
+})
