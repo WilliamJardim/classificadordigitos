@@ -167,7 +167,13 @@ function treinarModelo(){
     //Gerar os rótulos
     const targets = [
         [1,0,0],
+        [1,0,0],
+        [1,0,0],
         [0,1,0],
+        [0,1,0],
+        [0,1,0],
+        [0,0,1],
+        [0,0,1],
         [0,0,1]
     ]
 
@@ -222,18 +228,18 @@ document.getElementById('botao-testar-modelo').addEventListener('click', functio
         //Limita quais serão a faixa de valores dos pixels a serem desenhados
         limites: configEditor.limites,
         
-        onEnviar: function( desenho ){
-            const estimativa = window.mlp.estimate( planificarDesenho( desenho ) );
+        onEnviar: function( desenhoTeste ){
+            const estimativa = window.mlp.estimate( planificarDesenho( desenhoTeste ) );
 
-            console.log(estimativa);
+            console.log('RESULTADO ESTIMADO', estimativa);
 
-            const visualizador = new Viewer( 'resultados-testes', 
-                                 window.editorCaracter.getCursor(), 
-                                 window.editorCaracter.config);
+            //const visualizador = new Viewer( 'resultados-testes', 
+            //                     dadosCursor, 
+            //                     configEditor);
                                  
-            visualizador.loadImage( desenho );
+            //visualizador.loadImage( desenhoTeste );
 
-            this.deletarInstancia();
+            //this.deletarInstancia();
         }
     
     });
