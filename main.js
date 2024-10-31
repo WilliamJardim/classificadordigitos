@@ -136,3 +136,78 @@ document.getElementById('botao-abrir-dataset').addEventListener("click", functio
         inputJSON.aberto = false;
     }
 });
+
+function planificarDesenho( desenho ){
+    let desenhoPlanificado = [];
+
+    desenho.forEach(( linha )=>{
+        linha.forEach((numero)=>{
+            desenhoPlanificado.push( numero );
+        });
+    });
+
+    return desenhoPlanificado;
+}
+
+var pesosInicias = null;
+var pesosFinais  = null;
+
+function treinarModelo(){
+    // Estrutura da rede: 2 neurônios na entrada, 2 na camada oculta, 1 na saída
+    const mlpConfig = {
+        layers: [
+            { type: LayerType.Input,  inputs: 65536,  units: 65536 }, //Aqui são apenas 65536 entradas, preciso melhorar esse método
+            { type: LayerType.Hidden, inputs: 65536,  units: 2, functions: [ 'Sigmoid', 'Sigmoid' ]  }, 
+            { type: LayerType.Final,  inputs: 2,      units: 3, functions: [ 'Sigmoid', 'Sigmoid', 'Sigmoid' ]  }
+        ],
+        initialization: Initialization.Random
+    };
+
+    window.mlp = new MLP(mlpConfig);
+    window.pesosInicias = mlp.initialParameters;
+
+    // Dados de entrada para o problema XOR
+    const inputs = dataset.getDados().map( (desenho)=>{ 
+        return planificarDesenho(desenho);
+    });
+
+    //Gerar os rótulos
+    const targets = [
+        [1,0,0],
+        [0,1,0],
+        [0,0,1]
+    ]
+
+    
+    // Treinando a rede
+    mlp.train(inputs, targets, 0.05, 1500, 1);
+
+    window.pesosFinais = mlp.exportParameters();
+
+    return mlp;
+}
+
+function estimarUltimoDesenho(){
+    let ultimoDesenho = dataset.getDados().slice(-1)[0] ; 
+    return mlp.estimate( planificarDesenho( ultimoDesenho ) );
+}
+
+/*
+// Saídas esperadas para o XOR
+const targets = [
+    [0],
+    [1],
+    [1],
+    [0]
+];
+
+// Treinando a rede
+mlp.train(inputs, targets, 0.1, 10000);
+
+// Testando a rede
+console.log('Estimativas:');
+inputs.forEach(input => {
+    const output = mlp.estimate(input);
+    console.log(`Entrada: ${input}, Estimativa: ${output}`);
+});
+*/
