@@ -141,7 +141,12 @@ var pesosInicias = null;
 var pesosFinais  = null;
 
 function treinarModelo(){
-    // Estrutura da rede: 2 neurônios na entrada, 2 na camada oculta, 1 na saída
+    if( window.confirm('Deseja iniciar o treinamento( SIM/NAO ) ??? Isso pode demorar um pouco!') == false ){
+        console.log('cancelado');
+        return;
+    }
+
+    // Estrutura da rede: 65536 unidades na entrada, 2 unidades na camada oculta, e 1 na saída
     const mlpConfig = {
         layers: [
             { type: LayerType.Input,  inputs: 65536,  units: 65536 }, //Aqui são apenas 65536 entradas, preciso melhorar esse método
@@ -171,6 +176,8 @@ function treinarModelo(){
     mlp.train(inputs, targets, 0.05, 1500, 1);
 
     window.pesosFinais = mlp.exportParameters();
+
+    alert('Treinamento concluido!');
 
     return mlp;
 }
@@ -231,4 +238,8 @@ document.getElementById('botao-testar-modelo').addEventListener('click', functio
     
     });
 
+});
+
+document.getElementById('botao-treinar-modelo').addEventListener('click', function(){
+    treinarModelo();
 });
