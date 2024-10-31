@@ -1,5 +1,6 @@
 
-DATASET: dados07.json, o mesmo dataset do outro teste "EXEMPLO DE TESTE.txt", das 3 letras: W, S e L
+DATASET: dados08.json(um dataset equivalente ao dados07.json, com exatamente as mesmas 3 letras, porém, desenhadas de um jeito um pouco diferente),
+NA PRATICA: o mesmo dataset do outro teste "EXEMPLO DE TESTE.txt", das 3 letras: W, S e L
 
 CÒDIGO USADO:
 
