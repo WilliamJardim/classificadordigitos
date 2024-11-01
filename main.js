@@ -188,6 +188,27 @@ function treinarModelo(){
     return mlp;
 }
 
+function medirPrecisaoTreino( instancia, dadosDataset, osTargets ){
+    const acertosAmostrasTreino = Array( osTargets[0].length ).fill(0); 
+
+    dadosDataset.forEach(function( desenho, indiceDesenho ){
+        const estimativa     = instancia.forward( planificarDesenho( desenho ) );
+        const alvos          = osTargets[ indiceDesenho ];
+        //const acertosPorTipo = Array( alvos.length ).fill(null);
+
+        //Para cada tipo de classe
+        for( let tipo = 0 ; tipo < alvos.length ; tipo++ )
+        {
+            const tipoAtual = alvos[tipo];
+            acertosAmostrasTreino[ tipo ] += Math.sqrt(Math.pow( (estimativa[tipo] - tipoAtual), 2));
+        }
+
+        
+    });
+
+    return acertosAmostrasTreino.map((v)=>{ return v / dadosDataset.length });
+}
+
 document.getElementById('botao-adicionar-desenho').addEventListener('click', function(){
     window.editorCaracter = new Editor({
         resolucao: 256,

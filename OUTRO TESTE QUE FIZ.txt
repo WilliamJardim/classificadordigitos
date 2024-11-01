@@ -1,0 +1,966 @@
+
+var pesosInicias = null;
+var pesosFinais  = null;
+
+function treinarModelo(){
+    if( window.confirm('Deseja iniciar o treinamento( SIM/NAO ) ??? Isso pode demorar um pouco!') == false ){
+        console.log('cancelado');
+        return;
+    }
+
+    // Estrutura da rede: 65536 unidades na entrada, 2 unidades na camada oculta, e 1 na saída
+    const mlpConfig = {
+        layers: [
+            { type: LayerType.Input,  inputs: 65536,  units: 65536 }, //Aqui são apenas 65536 entradas, preciso melhorar esse método
+            { type: LayerType.Hidden, inputs: 65536,   units: 64, functions: Array(64).fill('Sigmoid')  }, 
+            { type: LayerType.Final,  inputs: 64,      units: 3,  functions: [ 'Sigmoid', 'Sigmoid', 'Sigmoid' ]  }
+        ],
+        initialization: Initialization.Random
+    };
+
+    window.mlp = new MLP(mlpConfig);
+    window.pesosInicias = mlp.initialParameters;
+
+    // Dados de entrada para o problema XOR
+    const inputs = dataset.getDados().map( (desenho)=>{ 
+        return planificarDesenho(desenho);
+    });
+
+    //Gerar os rótulos
+    const targets = [
+        [1,0,0],
+        [1,0,0],
+        [1,0,0],
+        [0,1,0],
+        [0,1,0],
+        [0,1,0],
+        [0,0,1],
+        [0,0,1],
+        [0,0,1]
+    ]
+
+    
+    // Treinando a rede
+    mlp.train(inputs, targets, 0.001, 500, 1);
+
+    window.pesosFinais = mlp.exportParameters();
+
+    alert('Treinamento concluido!');
+
+    return mlp;
+}
+
+function medirPrecisaoTreino( instancia, dadosDataset, osTargets ){
+    const acertosAmostrasTreino = Array( osTargets[0].length ).fill(0); 
+
+    dadosDataset.forEach(function( desenho, indiceDesenho ){
+        const estimativa     = instancia.forward( planificarDesenho( desenho ) );
+        const alvos          = osTargets[ indiceDesenho ];
+        //const acertosPorTipo = Array( alvos.length ).fill(null);
+
+        //Para cada tipo de classe
+        for( let tipo = 0 ; tipo < alvos.length ; tipo++ )
+        {
+            const tipoAtual = alvos[tipo];
+            acertosAmostrasTreino[ tipo ] += Math.sqrt(Math.pow( (estimativa[tipo] - tipoAtual), 2));
+        }
+
+        
+    });
+
+    return acertosAmostrasTreino.map((v)=>{ return v / dadosDataset.length });
+}
+
+
+EU LIMPEI O CONSOLE E NÂO SALVEI OS ERROS INICIAIS
+
+POREM O ERRO INICIAL ERA MAIOR QUE 12, antes do treinamento começar.
+
+ai rodei por 500 epocas,
+
+ai depois comecei outra rodada de treinamento por mais 200 epocas com learning rate com 0.001 e essa eu anotei 
+
+Erro inicial(ANTES DO TREINAMENTO): 0.21091827575879352
+MLP.js:366 Epoch 0, Erro total: 0.2100105680848831
+MLP.js:366 Epoch 1, Erro total: 0.20910857764463303
+MLP.js:366 Epoch 2, Erro total: 0.2082122573762515
+MLP.js:366 Epoch 3, Erro total: 0.2073215606918956
+MLP.js:366 Epoch 4, Erro total: 0.2064364414720742
+MLP.js:366 Epoch 5, Erro total: 0.2055568540601309
+MLP.js:366 Epoch 6, Erro total: 0.2046827532567997
+MLP.js:366 Epoch 7, Erro total: 0.20381409431483066
+MLP.js:366 Epoch 8, Erro total: 0.20295083293369168
+MLP.js:366 Epoch 9, Erro total: 0.2020929252543381
+MLP.js:366 Epoch 10, Erro total: 0.20124032785405238
+MLP.js:366 Epoch 11, Erro total: 0.20039299774135344
+MLP.js:366 Epoch 12, Erro total: 0.1995508923509723
+MLP.js:366 Epoch 13, Erro total: 0.198713969538896
+MLP.js:366 Epoch 14, Erro total: 0.1978821875774744
+MLP.js:366 Epoch 15, Erro total: 0.19705550515059622
+MLP.js:366 Epoch 16, Erro total: 0.1962338813489226
+MLP.js:366 Epoch 17, Erro total: 0.1954172756651892
+MLP.js:366 Epoch 18, Erro total: 0.1946056479895668
+MLP.js:366 Epoch 19, Erro total: 0.1937989586050846
+MLP.js:366 Epoch 20, Erro total: 0.19299716818311133
+MLP.js:366 Epoch 21, Erro total: 0.19220023777889844
+MLP.js:366 Epoch 22, Erro total: 0.19140812882717992
+MLP.js:366 Epoch 23, Erro total: 0.19062080313782917
+MLP.js:366 Epoch 24, Erro total: 0.1898382228915733
+MLP.js:366 Epoch 25, Erro total: 0.18906035063576407
+MLP.js:366 Epoch 26, Erro total: 0.18828714928020177
+MLP.js:366 Epoch 27, Erro total: 0.1875185820930151
+MLP.js:366 Epoch 28, Erro total: 0.18675461269659288
+MLP.js:366 Epoch 29, Erro total: 0.18599520506357123
+MLP.js:366 Epoch 30, Erro total: 0.18524032351286818
+MLP.js:366 Epoch 31, Erro total: 0.1844899327057733
+MLP.js:366 Epoch 32, Erro total: 0.183743997642087
+MLP.js:366 Epoch 33, Erro total: 0.18300248365630728
+MLP.js:366 Epoch 34, Erro total: 0.18226535641386885
+MLP.js:366 Epoch 35, Erro total: 0.1815325819074266
+MLP.js:366 Epoch 36, Erro total: 0.18080412645319113
+MLP.js:366 Epoch 37, Erro total: 0.1800799566873066
+MLP.js:366 Epoch 38, Erro total: 0.17936003956227878
+MLP.js:366 Epoch 39, Erro total: 0.17864434234344562
+MLP.js:366 Epoch 40, Erro total: 0.17793283260549445
+MLP.js:366 Epoch 41, Erro total: 0.1772254782290237
+MLP.js:366 Epoch 42, Erro total: 0.17652224739714586
+MLP.js:366 Epoch 43, Erro total: 0.175823108592137
+MLP.js:366 Epoch 44, Erro total: 0.17512803059212634
+MLP.js:366 Epoch 45, Erro total: 0.17443698246782732
+MLP.js:366 Epoch 46, Erro total: 0.1737499335793122
+MLP.js:366 Epoch 47, Erro total: 0.17306685357282467
+MLP.js:366 Epoch 48, Erro total: 0.17238771237763467
+MLP.js:366 Epoch 49, Erro total: 0.17171248020293095
+MLP.js:366 Epoch 50, Erro total: 0.17104112753475453
+MLP.js:366 Epoch 51, Erro total: 0.1703736251329682
+MLP.js:366 Epoch 52, Erro total: 0.16970994402826692
+MLP.js:366 Epoch 53, Erro total: 0.16905005551922164
+MLP.js:366 Epoch 54, Erro total: 0.16839393116936413
+MLP.js:366 Epoch 55, Erro total: 0.16774154280430548
+MLP.js:366 Epoch 56, Erro total: 0.1670928625088903
+MLP.js:366 Epoch 57, Erro total: 0.16644786262438832
+MLP.js:366 Epoch 58, Erro total: 0.16580651574571845
+MLP.js:366 Epoch 59, Erro total: 0.16516879471870907
+MLP.js:366 Epoch 60, Erro total: 0.16453467263739013
+MLP.js:366 Epoch 61, Erro total: 0.16390412284132114
+MLP.js:366 Epoch 62, Erro total: 0.16327711891295016
+MLP.js:366 Epoch 63, Erro total: 0.16265363467500646
+MLP.js:366 Epoch 64, Erro total: 0.16203364418792285
+MLP.js:366 Epoch 65, Erro total: 0.16141712174729403
+MLP.js:366 Epoch 66, Erro total: 0.1608040418813616
+MLP.js:366 Epoch 67, Erro total: 0.1601943793485328
+MLP.js:366 Epoch 68, Erro total: 0.1595881091349271
+MLP.js:366 Epoch 69, Erro total: 0.15898520645195566
+MLP.js:366 Epoch 70, Erro total: 0.1583856467339274
+MLP.js:366 Epoch 71, Erro total: 0.157789405635686
+MLP.js:366 Epoch 72, Erro total: 0.15719645903027452
+MLP.js:366 Epoch 73, Erro total: 0.15660678300662922
+MLP.js:366 Epoch 74, Erro total: 0.1560203538673008
+MLP.js:366 Epoch 75, Erro total: 0.1554371481262029
+MLP.js:366 Epoch 76, Erro total: 0.15485714250638907
+MLP.js:366 Epoch 77, Erro total: 0.15428031393785396
+MLP.js:366 Epoch 78, Erro total: 0.15370663955536382
+MLP.js:366 Epoch 79, Erro total: 0.1531360966963116
+MLP.js:366 Epoch 80, Erro total: 0.15256866289859772
+MLP.js:366 Epoch 81, Erro total: 0.15200431589853658
+MLP.js:366 Epoch 82, Erro total: 0.15144303362878828
+MLP.js:366 Epoch 83, Erro total: 0.15088479421631423
+MLP.js:366 Epoch 84, Erro total: 0.15032957598035832
+MLP.js:366 Epoch 85, Erro total: 0.14977735743045137
+MLP.js:366 Epoch 86, Erro total: 0.14922811726443908
+MLP.js:366 Epoch 87, Erro total: 0.1486818343665339
+MLP.js:366 Epoch 88, Erro total: 0.14813848780539068
+MLP.js:366 Epoch 89, Erro total: 0.14759805683220273
+MLP.js:366 Epoch 90, Erro total: 0.14706052087882346
+MLP.js:366 Epoch 91, Erro total: 0.1465258595559081
+MLP.js:366 Epoch 92, Erro total: 0.14599405265107726
+MLP.js:366 Epoch 93, Erro total: 0.14546508012710416
+MLP.js:366 Epoch 94, Erro total: 0.14493892212012036
+MLP.js:366 Epoch 95, Erro total: 0.14441555893784497
+MLP.js:366 Epoch 96, Erro total: 0.14389497105783292
+MLP.js:366 Epoch 97, Erro total: 0.1433771391257449
+MLP.js:366 Epoch 98, Erro total: 0.14286204395363714
+MLP.js:366 Epoch 99, Erro total: 0.14234966651827005
+MLP.js:366 Epoch 100, Erro total: 0.14183998795943864
+MLP.js:366 Epoch 101, Erro total: 0.1413329895783209
+MLP.js:366 Epoch 102, Erro total: 0.1408286528358453
+MLP.js:366 Epoch 103, Erro total: 0.14032695935107856
+MLP.js:366 Epoch 104, Erro total: 0.1398278908996307
+MLP.js:366 Epoch 105, Erro total: 0.1393314294120786
+MLP.js:366 Epoch 106, Erro total: 0.13883755697240954
+MLP.js:366 Epoch 107, Erro total: 0.13834625581647989
+MLP.js:366 Epoch 108, Erro total: 0.13785750833049404
+MLP.js:366 Epoch 109, Erro total: 0.13737129704949966
+MLP.js:366 Epoch 110, Erro total: 0.1368876046558998
+MLP.js:366 Epoch 111, Erro total: 0.13640641397798378
+MLP.js:366 Epoch 112, Erro total: 0.13592770798847298
+MLP.js:366 Epoch 113, Erro total: 0.1354514698030839
+MLP.js:366 Epoch 114, Erro total: 0.13497768267910865
+MLP.js:366 Epoch 115, Erro total: 0.13450633001401022
+MLP.js:366 Epoch 116, Erro total: 0.13403739534403458
+MLP.js:366 Epoch 117, Erro total: 0.1335708623428379
+MLP.js:366 Epoch 118, Erro total: 0.13310671482012998
+MLP.js:366 Epoch 119, Erro total: 0.13264493672033334
+MLP.js:366 Epoch 120, Erro total: 0.13218551212125598
+MLP.js:366 Epoch 121, Erro total: 0.1317284252327813
+MLP.js:366 Epoch 122, Erro total: 0.13127366039557078
+MLP.js:366 Epoch 123, Erro total: 0.13082120207978248
+MLP.js:366 Epoch 124, Erro total: 0.13037103488380383
+MLP.js:366 Epoch 125, Erro total: 0.12992314353299847
+MLP.js:366 Epoch 126, Erro total: 0.1294775128784667
+MLP.js:366 Epoch 127, Erro total: 0.12903412789582147
+MLP.js:366 Epoch 128, Erro total: 0.12859297368397563
+MLP.js:366 Epoch 129, Erro total: 0.12815403546394513
+MLP.js:366 Epoch 130, Erro total: 0.1277172985776633
+MLP.js:366 Epoch 131, Erro total: 0.12728274848681126
+MLP.js:366 Epoch 132, Erro total: 0.12685037077165784
+MLP.js:366 Epoch 133, Erro total: 0.12642015112991517
+MLP.js:366 Epoch 134, Erro total: 0.1259920753756061
+MLP.js:366 Epoch 135, Erro total: 0.12556612943794354
+MLP.js:366 Epoch 136, Erro total: 0.12514229936022336
+MLP.js:366 Epoch 137, Erro total: 0.12472057129872781
+MLP.js:366 Epoch 138, Erro total: 0.12430093152164387
+MLP.js:366 Epoch 139, Erro total: 0.12388336640798997
+MLP.js:366 Epoch 140, Erro total: 0.12346786244655802
+MLP.js:366 Epoch 141, Erro total: 0.1230544062348641
+MLP.js:366 Epoch 142, Erro total: 0.12264298447811271
+MLP.js:366 Epoch 143, Erro total: 0.12223358398817154
+MLP.js:366 Epoch 144, Erro total: 0.12182619168255747
+MLP.js:366 Epoch 145, Erro total: 0.12142079458343347
+MLP.js:366 Epoch 146, Erro total: 0.1210173798166176
+MLP.js:366 Epoch 147, Erro total: 0.12061593461060094
+MLP.js:366 Epoch 148, Erro total: 0.12021644629557807
+MLP.js:366 Epoch 149, Erro total: 0.11981890230248662
+MLP.js:366 Epoch 150, Erro total: 0.11942329016205848
+MLP.js:366 Epoch 151, Erro total: 0.11902959750387995
+MLP.js:366 Epoch 152, Erro total: 0.11863781205546367
+MLP.js:366 Epoch 153, Erro total: 0.11824792164132904
+MLP.js:366 Epoch 154, Erro total: 0.11785991418209373
+MLP.js:366 Epoch 155, Erro total: 0.11747377769357405
+MLP.js:366 Epoch 156, Erro total: 0.11708950028589604
+MLP.js:366 Epoch 157, Erro total: 0.11670707016261483
+MLP.js:366 Epoch 158, Erro total: 0.11632647561984512
+MLP.js:366 Epoch 159, Erro total: 0.11594770504539914
+MLP.js:366 Epoch 160, Erro total: 0.11557074691793534
+MLP.js:366 Epoch 161, Erro total: 0.11519558980611538
+MLP.js:366 Epoch 162, Erro total: 0.11482222236776984
+MLP.js:366 Epoch 163, Erro total: 0.11445063334907501
+MLP.js:366 Epoch 164, Erro total: 0.11408081158373441
+MLP.js:366 Epoch 165, Erro total: 0.11371274599217307
+MLP.js:366 Epoch 166, Erro total: 0.11334642558073797
+MLP.js:366 Epoch 167, Erro total: 0.11298183944090795
+MLP.js:366 Epoch 168, Erro total: 0.11261897674851173
+MLP.js:366 Epoch 169, Erro total: 0.11225782676295372
+MLP.js:366 Epoch 170, Erro total: 0.11189837882644882
+MLP.js:366 Epoch 171, Erro total: 0.11154062236326502
+MLP.js:366 Epoch 172, Erro total: 0.11118454687897371
+MLP.js:366 Epoch 173, Erro total: 0.1108301419597078
+MLP.js:366 Epoch 174, Erro total: 0.11047739727142872
+MLP.js:366 Epoch 175, Erro total: 0.11012630255919947
+MLP.js:366 Epoch 176, Erro total: 0.10977684764646631
+MLP.js:366 Epoch 177, Erro total: 0.10942902243434814
+MLP.js:366 Epoch 178, Erro total: 0.10908281690093234
+MLP.js:366 Epoch 179, Erro total: 0.10873822110057882
+MLP.js:366 Epoch 180, Erro total: 0.10839522516323168
+MLP.js:366 Epoch 181, Erro total: 0.10805381929373614
+MLP.js:366 Epoch 182, Erro total: 0.10771399377116488
+MLP.js:366 Epoch 183, Erro total: 0.10737573894814996
+MLP.js:366 Epoch 184, Erro total: 0.1070390452502218
+MLP.js:366 Epoch 185, Erro total: 0.10670390317515593
+MLP.js:366 Epoch 186, Erro total: 0.10637030329232487
+MLP.js:366 Epoch 187, Erro total: 0.10603823624205837
+MLP.js:366 Epoch 188, Erro total: 0.10570769273500955
+MLP.js:366 Epoch 189, Erro total: 0.10537866355152661
+MLP.js:366 Epoch 190, Erro total: 0.10505113954103369
+MLP.js:366 Epoch 191, Erro total: 0.1047251116214139
+MLP.js:366 Epoch 192, Erro total: 0.10440057077840321
+MLP.js:366 Epoch 193, Erro total: 0.10407750806498778
+MLP.js:366 Epoch 194, Erro total: 0.1037559146008076
+MLP.js:366 Epoch 195, Erro total: 0.10343578157156719
+MLP.js:366 Epoch 196, Erro total: 0.10311710022845191
+MLP.js:366 Epoch 197, Erro total: 0.1027998618875502
+MLP.js:366 Epoch 198, Erro total: 0.10248405792928117
+MLP.js:366 Epoch 199, Erro total: 0.10216967979782936
+
+DEPOIS FIZ MAIS UMA RODADA DE 200 epocas aumentei um pouco o learning rate para 0.008
+
+Erro inicial(ANTES DO TREINAMENTO): 0.10216967979782936
+MLP.js:366 Epoch 0, Erro total: 0.09968076881606379
+MLP.js:366 Epoch 1, Erro total: 0.09728083772658548
+MLP.js:366 Epoch 2, Erro total: 0.09496562726539932
+MLP.js:366 Epoch 3, Erro total: 0.09273114607512245
+MLP.js:366 Epoch 4, Erro total: 0.09057364769331405
+MLP.js:366 Epoch 5, Erro total: 0.08848961034418276
+MLP.js:366 Epoch 6, Erro total: 0.08647571907177964
+MLP.js:366 Epoch 7, Erro total: 0.08452884984522753
+MLP.js:366 Epoch 8, Erro total: 0.08264605533835634
+MLP.js:366 Epoch 9, Erro total: 0.08082455214220349
+MLP.js:366 Epoch 10, Erro total: 0.07906170921290107
+MLP.js:366 Epoch 11, Erro total: 0.07735503739226995
+MLP.js:366 Epoch 12, Erro total: 0.07570217986610418
+MLP.js:366 Epoch 13, Erro total: 0.07410090344724105
+MLP.js:366 Epoch 14, Erro total: 0.07254909058830507
+MLP.js:366 Epoch 15, Erro total: 0.07104473204342611
+MLP.js:366 Epoch 16, Erro total: 0.06958592010997311
+MLP.js:366 Epoch 17, Erro total: 0.06817084239098727
+MLP.js:366 Epoch 18, Erro total: 0.0667977760269584
+MLP.js:366 Epoch 19, Erro total: 0.06546508235220885
+MLP.js:366 Epoch 20, Erro total: 0.06417120193669673
+MLP.js:366 Epoch 21, Erro total: 0.0629146499787191
+MLP.js:366 Epoch 22, Erro total: 0.06169401201796135
+MLP.js:366 Epoch 23, Erro total: 0.06050793994172311
+MLP.js:366 Epoch 24, Erro total: 0.05935514826005318
+MLP.js:366 Epoch 25, Erro total: 0.058234410628040335
+MLP.js:366 Epoch 26, Erro total: 0.057144556595685105
+MLP.js:366 Epoch 27, Erro total: 0.05608446856768118
+MLP.js:366 Epoch 28, Erro total: 0.055053078957108516
+MLP.js:366 Epoch 29, Erro total: 0.05404936751851269
+MLP.js:366 Epoch 30, Erro total: 0.05307235884714864
+MLP.js:366 Epoch 31, Erro total: 0.052121120032329854
+MLP.js:366 Epoch 32, Erro total: 0.051194758453858014
+MLP.js:366 Epoch 33, Erro total: 0.050292419711435894
+MLP.js:366 Epoch 34, Erro total: 0.0494132856777993
+MLP.js:366 Epoch 35, Erro total: 0.04855657266705589
+MLP.js:366 Epoch 36, Erro total: 0.04772152971039587
+MLP.js:366 Epoch 37, Erro total: 0.0469074369319543
+MLP.js:366 Epoch 38, Erro total: 0.04611360401816352
+MLP.js:366 Epoch 39, Erro total: 0.045339368774439906
+MLP.js:366 Epoch 40, Erro total: 0.04458409576351559
+MLP.js:366 Epoch 41, Erro total: 0.04384717502014169
+MLP.js:366 Epoch 42, Erro total: 0.04312802083728378
+MLP.js:366 Epoch 43, Erro total: 0.042426070619277445
+MLP.js:366 Epoch 44, Erro total: 0.04174078379774085
+MLP.js:366 Epoch 45, Erro total: 0.04107164080633832
+MLP.js:366 Epoch 46, Erro total: 0.040418142110760405
+MLP.js:366 Epoch 47, Erro total: 0.039779807290544235
+MLP.js:366 Epoch 48, Erro total: 0.03915617416958417
+MLP.js:366 Epoch 49, Erro total: 0.038546797992402446
+MLP.js:366 Epoch 50, Erro total: 0.03795125064344551
+MLP.js:366 Epoch 51, Erro total: 0.03736911990685403
+MLP.js:366 Epoch 52, Erro total: 0.03680000876432808
+MLP.js:366 Epoch 53, Erro total: 0.03624353472886055
+MLP.js:366 Epoch 54, Erro total: 0.035699329212262126
+MLP.js:366 Epoch 55, Erro total: 0.035167036924532845
+MLP.js:366 Epoch 56, Erro total: 0.034646315303262176
+MLP.js:366 Epoch 57, Erro total: 0.03413683397135387
+MLP.js:366 Epoch 58, Erro total: 0.0336382742214836
+MLP.js:366 Epoch 59, Erro total: 0.033150328525791445
+MLP.js:366 Epoch 60, Erro total: 0.03267270006941147
+MLP.js:366 Epoch 61, Erro total: 0.032205102306523056
+MLP.js:366 Epoch 62, Erro total: 0.03174725853769098
+MLP.js:366 Epoch 63, Erro total: 0.031298901507337065
+MLP.js:366 Epoch 64, Erro total: 0.0308597730202552
+MLP.js:366 Epoch 65, Erro total: 0.030429623576149256
+MLP.js:366 Epoch 66, Erro total: 0.03000821202123281
+MLP.js:366 Epoch 67, Erro total: 0.029595305215986703
+MLP.js:366 Epoch 68, Erro total: 0.029190677718225633
+MLP.js:366 Epoch 69, Erro total: 0.028794111480673422
+MLP.js:366 Epoch 70, Erro total: 0.028405395562293257
+MLP.js:366 Epoch 71, Erro total: 0.02802432585266383
+MLP.js:366 Epoch 72, Erro total: 0.02765070480873243
+MLP.js:366 Epoch 73, Erro total: 0.02728434120331402
+MLP.js:366 Epoch 74, Erro total: 0.02692504988474337
+MLP.js:366 Epoch 75, Erro total: 0.026572651547116785
+MLP.js:366 Epoch 76, Erro total: 0.02622697251059621
+MLP.js:366 Epoch 77, Erro total: 0.02588784451127453
+MLP.js:366 Epoch 78, Erro total: 0.025555104500130578
+MLP.js:366 Epoch 79, Erro total: 0.025228594450626876
+MLP.js:366 Epoch 80, Erro total: 0.02490816117452996
+MLP.js:366 Epoch 81, Erro total: 0.024593656145552742
+MLP.js:366 Epoch 82, Erro total: 0.024284935330443222
+MLP.js:366 Epoch 83, Erro total: 0.023981859027162378
+MLP.js:366 Epoch 84, Erro total: 0.02368429170981333
+MLP.js:366 Epoch 85, Erro total: 0.02339210188000227
+MLP.js:366 Epoch 86, Erro total: 0.023105161924328207
+MLP.js:366 Epoch 87, Erro total: 0.022823347977715097
+MLP.js:366 Epoch 88, Erro total: 0.02254653979231388
+MLP.js:366 Epoch 89, Erro total: 0.022274620611716988
+MLP.js:366 Epoch 90, Erro total: 0.022007477050241354
+MLP.js:366 Epoch 91, Erro total: 0.021744998977046938
+MLP.js:366 Epoch 92, Erro total: 0.021487079404872243
+MLP.js:366 Epoch 93, Erro total: 0.021233614383176887
+MLP.js:366 Epoch 94, Erro total: 0.020984502895493497
+MLP.js:366 Epoch 95, Erro total: 0.020739646760800527
+MLP.js:366 Epoch 96, Erro total: 0.02049895053873717
+MLP.js:366 Epoch 97, Erro total: 0.020262321438490393
+MLP.js:366 Epoch 98, Erro total: 0.020029669231192666
+MLP.js:366 Epoch 99, Erro total: 0.019800906165676188
+MLP.js:366 Epoch 100, Erro total: 0.019575946887438633
+MLP.js:366 Epoch 101, Erro total: 0.01935470836067995
+MLP.js:366 Epoch 102, Erro total: 0.019137109793279424
+MLP.js:366 Epoch 103, Erro total: 0.01892307256458612
+MLP.js:366 Epoch 104, Erro total: 0.01871252015590311
+MLP.js:366 Epoch 105, Erro total: 0.018505378083551474
+MLP.js:366 Epoch 106, Erro total: 0.018301573834405106
+MLP.js:366 Epoch 107, Erro total: 0.018101036803792957
+MLP.js:366 Epoch 108, Erro total: 0.017903698235669757
+MLP.js:366 Epoch 109, Erro total: 0.017709491164961184
+MLP.js:366 Epoch 110, Erro total: 0.01751835036199329
+MLP.js:366 Epoch 111, Erro total: 0.017330212278921352
+MLP.js:366 Epoch 112, Erro total: 0.01714501499807599
+MLP.js:366 Epoch 113, Erro total: 0.016962698182148066
+MLP.js:366 Epoch 114, Erro total: 0.016783203026139032
+MLP.js:366 Epoch 115, Erro total: 0.016606472211004877
+MLP.js:366 Epoch 116, Erro total: 0.016432449858925887
+MLP.js:366 Epoch 117, Erro total: 0.016261081490138198
+MLP.js:366 Epoch 118, Erro total: 0.016092313981263828
+MLP.js:366 Epoch 119, Erro total: 0.015926095525081056
+MLP.js:366 Epoch 120, Erro total: 0.015762375591679017
+MLP.js:366 Epoch 121, Erro total: 0.015601104890940421
+MLP.js:366 Epoch 122, Erro total: 0.015442235336303355
+MLP.js:366 Epoch 123, Erro total: 0.015285720009750417
+MLP.js:366 Epoch 124, Erro total: 0.015131513127979272
+MLP.js:366 Epoch 125, Erro total: 0.014979570009708947
+MLP.js:366 Epoch 126, Erro total: 0.014829847044078073
+MLP.js:366 Epoch 127, Erro total: 0.014682301660094568
+MLP.js:366 Epoch 128, Erro total: 0.014536892297096086
+MLP.js:366 Epoch 129, Erro total: 0.014393578376183491
+MLP.js:366 Epoch 130, Erro total: 0.0142523202725915
+MLP.js:366 Epoch 131, Erro total: 0.014113079288960639
+MLP.js:366 Epoch 132, Erro total: 0.01397581762947771
+MLP.js:366 Epoch 133, Erro total: 0.013840498374852416
+MLP.js:366 Epoch 134, Erro total: 0.013707085458099474
+MLP.js:366 Epoch 135, Erro total: 0.01357554364109708
+MLP.js:366 Epoch 136, Erro total: 0.013445838491892447
+MLP.js:366 Epoch 137, Erro total: 0.01331793636272884
+MLP.js:366 Epoch 138, Erro total: 0.013191804368766392
+MLP.js:366 Epoch 139, Erro total: 0.013067410367473374
+MLP.js:366 Epoch 140, Erro total: 0.012944722938662584
+MLP.js:366 Epoch 141, Erro total: 0.012823711365150578
+MLP.js:366 Epoch 142, Erro total: 0.012704345614017903
+MLP.js:366 Epoch 143, Erro total: 0.012586596318447992
+MLP.js:366 Epoch 144, Erro total: 0.012470434760126017
+MLP.js:366 Epoch 145, Erro total: 0.012355832852176415
+MLP.js:366 Epoch 146, Erro total: 0.012242763122621673
+MLP.js:366 Epoch 147, Erro total: 0.012131198698343252
+MLP.js:366 Epoch 148, Erro total: 0.012021113289528278
+MLP.js:366 Epoch 149, Erro total: 0.011912481174584332
+MLP.js:366 Epoch 150, Erro total: 0.011805277185506965
+MLP.js:366 Epoch 151, Erro total: 0.011699476693684386
+MLP.js:366 Epoch 152, Erro total: 0.01159505559612407
+MLP.js:366 Epoch 153, Erro total: 0.011491990302087595
+MLP.js:366 Epoch 154, Erro total: 0.011390257720119642
+MLP.js:366 Epoch 155, Erro total: 0.011289835245457869
+MLP.js:366 Epoch 156, Erro total: 0.011190700747811057
+MLP.js:366 Epoch 157, Erro total: 0.011092832559493431
+MLP.js:366 Epoch 158, Erro total: 0.010996209463903074
+MLP.js:366 Epoch 159, Erro total: 0.0109008106843333
+MLP.js:366 Epoch 160, Erro total: 0.010806615873105647
+MLP.js:366 Epoch 161, Erro total: 0.01071360510101483
+MLP.js:366 Epoch 162, Erro total: 0.010621758847074397
+MLP.js:366 Epoch 163, Erro total: 0.010531057988554193
+MLP.js:366 Epoch 164, Erro total: 0.010441483791299782
+MLP.js:366 Epoch 165, Erro total: 0.010353017900324741
+MLP.js:366 Epoch 166, Erro total: 0.01026564233066732
+MLP.js:366 Epoch 167, Erro total: 0.010179339458502756
+MLP.js:366 Epoch 168, Erro total: 0.010094092012503494
+MLP.js:366 Epoch 169, Erro total: 0.010009883065438568
+MLP.js:366 Epoch 170, Erro total: 0.009926696026006144
+MLP.js:366 Epoch 171, Erro total: 0.009844514630890071
+MLP.js:366 Epoch 172, Erro total: 0.009763322937034925
+MLP.js:366 Epoch 173, Erro total: 0.009683105314131829
+MLP.js:366 Epoch 174, Erro total: 0.009603846437309015
+MLP.js:366 Epoch 175, Erro total: 0.009525531280020321
+MLP.js:366 Epoch 176, Erro total: 0.009448145107125897
+MLP.js:366 Epoch 177, Erro total: 0.009371673468159284
+MLP.js:366 Epoch 178, Erro total: 0.00929610219077447
+MLP.js:366 Epoch 179, Erro total: 0.009221417374368596
+MLP.js:366 Epoch 180, Erro total: 0.009147605383873691
+MLP.js:366 Epoch 181, Erro total: 0.009074652843713326
+MLP.js:366 Epoch 182, Erro total: 0.009002546631918728
+MLP.js:366 Epoch 183, Erro total: 0.008931273874399754
+MLP.js:366 Epoch 184, Erro total: 0.008860821939365658
+MLP.js:366 Epoch 185, Erro total: 0.008791178431892263
+MLP.js:366 Epoch 186, Erro total: 0.008722331188629575
+MLP.js:366 Epoch 187, Erro total: 0.008654268272647255
+MLP.js:366 Epoch 188, Erro total: 0.008586977968412976
+MLP.js:366 Epoch 189, Erro total: 0.008520448776899853
+MLP.js:366 Epoch 190, Erro total: 0.008454669410819474
+MLP.js:366 Epoch 191, Erro total: 0.008389628789976785
+MLP.js:366 Epoch 192, Erro total: 0.008325316036742901
+MLP.js:366 Epoch 193, Erro total: 0.008261720471642949
+MLP.js:366 Epoch 194, Erro total: 0.008198831609055466
+MLP.js:366 Epoch 195, Erro total: 0.008136639153019914
+MLP.js:366 Epoch 196, Erro total: 0.00807513299314942
+MLP.js:366 Epoch 197, Erro total: 0.00801430320064585
+MLP.js:366 Epoch 198, Erro total: 0.007954140024413942
+MLP.js:366 Epoch 199, Erro total: 0.007894633887272164
+
+medi a média do Erro de cada classe para cada amostra
+
+medirPrecisaoTreino(mlp, dataset.getDados(), [
+        [1,0,0],
+        [1,0,0],
+        [1,0,0],
+        [0,1,0],
+        [0,1,0],
+        [0,1,0],
+        [0,0,1],
+        [0,0,1],
+        [0,0,1]
+    ])
+
+MEDIA ERRO = [0.01393948053410837, 0.015638838469740436, 0.016751716545046584]
+
+
+DEPOIS FIZ MAIS UMA RODADA DE 200 epocas aumentei o learning rate para 0.01
+
+Erro inicial(ANTES DO TREINAMENTO): 0.007894633887272164
+MLP.js:366 Epoch 0, Erro total: 0.007821084125883577
+MLP.js:366 Epoch 1, Erro total: 0.007748531438238619
+MLP.js:366 Epoch 2, Erro total: 0.007676958079504018
+MLP.js:366 Epoch 3, Erro total: 0.007606346697045733
+MLP.js:366 Epoch 4, Erro total: 0.007536680320011442
+MLP.js:366 Epoch 5, Erro total: 0.007467942349239413
+MLP.js:366 Epoch 6, Erro total: 0.007400116547481967
+MLP.js:366 Epoch 7, Erro total: 0.007333187029932215
+MLP.js:366 Epoch 8, Erro total: 0.007267138255042707
+MLP.js:366 Epoch 9, Erro total: 0.007201955015625681
+MLP.js:366 Epoch 10, Erro total: 0.007137622430224875
+MLP.js:366 Epoch 11, Erro total: 0.007074125934749214
+MLP.js:366 Epoch 12, Erro total: 0.00701145127435879
+MLP.js:366 Epoch 13, Erro total: 0.006949584495594831
+MLP.js:366 Epoch 14, Erro total: 0.006888511938744622
+MLP.js:366 Epoch 15, Erro total: 0.006828220230433554
+MLP.js:366 Epoch 16, Erro total: 0.006768696276436261
+MLP.js:366 Epoch 17, Erro total: 0.006709927254699392
+MLP.js:366 Epoch 18, Erro total: 0.006651900608568862
+MLP.js:366 Epoch 19, Erro total: 0.006594604040214406
+MLP.js:366 Epoch 20, Erro total: 0.006538025504245142
+MLP.js:366 Epoch 21, Erro total: 0.006482153201509404
+MLP.js:366 Epoch 22, Erro total: 0.006426975573072727
+MLP.js:366 Epoch 23, Erro total: 0.006372481294368347
+MLP.js:366 Epoch 24, Erro total: 0.0063186592695141435
+MLP.js:366 Epoch 25, Erro total: 0.006265498625790795
+MLP.js:366 Epoch 26, Erro total: 0.006212988708275746
+MLP.js:366 Epoch 27, Erro total: 0.006161119074627992
+MLP.js:366 Epoch 28, Erro total: 0.006109879490018839
+MLP.js:366 Epoch 29, Erro total: 0.006059259922203628
+MLP.js:366 Epoch 30, Erro total: 0.006009250536730448
+MLP.js:366 Epoch 31, Erro total: 0.005959841692280833
+MLP.js:366 Epoch 32, Erro total: 0.005911023936138834
+MLP.js:366 Epoch 33, Erro total: 0.0058627879997840224
+MLP.js:366 Epoch 34, Erro total: 0.0058151247946045285
+MLP.js:366 Epoch 35, Erro total: 0.005768025407726687
+MLP.js:366 Epoch 36, Erro total: 0.005721481097957242
+MLP.js:366 Epoch 37, Erro total: 0.005675483291834923
+MLP.js:366 Epoch 38, Erro total: 0.005630023579787748
+MLP.js:366 Epoch 39, Erro total: 0.005585093712393135
+MLP.js:366 Epoch 40, Erro total: 0.005540685596737357
+MLP.js:366 Epoch 41, Erro total: 0.005496791292871343
+MLP.js:366 Epoch 42, Erro total: 0.00545340301036023
+MLP.js:366 Epoch 43, Erro total: 0.005410513104923332
+MLP.js:366 Epoch 44, Erro total: 0.005368114075162258
+MLP.js:366 Epoch 45, Erro total: 0.0053261985593742135
+MLP.js:366 Epoch 46, Erro total: 0.005284759332447986
+MLP.js:366 Epoch 47, Erro total: 0.005243789302840524
+MLP.js:366 Epoch 48, Erro total: 0.005203281509631033
+MLP.js:366 Epoch 49, Erro total: 0.005163229119651163
+MLP.js:366 Epoch 50, Erro total: 0.005123625424687958
+MLP.js:366 Epoch 51, Erro total: 0.0050844638387587985
+MLP.js:366 Epoch 52, Erro total: 0.005045737895454828
+MLP.js:366 Epoch 53, Erro total: 0.005007441245352042
+MLP.js:366 Epoch 54, Erro total: 0.004969567653487358
+MLP.js:366 Epoch 55, Erro total: 0.004932110996898051
+MLP.js:366 Epoch 56, Erro total: 0.00489506526222271
+MLP.js:366 Epoch 57, Erro total: 0.004858424543362059
+MLP.js:366 Epoch 58, Erro total: 0.004822183039197752
+MLP.js:366 Epoch 59, Erro total: 0.004786335051367501
+MLP.js:366 Epoch 60, Erro total: 0.004750874982095306
+MLP.js:366 Epoch 61, Erro total: 0.004715797332074558
+MLP.js:366 Epoch 62, Erro total: 0.004681096698403385
+MLP.js:366 Epoch 63, Erro total: 0.0046467677725699616
+MLP.js:366 Epoch 64, Erro total: 0.004612805338486808
+MLP.js:366 Epoch 65, Erro total: 0.004579204270572985
+MLP.js:366 Epoch 66, Erro total: 0.004545959531882123
+MLP.js:366 Epoch 67, Erro total: 0.004513066172275688
+MLP.js:366 Epoch 68, Erro total: 0.00448051932664001
+MLP.js:366 Epoch 69, Erro total: 0.004448314213145685
+MLP.js:366 Epoch 70, Erro total: 0.004416446131548647
+MLP.js:366 Epoch 71, Erro total: 0.00438491046153122
+MLP.js:366 Epoch 72, Erro total: 0.00435370266108258
+MLP.js:366 Epoch 73, Erro total: 0.004322818264917316
+MLP.js:366 Epoch 74, Erro total: 0.004292252882930913
+MLP.js:366 Epoch 75, Erro total: 0.004262002198691593
+MLP.js:366 Epoch 76, Erro total: 0.004232061967967201
+MLP.js:366 Epoch 77, Erro total: 0.004202428017286156
+MLP.js:366 Epoch 78, Erro total: 0.004173096242532077
+MLP.js:366 Epoch 79, Erro total: 0.004144062607570439
+MLP.js:366 Epoch 80, Erro total: 0.004115323142907025
+MLP.js:366 Epoch 81, Erro total: 0.004086873944377111
+MLP.js:366 Epoch 82, Erro total: 0.004058711171864561
+MLP.js:366 Epoch 83, Erro total: 0.004030831048050071
+MLP.js:366 Epoch 84, Erro total: 0.0040032298571878195
+MLP.js:366 Epoch 85, Erro total: 0.003975903943909891
+MLP.js:366 Epoch 86, Erro total: 0.0039488497120575075
+MLP.js:366 Epoch 87, Erro total: 0.003922063623538623
+MLP.js:366 Epoch 88, Erro total: 0.003895542197211043
+MLP.js:366 Epoch 89, Erro total: 0.003869282007790649
+MLP.js:366 Epoch 90, Erro total: 0.003843279684783643
+MLP.js:366 Epoch 91, Erro total: 0.0038175319114428004
+MLP.js:366 Epoch 92, Erro total: 0.003792035423746528
+MLP.js:366 Epoch 93, Erro total: 0.003766787009400607
+MLP.js:366 Epoch 94, Erro total: 0.003741783506861887
+MLP.js:366 Epoch 95, Erro total: 0.003717021804383216
+MLP.js:366 Epoch 96, Erro total: 0.0036924988390793704
+MLP.js:366 Epoch 97, Erro total: 0.0036682115960133396
+MLP.js:366 Epoch 98, Erro total: 0.0036441571073022555
+MLP.js:366 Epoch 99, Erro total: 0.00362033245124294
+MLP.js:366 Epoch 100, Erro total: 0.003596734751456097
+MLP.js:366 Epoch 101, Erro total: 0.003573361176049014
+MLP.js:366 Epoch 102, Erro total: 0.0035502089367961797
+MLP.js:366 Epoch 103, Erro total: 0.003527275288337518
+MLP.js:366 Epoch 104, Erro total: 0.0035045575273934385
+MLP.js:366 Epoch 105, Erro total: 0.0034820529919969557
+MLP.js:366 Epoch 106, Erro total: 0.0034597590607417152
+MLP.js:366 Epoch 107, Erro total: 0.0034376731520461574
+MLP.js:366 Epoch 108, Erro total: 0.003415792723432986
+MLP.js:366 Epoch 109, Erro total: 0.0033941152708239016
+MLP.js:366 Epoch 110, Erro total: 0.003372638327849044
+MLP.js:366 Epoch 111, Erro total: 0.003351359465170779
+MLP.js:366 Epoch 112, Erro total: 0.0033302762898217045
+MLP.js:366 Epoch 113, Erro total: 0.003309386444556272
+MLP.js:366 Epoch 114, Erro total: 0.003288687607215783
+MLP.js:366 Epoch 115, Erro total: 0.003268177490106717
+MLP.js:366 Epoch 116, Erro total: 0.0032478538393915213
+MLP.js:366 Epoch 117, Erro total: 0.003227714434492095
+MLP.js:366 Epoch 118, Erro total: 0.0032077570875054424
+MLP.js:366 Epoch 119, Erro total: 0.0031879796426312586
+MLP.js:366 Epoch 120, Erro total: 0.0031683799756109855
+MLP.js:366 Epoch 121, Erro total: 0.0031489559931785075
+MLP.js:366 Epoch 122, Erro total: 0.003129705632521708
+MLP.js:366 Epoch 123, Erro total: 0.0031106268607549773
+MLP.js:366 Epoch 124, Erro total: 0.00309171767440242
+MLP.js:366 Epoch 125, Erro total: 0.0030729760988911273
+MLP.js:366 Epoch 126, Erro total: 0.0030544001880549875
+MLP.js:366 Epoch 127, Erro total: 0.0030359880236479424
+MLP.js:366 Epoch 128, Erro total: 0.003017737714867307
+MLP.js:366 Epoch 129, Erro total: 0.0029996473978862407
+MLP.js:366 Epoch 130, Erro total: 0.0029817152353956273
+MLP.js:366 Epoch 131, Erro total: 0.002963939416154903
+MLP.js:366 Epoch 132, Erro total: 0.0029463181545517957
+MLP.js:366 Epoch 133, Erro total: 0.0029288496901704827
+MLP.js:366 Epoch 134, Erro total: 0.002911532287368533
+MLP.js:366 Epoch 135, Erro total: 0.002894364234861758
+MLP.js:366 Epoch 136, Erro total: 0.002877343845317272
+MLP.js:366 Epoch 137, Erro total: 0.002860469454954517
+MLP.js:366 Epoch 138, Erro total: 0.0028437394231538146
+MLP.js:366 Epoch 139, Erro total: 0.002827152132072617
+MLP.js:366 Epoch 140, Erro total: 0.0028107059862691303
+MLP.js:366 Epoch 141, Erro total: 0.002794399412332951
+MLP.js:366 Epoch 142, Erro total: 0.002778230858523081
+MLP.js:366 Epoch 143, Erro total: 0.0027621987944125843
+MLP.js:366 Epoch 144, Erro total: 0.00274630171054014
+MLP.js:366 Epoch 145, Erro total: 0.0027305381180681185
+MLP.js:366 Epoch 146, Erro total: 0.002714906548447215
+MLP.js:366 Epoch 147, Erro total: 0.0026994055530872984
+MLP.js:366 Epoch 148, Erro total: 0.0026840337030346177
+MLP.js:366 Epoch 149, Erro total: 0.002668789588654809
+MLP.js:366 Epoch 150, Erro total: 0.002653671819322159
+MLP.js:366 Epoch 151, Erro total: 0.002638679023114373
+MLP.js:366 Epoch 152, Erro total: 0.0026238098465132306
+MLP.js:366 Epoch 153, Erro total: 0.00260906295411063
+MLP.js:366 Epoch 154, Erro total: 0.0025944370283202986
+MLP.js:366 Epoch 155, Erro total: 0.002579930769094541
+MLP.js:366 Epoch 156, Erro total: 0.002565542893646491
+MLP.js:366 Epoch 157, Erro total: 0.0025512721361772824
+MLP.js:366 Epoch 158, Erro total: 0.0025371172476082384
+MLP.js:366 Epoch 159, Erro total: 0.0025230769953180927
+MLP.js:366 Epoch 160, Erro total: 0.0025091501628847867
+MLP.js:366 Epoch 161, Erro total: 0.002495335549832171
+MLP.js:366 Epoch 162, Erro total: 0.002481631971381173
+MLP.js:366 Epoch 163, Erro total: 0.002468038258205505
+MLP.js:366 Epoch 164, Erro total: 0.002454553256191764
+MLP.js:366 Epoch 165, Erro total: 0.002441175826203957
+MLP.js:366 Epoch 166, Erro total: 0.0024279048438519924
+MLP.js:366 Epoch 167, Erro total: 0.0024147391992646737
+MLP.js:366 Epoch 168, Erro total: 0.002401677796866459
+MLP.js:366 Epoch 169, Erro total: 0.002388719555158367
+MLP.js:366 Epoch 170, Erro total: 0.002375863406502643
+MLP.js:366 Epoch 171, Erro total: 0.002363108296911401
+MLP.js:366 Epoch 172, Erro total: 0.0023504531858388996
+MLP.js:366 Epoch 173, Erro total: 0.0023378970459774547
+MLP.js:366 Epoch 174, Erro total: 0.0023254388630570746
+MLP.js:366 Epoch 175, Erro total: 0.0023130776356484707
+MLP.js:366 Epoch 176, Erro total: 0.0023008123749696354
+MLP.js:366 Epoch 177, Erro total: 0.0022886421046957356
+MLP.js:366 Epoch 178, Erro total: 0.0022765658607722915
+MLP.js:366 Epoch 179, Erro total: 0.0022645826912316975
+MLP.js:366 Epoch 180, Erro total: 0.0022526916560128203
+MLP.js:366 Epoch 181, Erro total: 0.002240891826783856
+MLP.js:366 Epoch 182, Erro total: 0.0022291822867680578
+MLP.js:366 Epoch 183, Erro total: 0.002217562130572621
+MLP.js:366 Epoch 184, Erro total: 0.0022060304640204582
+MLP.js:366 Epoch 185, Erro total: 0.0021945864039848604
+MLP.js:366 Epoch 186, Erro total: 0.0021832290782268973
+MLP.js:366 Epoch 187, Erro total: 0.002171957625235785
+MLP.js:366 Epoch 188, Erro total: 0.002160771194071753
+MLP.js:366 Epoch 189, Erro total: 0.0021496689442117626
+MLP.js:366 Epoch 190, Erro total: 0.0021386500453977044
+MLP.js:366 Epoch 191, Erro total: 0.0021277136774872133
+MLP.js:366 Epoch 192, Erro total: 0.002116859030307023
+MLP.js:366 Epoch 193, Erro total: 0.002106085303508721
+MLP.js:366 Epoch 194, Erro total: 0.002095391706426976
+MLP.js:366 Epoch 195, Erro total: 0.0020847774579401835
+MLP.js:366 Epoch 196, Erro total: 0.002074241786333243
+MLP.js:366 Epoch 197, Erro total: 0.002063783929162872
+MLP.js:366 Epoch 198, Erro total: 0.0020534031331250102
+MLP.js:366 Epoch 199, Erro total: 0.0020430986539244104
+
+Medi o erro das classes de cada amostra
+
+medirPrecisaoTreino(mlp, dataset.getDados(), [
+        [1,0,0],
+        [1,0,0],
+        [1,0,0],
+        [0,1,0],
+        [0,1,0],
+        [0,1,0],
+        [0,0,1],
+        [0,0,1],
+        [0,0,1]
+    ])
+
+MEDIA ERRO = [0.007145001310445723, 0.007976464920676121, 0.008651944661823221]
+
+Depois, treinei por mais 200 epocas com learning rate de 0.1
+
+Erro inicial(ANTES DO TREINAMENTO): 0.0020430986539244104
+MLP.js:366 Epoch 0, Erro total: 0.0019416166570728473
+MLP.js:366 Epoch 1, Erro total: 0.0018475991774351127
+MLP.js:366 Epoch 2, Erro total: 0.001760278227383827
+MLP.js:366 Epoch 3, Erro total: 0.001678999470815977
+MLP.js:366 Epoch 4, Erro total: 0.0016031976247575794
+MLP.js:366 Epoch 5, Erro total: 0.0015323790538404355
+MLP.js:366 Epoch 6, Erro total: 0.0014661090361691902
+MLP.js:366 Epoch 7, Erro total: 0.001404002155336732
+MLP.js:366 Epoch 8, Erro total: 0.0013457148486315758
+MLP.js:366 Epoch 9, Erro total: 0.0012909394874084713
+MLP.js:366 Epoch 10, Erro total: 0.0012393995778491266
+MLP.js:366 Epoch 11, Erro total: 0.001190845803271488
+MLP.js:366 Epoch 12, Erro total: 0.0011450527141715619
+MLP.js:366 Epoch 13, Erro total: 0.0011018159277551343
+MLP.js:366 Epoch 14, Erro total: 0.0010609497358621263
+MLP.js:366 Epoch 15, Erro total: 0.001022285045583466
+MLP.js:366 Epoch 16, Erro total: 0.0009856675946395119
+MLP.js:366 Epoch 17, Erro total: 0.0009509563963063223
+MLP.js:366 Epoch 18, Erro total: 0.0009180223779793193
+MLP.js:366 Epoch 19, Erro total: 0.0008867471844164604
+MLP.js:366 Epoch 20, Erro total: 0.0008570221219989416
+MLP.js:366 Epoch 21, Erro total: 0.0008287472244559608
+MLP.js:366 Epoch 22, Erro total: 0.0008018304237386807
+MLP.js:366 Epoch 23, Erro total: 0.0007761868123175124
+MLP.js:366 Epoch 24, Erro total: 0.0007517379852743672
+MLP.js:366 Epoch 25, Erro total: 0.0007284114522769757
+MLP.js:366 Epoch 26, Erro total: 0.000706140110941596
+MLP.js:366 Epoch 27, Erro total: 0.0006848617742718992
+MLP.js:366 Epoch 28, Erro total: 0.000664518745853783
+MLP.js:366 Epoch 29, Erro total: 0.000645057437323486
+MLP.js:366 Epoch 30, Erro total: 0.0006264280233374236
+MLP.js:366 Epoch 31, Erro total: 0.0006085841298787329
+MLP.js:366 Epoch 32, Erro total: 0.0005914825522553291
+MLP.js:366 Epoch 33, Erro total: 0.0005750829995911779
+MLP.js:366 Epoch 34, Erro total: 0.000559347862997966
+MLP.js:366 Epoch 35, Erro total: 0.0005442420049484514
+MLP.js:366 Epoch 36, Erro total: 0.0005297325676622015
+MLP.js:366 Epoch 37, Erro total: 0.0005157887985667639
+MLP.js:366 Epoch 38, Erro total: 0.0005023818911172979
+MLP.js:366 Epoch 39, Erro total: 0.0004894848394499306
+MLP.js:366 Epoch 40, Erro total: 0.0004770723055126477
+MLP.js:366 Epoch 41, Erro total: 0.0004651204974656807
+MLP.js:366 Epoch 42, Erro total: 0.00045360705827318535
+MLP.js:366 Epoch 43, Erro total: 0.00044251096352312117
+MLP.js:366 Epoch 44, Erro total: 0.000431812427613093
+MLP.js:366 Epoch 45, Erro total: 0.0004214928175297767
+MLP.js:366 Epoch 46, Erro total: 0.0004115345735287172
+MLP.js:366 Epoch 47, Erro total: 0.0004019211360916487
+MLP.js:366 Epoch 48, Erro total: 0.0003926368786009855
+MLP.js:366 Epoch 49, Erro total: 0.000383667045226795
+MLP.js:366 Epoch 50, Erro total: 0.000374997693570954
+MLP.js:366 Epoch 51, Erro total: 0.0003666156416575718
+MLP.js:366 Epoch 52, Erro total: 0.00035850841889808506
+MLP.js:366 Epoch 53, Erro total: 0.000350664220694791
+MLP.js:366 Epoch 54, Erro total: 0.00034307186637821464
+MLP.js:366 Epoch 55, Erro total: 0.00033572076020205014
+MLP.js:366 Epoch 56, Erro total: 0.00032860085514485534
+MLP.js:366 Epoch 57, Erro total: 0.0003217026192906028
+MLP.js:366 Epoch 58, Erro total: 0.00031501700458059985
+MLP.js:366 Epoch 59, Erro total: 0.0003085354177481829
+MLP.js:366 Epoch 60, Erro total: 0.00030224969326386557
+MLP.js:366 Epoch 61, Erro total: 0.00029615206813407303
+MLP.js:366 Epoch 62, Erro total: 0.0002902351584100354
+MLP.js:366 Epoch 63, Erro total: 0.00028449193727577706
+MLP.js:366 Epoch 64, Erro total: 0.00027891571459542984
+MLP.js:366 Epoch 65, Erro total: 0.0002735001178099695
+MLP.js:366 Epoch 66, Erro total: 0.00026823907408297205
+MLP.js:366 Epoch 67, Erro total: 0.00026312679360301883
+MLP.js:366 Epoch 68, Erro total: 0.00025815775395823
+MLP.js:366 Epoch 69, Erro total: 0.00025332668550499305
+MLP.js:366 Epoch 70, Erro total: 0.000248628557659636
+MLP.js:366 Epoch 71, Erro total: 0.0002440585660470413
+MLP.js:366 Epoch 72, Erro total: 0.00023961212044584538
+MLP.js:366 Epoch 73, Erro total: 0.00023528483347429578
+MLP.js:366 Epoch 74, Erro total: 0.00023107250996542462
+MLP.js:366 Epoch 75, Erro total: 0.00022697113698401183
+MLP.js:366 Epoch 76, Erro total: 0.00022297687444157896
+MLP.js:366 Epoch 77, Erro total: 0.00021908604626881716
+MLP.js:366 Epoch 78, Erro total: 0.00021529513210813645
+MLP.js:366 Epoch 79, Erro total: 0.0002116007594916069
+MLP.js:366 Epoch 80, Erro total: 0.0002079996964722363
+MLP.js:366 Epoch 81, Erro total: 0.00020448884467888962
+MLP.js:366 Epoch 82, Erro total: 0.00020106523276732725
+MLP.js:366 Epoch 83, Erro total: 0.000197726010241741
+MLP.js:366 Epoch 84, Erro total: 0.00019446844162314918
+MLP.js:366 Epoch 85, Erro total: 0.00019128990094260592
+MLP.js:366 Epoch 86, Erro total: 0.00018818786653872172
+MLP.js:366 Epoch 87, Erro total: 0.0001851599161405301
+MLP.js:366 Epoch 88, Erro total: 0.00018220372221794463
+MLP.js:366 Epoch 89, Erro total: 0.0001793170475833654
+MLP.js:366 Epoch 90, Erro total: 0.00017649774122903818
+MLP.js:366 Epoch 91, Erro total: 0.00017374373438593343
+MLP.js:366 Epoch 92, Erro total: 0.00017105303679073702
+MLP.js:366 Epoch 93, Erro total: 0.0001684237331485639
+MLP.js:366 Epoch 94, Erro total: 0.00016585397977973842
+MLP.js:366 Epoch 95, Erro total: 0.00016334200143985038
+MLP.js:366 Epoch 96, Erro total: 0.00016088608830290706
+MLP.js:366 Epoch 97, Erro total: 0.00015848459309810453
+MLP.js:366 Epoch 98, Erro total: 0.0001561359283914341
+MLP.js:366 Epoch 99, Erro total: 0.00015383856400374017
+MLP.js:366 Epoch 100, Erro total: 0.00015159102455751178
+MLP.js:366 Epoch 101, Erro total: 0.00014939188714516242
+MLP.js:366 Epoch 102, Erro total: 0.00014723977911195894
+MLP.js:366 Epoch 103, Erro total: 0.00014513337594718938
+MLP.js:366 Epoch 104, Erro total: 0.00014307139927766162
+MLP.js:366 Epoch 105, Erro total: 0.0001410526149578279
+MLP.js:366 Epoch 106, Erro total: 0.00013907583125129995
+MLP.js:366 Epoch 107, Erro total: 0.00013713989709882233
+MLP.js:366 Epoch 108, Erro total: 0.00013524370046800855
+MLP.js:366 Epoch 109, Erro total: 0.0001333861667804547
+MLP.js:366 Epoch 110, Erro total: 0.00013156625741222766
+MLP.js:366 Epoch 111, Erro total: 0.0001297829682636777
+MLP.js:366 Epoch 112, Erro total: 0.0001280353283950924
+MLP.js:366 Epoch 113, Erro total: 0.00012632239872470313
+MLP.js:366 Epoch 114, Erro total: 0.00012464327078577045
+MLP.js:366 Epoch 115, Erro total: 0.00012299706553979873
+MLP.js:366 Epoch 116, Erro total: 0.00012138293224293885
+MLP.js:366 Epoch 117, Erro total: 0.00011980004736289746
+MLP.js:366 Epoch 118, Erro total: 0.00011824761354382209
+MLP.js:366 Epoch 119, Erro total: 0.0001167248586167119
+MLP.js:366 Epoch 120, Erro total: 0.00011523103465313218
+MLP.js:366 Epoch 121, Erro total: 0.00011376541706003769
+MLP.js:366 Epoch 122, Erro total: 0.00011232730371372799
+MLP.js:366 Epoch 123, Erro total: 0.00011091601413095494
+MLP.js:366 Epoch 124, Erro total: 0.00010953088867546632
+MLP.js:366 Epoch 125, Erro total: 0.00010817128779815337
+MLP.js:366 Epoch 126, Erro total: 0.00010683659130929697
+MLP.js:366 Epoch 127, Erro total: 0.00010552619768129445
+MLP.js:366 Epoch 128, Erro total: 0.00010423952338047037
+MLP.js:366 Epoch 129, Erro total: 0.00010297600222657413
+MLP.js:366 Epoch 130, Erro total: 0.00010173508477865498
+MLP.js:366 Epoch 131, Erro total: 0.0001005162377461113
+MLP.js:366 Epoch 132, Erro total: 0.00009931894342369293
+MLP.js:366 Epoch 133, Erro total: 0.00009814269914943772
+MLP.js:366 Epoch 134, Erro total: 0.00009698701678437932
+MLP.js:366 Epoch 135, Erro total: 0.00009585142221311817
+MLP.js:366 Epoch 136, Erro total: 0.00009473545486426239
+MLP.js:366 Epoch 137, Erro total: 0.00009363866724987727
+MLP.js:366 Epoch 138, Erro total: 0.00009256062452302734
+MLP.js:366 Epoch 139, Erro total: 0.00009150090405269513
+MLP.js:366 Epoch 140, Erro total: 0.00009045909501520696
+MLP.js:366 Epoch 141, Erro total: 0.00008943479800150371
+MLP.js:366 Epoch 142, Erro total: 0.00008842762463954376
+MLP.js:366 Epoch 143, Erro total: 0.0000874371972311624
+MLP.js:366 Epoch 144, Erro total: 0.00008646314840275402
+MLP.js:366 Epoch 145, Erro total: 0.00008550512076923136
+MLP.js:366 Epoch 146, Erro total: 0.00008456276661062235
+MLP.js:366 Epoch 147, Erro total: 0.00008363574756079713
+MLP.js:366 Epoch 148, Erro total: 0.0000827237343078284
+MLP.js:366 Epoch 149, Erro total: 0.00008182640630544614
+MLP.js:366 Epoch 150, Erro total: 0.00008094345149514944
+MLP.js:366 Epoch 151, Erro total: 0.00008007456603853876
+MLP.js:366 Epoch 152, Erro total: 0.0000792194540594119
+MLP.js:366 Epoch 153, Erro total: 0.00007837782739522919
+MLP.js:366 Epoch 154, Erro total: 0.0000775494053575918
+MLP.js:366 Epoch 155, Erro total: 0.00007673391450131349
+MLP.js:366 Epoch 156, Erro total: 0.00007593108840175887
+MLP.js:366 Epoch 157, Erro total: 0.00007514066744013466
+MLP.js:366 Epoch 158, Erro total: 0.00007436239859636008
+MLP.js:366 Epoch 159, Erro total: 0.00007359603524927442
+MLP.js:366 Epoch 160, Erro total: 0.00007284133698381758
+MLP.js:366 Epoch 161, Erro total: 0.00007209806940497925
+MLP.js:366 Epoch 162, Erro total: 0.00007136600395818649
+MLP.js:366 Epoch 163, Erro total: 0.00007064491775590617
+MLP.js:366 Epoch 164, Erro total: 0.00006993459341023145
+MLP.js:366 Epoch 165, Erro total: 0.00006923481887117595
+MLP.js:366 Epoch 166, Erro total: 0.00006854538727048897
+MLP.js:366 Epoch 167, Erro total: 0.00006786609677077378
+MLP.js:366 Epoch 168, Erro total: 0.0000671967504196872
+MLP.js:366 Epoch 169, Erro total: 0.00006653715600904721
+MLP.js:366 Epoch 170, Erro total: 0.00006588712593863048
+MLP.js:366 Epoch 171, Erro total: 0.00006524647708454009
+MLP.js:366 Epoch 172, Erro total: 0.00006461503067189037
+MLP.js:366 Epoch 173, Erro total: 0.00006399261215171396
+MLP.js:366 Epoch 174, Erro total: 0.00006337905108191217
+MLP.js:366 Epoch 175, Erro total: 0.000062774181012062
+MLP.js:366 Epoch 176, Erro total: 0.00006217783937201769
+MLP.js:366 Epoch 177, Erro total: 0.00006158986736406558
+MLP.js:366 Epoch 178, Erro total: 0.00006101010985859056
+MLP.js:366 Epoch 179, Erro total: 0.00006043841529307492
+MLP.js:366 Epoch 180, Erro total: 0.00005987463557431925
+MLP.js:366 Epoch 181, Erro total: 0.00005931862598377186
+MLP.js:366 Epoch 182, Erro total: 0.00005877024508586325
+MLP.js:366 Epoch 183, Erro total: 0.00005822935463921569
+MLP.js:366 Epoch 184, Erro total: 0.0000576958195106398
+MLP.js:366 Epoch 185, Erro total: 0.000057169507591826394
+MLP.js:366 Epoch 186, Erro total: 0.000056650289718615954
+MLP.js:366 Epoch 187, Erro total: 0.00005613803959276558
+MLP.js:366 Epoch 188, Erro total: 0.00005563263370613937
+MLP.js:366 Epoch 189, Erro total: 0.0000551339512672174
+MLP.js:366 Epoch 190, Erro total: 0.00005464187412984473
+MLP.js:366 Epoch 191, Erro total: 0.00005415628672415083
+MLP.js:366 Epoch 192, Erro total: 0.000053677075989573196
+MLP.js:366 Epoch 193, Erro total: 0.00005320413130987726
+MLP.js:366 Epoch 194, Erro total: 0.00005273734445015169
+MLP.js:366 Epoch 195, Erro total: 0.00005227660949566475
+MLP.js:366 Epoch 196, Erro total: 0.000051821822792566024
+MLP.js:366 Epoch 197, Erro total: 0.00005137288289032514
+MLP.js:366 Epoch 198, Erro total: 0.000050929690485882074
+MLP.js:366 Epoch 199, Erro total: 0.000050492148369432344
+
+MEDI A MÈDIA DO ERRO DE CADA CLASSE PARA CADA amostra
+
+medirPrecisaoTreino(mlp, dataset.getDados(), [
+        [1,0,0],
+        [1,0,0],
+        [1,0,0],
+        [0,1,0],
+        [0,1,0],
+        [0,1,0],
+        [0,0,1],
+        [0,0,1],
+        [0,0,1]
+    ])
+
+   MEDIA ERROS =  [0.001182548437375961, 0.0012459882053254864, 0.0013734941300739432]
+
+
+ NOTA: Ao longo de todas essas rodas que rodei, eu fui testando ao vivo desenhando novas letras para teste,
+ e eu notei que a rede está sim conseguindo identificar as 3 letras: W, S e L, porém isso depende de caracteristicas especificas no desenho
+ dependendo do jeito que eu desenho ele não consegue indentificar, ele erra. Varias vezes que eu desenhei ele errou, porém houve algumas vezes em que ele identificou as 3 letras,
+ por exemplo, quando eu desenhava um W, mais parecido possivel com os exemplos de treinamento, ele disse que a probabilidade foi de 0.95, outras vezes foi 0.45, ainda outras 0.75, outras 0.65, os valores variam nisso
+ para as outras letras foi a mesma coisa, mais as faixas variam. No entando, a rede conseguiu identificar as 3 letras: W, S e L, e quando essa idenficação ocorria, as taxas de probabilidade eram altas para a classe.
+
+NOTA: percebi que a MLP é muito sensivel á pequenos detalhes, por exemplo, quando eu desenhava W, muitas vezes ele errou(estimando como outra classe incorreta), como mencionei, 
+mais teve momentos em que eu desenhei um W, e o jeito que eu desenhei ele acertou, teve varias vezes que ele acertou, tudo depende do jeito como desenhei,
+
+NOTA INTERESSANTE: Teve momentos em que eu nem cheguei a desenhar a letra W completa, teve momentos que eu só desenhei umas beiradinhas do W no lado esquerdo e no lado direito do HTMLCanvas, e por causa desses riscos nas beiradinhas, ele estimou que esse desenho das beiradinhas era um W com probabilidade de 0.70 pra cima,.
+E curiosamente, nenhuma outra letra do dataset(nem o S nem o L), nenhuma delas tinha beiradinhas assim(do lado esquerdo e direito, que o W tem), então meio que fez sentido ele conseguir chegar as altas probabilidade de ser a letra W dado essas caracteristicas.
+percebi que a MLP é muito sensivel á pequenos detalhes, e isso explica o por que dos muitos erros, por que dependendo do jeito que eu desenho, ele não consegue identificar, por que muito provalmente o desenho de teste que desenhei foi uma variação bem diferente dos dados usados no treinamento.
+
+
+
+
+
+
+
+
