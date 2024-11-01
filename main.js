@@ -250,7 +250,7 @@ document.getElementById('botao-testar-modelo').addEventListener('click', functio
         limites: configEditor.limites,
         
         onEnviar: function( desenhoTeste ){
-            const estimativa = window.mlp.estimate( planificarDesenho( desenhoTeste ) );
+            const estimativa = window.mlp.forward( planificarDesenho( desenhoTeste ) );
 
             console.log('RESULTADO ESTIMADO', estimativa);
 
