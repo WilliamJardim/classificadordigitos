@@ -559,31 +559,29 @@ class Editor{
             drawContext.fillStyle = `rgba(${rgbString}, ${ cursorOpacity })`;
             drawContext.fillRect(cursor.X, cursor.Y, cursor.width, cursor.height);
 
-            //Insere na matrix
-            this.somarMatrix( cursor.X, 
-                              cursor.Y, 
-                              cursor.opacity, 
-                              cursor.width, 
-                              cursor.height );
-            
+           //Insere na matrix
+           this.setMatrix( cursor.X, 
+                           cursor.Y, 
+                           1,
+                           cursor.width, 
+                           cursor.height );
+                            
         }
 
         //Ao apagar
         if( cursor.ativo == true && cursor.apagando == true ){
             previewContext.clearRect(0,0, parseInt(this.previewCanvasRef.style.width), parseInt(this.previewCanvasRef.style.height) );
 
-            //Desenha na tela
-            const potenciaDeletar = cursor.forcaBorracha * (cursor.opacity + cursor.forcaBorracha);
-
             drawContext.fillStyle = `rgba(255,255,255, ${ potenciaDeletar })`;
             drawContext.fillRect(cursor.X, cursor.Y, cursor.width, cursor.height);
 
             //Insere na matrix
-            this.subtrairMatrix( cursor.X, 
-                                 cursor.Y, 
-                                 cursor.opacity, 
-                                 cursor.width, 
-                                 cursor.height );
+            this.setMatrix( cursor.X, 
+                            cursor.Y, 
+                            0,
+                            cursor.width, 
+                            cursor.height );
+
         }
 
         //Cria um loop infinito
@@ -635,14 +633,9 @@ class Editor{
                 const valorPixel = imageMatrix[linha][coluna];
 
                 //Se tem pixels
-                if( imageMatrix[linha][coluna] > this.valorFundo ){
+                if( valorPixel > this.valorFundo ){
                     //Desenha na tela
-                    drawContext.fillStyle = `rgba(${rgbString}, ${ 
-
-                        valorPixel >= 0 ? (valorPixel > this.limites.crescimento ? this.limites.crescimento : valorPixel) //Se for positivo
-                                        : (valorPixel < this.limites.decremento  ? this.limites.decremento  : valorPixel) //Se for negativo
-
-                    })`;
+                    drawContext.fillStyle = `rgb(${rgbString})`;
                     drawContext.fillRect(linha, coluna, cursor.width, cursor.height);
                 }
 

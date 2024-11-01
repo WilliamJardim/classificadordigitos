@@ -150,8 +150,8 @@ function treinarModelo(){
     const mlpConfig = {
         layers: [
             { type: LayerType.Input,  inputs: 65536,  units: 65536 }, //Aqui são apenas 65536 entradas, preciso melhorar esse método
-            { type: LayerType.Hidden, inputs: 65536,  units: 2, functions: [ 'Sigmoid', 'Sigmoid' ]  }, 
-            { type: LayerType.Final,  inputs: 2,      units: 3, functions: [ 'Sigmoid', 'Sigmoid', 'Sigmoid' ]  }
+            { type: LayerType.Hidden, inputs: 65536,  units: 4, functions: Array(4).fill('Sigmoid')  }, 
+            { type: LayerType.Final,  inputs: 4,      units: 3, functions: [ 'Sigmoid', 'Sigmoid', 'Sigmoid' ]  }
         ],
         initialization: Initialization.Random
     };
@@ -167,19 +167,13 @@ function treinarModelo(){
     //Gerar os rótulos
     const targets = [
         [1,0,0],
-        [1,0,0],
-        [1,0,0],
         [0,1,0],
-        [0,1,0],
-        [0,1,0],
-        [0,0,1],
-        [0,0,1],
         [0,0,1]
     ]
 
     
     // Treinando a rede
-    mlp.train(inputs, targets, 0.05, 1500, 1);
+    mlp.train(inputs, targets, 0.05, 200, 1);
 
     window.pesosFinais = mlp.exportParameters();
 
