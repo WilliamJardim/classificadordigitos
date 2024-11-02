@@ -45,6 +45,12 @@ DEIXEI A TAXA DE APRENDIZADO EM 0 para propositalmente impedir o ajuste de pesos
 quero testar como o modelo se sai quando EU NÂO TREINO ELE E TENTO USAR
 PRA VER QUE SEM O BACKPROPAGATION NÂO È POSSIVEL FAZER ESTIMATIVAS
 
+Erro inicial(ANTES DO TREINAMENTO): 2.5242552906844042
+MLP.js:366 Epoch 0, Erro total: 2.5242552906844042
+
+OU SEJA NENHUM PARAMETRO FOI ATUALIZADO, O CUSTO CONTINUOU SENDO EXATAMENTE O MESMO QUE COMEÇOU E NADA MUDOU
+
+
 TESTES desenhando o W:
 RESULTADO ESTIMADO (3) [0.3351970977442098, 0.5267582642100891, 0.8867003723178895]
 main.js:283 RESULTADO ESTIMADO (3) [0.4836754198537245, 0.6160156881110039, 0.7992276443818804]
@@ -190,4 +196,26 @@ Teste feito com a propia imagem B de treinamento:
 
 
 E UM DESENHO EM BRANCO PRODUZ EXATAMENTE ESSE RESULTADO AQUI: [0.4925482320050361, 0.49020883196599585, 0.8003806411080032] o que não é muito diferente de todos os valores que vimos o modelo estimar erroneamente
+
+
+
+
+CONCLUSÂO: Nenhum treinamento foi feito, embora eu tenha usado o termo "TESTAR COM AS PROPIAS IMAGENS DE TREINAMENTO" nenhum treinamento foi feito, e nenhuma atualização de parametros foi feita.
+Os resultados tendem a ser sempre os mesmos, com algumas variações/ruidos aleatórias, porém não fazem sentido. 
+O custo inicial antes do treinamento e o custo final após o treinamento(1 epoca sem atualizar nenhum parametro) continuou intacto, EXATAMENTE identico ao custo inicial.
+Em todos os outros exemplos que fiz(com treinamentos de verdade) o custo iniciava alto, mais quando o treinamento começava, durante o treinamento, o custo iria sempre caindo drasticamente, de forma consistente e progressiva 
+E a rede conseguia acertar os novos dados de teste, e estava conseguindo captar os padrões das imagens, isso fica nitido com o custo baixo sempre atingido no final do treinamento, sendo que havia comçeado alto, então nos outros testes houve uma optimização
+
+PONTO CHAVE: NESSE TESTE AQUI NÂO HOUVE NENHUMA OTIMZIACAO POIS NÂO HOUVE NENHUMA ATUALIZAÇÂO DE PARAMETROS, E POR ISSO OS RESULTADOS FORAM COMPLEMTAMENTE ALEATORIOS E SEM SENTIDO>
+O QUE ERA OBVIAMENTE ESPERADO. è claro que qualquer modelo treinado é melhor que esse, pois esse não foi treinado, eu fiz esse teste propositalmente como um exemplo de modelo que erra tudo.
+
+esse modelo tendeu a sempre dizer que qualquer amotra(qualquer coisa) é a letra B, pois a probabilidade do B sempre é maior que 75% ou mesmo 85%,
+isso poderia ser interpretado como um "acerto", só que isso não é verdade. Isso foi um resultado aleatorio, VISTO QUE NÂO HOUVE TREINAMENTO NENHUM.
+
+
+
+
+
+
+
 
