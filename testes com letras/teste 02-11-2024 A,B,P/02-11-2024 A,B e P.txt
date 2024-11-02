@@ -33098,6 +33098,11 @@ As saidas foram:
     mais tudo depende do jeito que eu desenhei. Se eu desenho dentro dos padrões usados no treinamento, ele consegue identificar
     e variações minimas não impedem a identificação.
 
+    NOTA: Se voce estranhar o fato daqui nesse teste do A ter bastante erros registrados aqui nesse teste do A e nos outros B e P abaixo não terem tantos erros registrados é por causa que eu fiz bastante testes com muita variação de proposito, pra ver como seria o resultado do modelo 
+    E nesse aqui eu anotei muito mais tanto os que davam certo quanto os que falhavam
+    Ja nos outros abaixo eu anotei um pouco os que falharam, mais dei mais enfase para os testes que deram certo 
+
+
 
 Desenhei a letra P
 
@@ -33173,6 +33178,35 @@ Desenhei a letra B
 
    tentativa 6 = [0.00142136351873606, 0.1249539234390382, 0.9210321256931512]
    (ACERTO tinha variações)
+
+   tentativa 7 = [0.09191780995175552, 0.00009716278033218765, 0.9852676864947442]
+
+   tentativa 8 = [0.11173472303901905, 0.005767353201452106, 0.4806448853528338]
+
+   tentativa 9 = [0.0003182020323616791, 0.00010901878146959926, 0.9994926019876885]
+
+   tentativa 10 = [0.000025821985648802687, 0.13905372347550687, 0.9977683858779184]
+
+   tentativa 11 = [0.000117337307635027, 0.0424482899469729, 0.9864808008050556]
+
+   tentativa 12 = [0.03890010586444483, 0.00181322910167088, 0.9762036191124103]
+
+   tentativa 13 = [0.0001442386064225277, 0.0037786027128526903, 0.9880370633745145]
+
+   tentativa 14 = [7.507261297836094e-7, 0.9703454375837425, 0.963899533442725]
+   (ESSE FOI COLISÂO DE CLASSE)
+
+   tentativa 15 =  [0.0002729111585872311, 0.017653817984738418, 0.9375098382226075]
+
+   tentativa 16 = [0.07315641043562754, 0.000014788151469882608, 0.9957626794681144]
+
+   tentativa 17 = [0.017950294840030565, 0.19089832188428016, 0.009140076246025221]
+
+   tentativa 18 = [0.0002282259185741925, 0.46011697982637906, 0.035290908907337964]
+
+   tentativa 19 =  [0.0003241377832167611, 0.41617918862323255, 0.7433630484202294]
+
+   tentativa 20 = [0.00005887500558558916, 0.002052822171374555, 0.9975182780693557]
 
 
 
