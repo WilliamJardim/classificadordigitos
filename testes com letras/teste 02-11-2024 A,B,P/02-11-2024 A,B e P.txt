@@ -33173,3 +33173,24 @@ Desenhei a letra B
 
    tentativa 6 = [0.00142136351873606, 0.1249539234390382, 0.9210321256931512]
    (ACERTO tinha variações)
+
+
+
+CONCLUSÔES: O modelo consegue captar padrões nos dados de treinamento e indenficar esses padrões em novos dados de teste
+porem, o modelo é sensivel a variações.
+Ao desenhar as imagens de teste, eu reparei que ter algumas de variações que não fassam ele fugir do padrão de treinamento esta ok, isso não atrapalha
+ou seja, o modelo consegue identificar a letra mesmo tendo algumas variações pequenas.
+
+Eu fiz desenhos parecidos com os de treinamento, para testar, e nesses desenhos, varios deles tinham algumas algumas variações pequenas, porém isso não atrapalhou o modelo de idenficar as letras corretamente.
+
+
+NOTAS: Vale ressaltar que, a arquitetura talvez não tenha sido a melhor. Eu poderia ter usado mais uma camada oculta, e ter usado mais unidades.
+Pois para esse teste eu só usei uma camada oculta com 4 unidades. E tambem, eu só usei um dataset minusculo que tinha apenas 3 amostras(ou seja, apenas 1 amotra por letra, ou seja, um desenho para A, um desenho para P e outro desenho para B)
+Para esse teste, mesmo apos treinar por muitas e muitas epocas, o custo total(obtido pela função "medirPrecisaoTreino") para cada classe ficou  [0.3391905784135638, 0.36712791665352884, 0.3625433317975255], respectivamente a cada classe.
+E esses valores de custo 
+talvez se eu usar uma arquitetura de rede diferente, com mais unidades, e talvez com mais amostras de cada letra, os resultados poderiam ser muito melhores que esses.
+Talves eu poderia até usar resoluções ainda menores como 32x32
+
+
+
+
