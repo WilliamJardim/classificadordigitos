@@ -33190,6 +33190,7 @@ Para esse teste, mesmo apos treinar por muitas e muitas epocas, o custo total(ob
 E esses valores de custo 
 talvez se eu usar uma arquitetura de rede diferente, com mais unidades, e talvez com mais amostras de cada letra, os resultados poderiam ser muito melhores que esses.
 Talves eu poderia até usar resoluções ainda menores como 32x32
+Fora tambem que estou usando função de ativação Sigmoid em todas as unidades inclusive da camada oculta, a ReLU geralmente é mais indicada.
 
 
 
