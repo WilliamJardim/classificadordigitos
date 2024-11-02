@@ -125,12 +125,46 @@ document.getElementById('botao-abrir-dataset').addEventListener("click", functio
     }
 });
 
+/**
+* Redimenciona uma matrix
+* Por exemplo, Ao receber uma imagem em preto e branco em forma de matrix 500x500, podemos obter uma nova matrix equivalente porém na resoluçao 100x100, 
+* Com exatamente o mesmo conteudo só que convertido para uma resolução menor
+* 
+* @param {*} matrix 
+* @param {*} oldSize 
+* @param {*} newSize 
+* @returns 
+*/
+function redimencionarDesenho(matrix, oldSize, newSize) {
+    const scale = oldSize / newSize;
+    const newMatrix = Array.from({ length: newSize }, () => Array(newSize).fill(0));
+
+    for (let i = 0; i < newSize; i++) {
+        for (let j = 0; j < newSize; j++) {
+            let sum = 0;
+
+            // Calcula a média dos pixels no bloco 5x5
+            for (let x = 0; x < scale; x++) {
+                for (let y = 0; y < scale; y++) {
+                    sum += matrix[i * scale + x][j * scale + y];
+                }
+            }
+
+            // Atribui a média para a posição (i, j) na nova matriz
+            newMatrix[i][j] = sum / (scale * scale);
+        }
+    }
+
+    return newMatrix;
+}
+
 function planificarDesenho( desenho ){
     let desenhoPlanificado = [];
 
-    desenho.forEach(( linha )=>{
+    redimencionarDesenho(desenho, 256, 64).forEach(( linha )=>{
         linha.forEach((numero)=>{
-            desenhoPlanificado.push( numero );
+            //Não aceita valores decimais, converte tudo para inteiro 0 ou 1
+            desenhoPlanificado.push( (numero > 0 ? 1 : 0) );
         });
     });
 
@@ -149,8 +183,8 @@ function treinarModelo(){
     // Estrutura da rede: 65536 unidades na entrada, 2 unidades na camada oculta, e 1 na saída
     const mlpConfig = {
         layers: [
-            { type: LayerType.Input,  inputs: 65536,  units: 65536 }, //Aqui são apenas 65536 entradas, preciso melhorar esse método
-            { type: LayerType.Hidden, inputs: 65536,  units: 4, functions: Array(4).fill('Sigmoid')  }, 
+            { type: LayerType.Input,  inputs: 4096,   units: 4096 }, //Aqui são apenas 65536 entradas, preciso melhorar esse método
+            { type: LayerType.Hidden, inputs: 4096,   units: 4, functions: Array(4).fill('Sigmoid')  }, 
             { type: LayerType.Final,  inputs: 4,      units: 3, functions: [ 'Sigmoid', 'Sigmoid', 'Sigmoid' ]  }
         ],
         initialization: Initialization.Random
@@ -173,7 +207,7 @@ function treinarModelo(){
 
     
     // Treinando a rede
-    mlp.train(inputs, targets, 0.05, 200, 1);
+    mlp.train(inputs, targets, 0.001, 2000, 1);
 
     window.pesosFinais = mlp.exportParameters();
 
