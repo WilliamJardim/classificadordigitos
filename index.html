@@ -9,23 +9,26 @@
 </head>
 <body>
 
-    <div id="app">
-        <button id="botao-salvar-dataset"> Salvar dataset atual </button>
-        <button id="botao-abrir-dataset"> Abrir dataset </button>
-        <button id="botao-adicionar-desenho"> Adicionar desenho </button>
-        <button id="botao-treinar-modelo"> Treinar modelo </button>
-        <button id="botao-testar-modelo"> Testar modelo </button>
-        
-        <input type="file" id="jsonUpload" accept=".json">
+    <div id="app"> 
 
         <div class="grade">
             <div>
                 <h1> Conjunto de Dados </h2>
+                <div>
+                    <button id="botao-salvar-dataset"> Salvar dataset atual </button>
+                    <button id="botao-abrir-dataset"> Abrir dataset </button>
+                    <input type="file" id="jsonUpload" accept=".json">
+                    <button id="botao-adicionar-desenho"> Adicionar desenho </button>
+                </div>
                 <div id="lista-dataset"></div>
             </div>
 
             <div>
                 <h1> Testes feitos </h2>
+                <div>
+                    <button id="botao-treinar-modelo"> Treinar modelo </button>
+                    <button id="botao-testar-modelo"> Testar modelo </button>
+                </div>
                 <div id="resultados-testes"></div>
             </div>
         </div>

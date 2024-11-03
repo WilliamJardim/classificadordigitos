@@ -86,7 +86,7 @@ input:hover {
 
 .grade{
     display: grid;
-    height: 900px;
+    height: 1000px;
     overflow-y: scroll;
     grid-template-columns: 50% 50%;
 }
@@ -94,6 +94,10 @@ input:hover {
 .grade h1{
     text-align: center;
     font-size: 35px;
+    text-transform: uppercase;
+    color: #00ffcc !important;
+    font-weight: bolder;
+    text-shadow: 1px 1px 1px #00ffcc !important;
 }
 
 #lista-dataset{
