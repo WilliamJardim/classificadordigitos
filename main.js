@@ -23,9 +23,14 @@ const editorCaracter = null;
 
 function escreverConsole(texto)
 {
+    const agora = new Date();
+    const horas = agora.getHours();      // Hora (0-23)
+    const minutos = agora.getMinutes();  // Minuto (0-59)
+    const segundos = agora.getSeconds(); // Segundo (0-59)
+
     const consoleElement = document.getElementsByClassName('corpo-console')[0];
     consoleElement.innerHTML += `
-        <p class='linha-console'>${texto}</p>
+        <p class='linha-console'>${horas}:${minutos}:${segundos} - ${texto}</p>
     `;
     
     // Define a rolagem para o final do elemento
@@ -54,6 +59,7 @@ function carregarDataset( datasetArray = [], cursor ){
     dataset.getDados().forEach(function( desenho ){
         adicionarImagemNaLista(desenho, cursor);
     })
+    escreverConsole('Dataset carregado!');
 }
 
 //Carrega o dataset do LocalStorage
@@ -203,6 +209,8 @@ function treinarModelo(){
         return;
     }
 
+    escreverConsole('Modelo criado!');
+
     // Estrutura da rede: 65536 unidades na entrada, 2 unidades na camada oculta, e 1 na saída
     const mlpConfig = {
         layers: [
@@ -228,6 +236,7 @@ function treinarModelo(){
         [0,0,1]
     ]
 
+    escreverConsole('Treinamento iniciado!');
     
     // Treinando a rede
     mlp.train(inputs, targets, valorAprendizado, valorEpocas, valorEpocasMostrar);
@@ -260,6 +269,8 @@ function extenderTreinamento(){
         [0,1,0],
         [0,0,1]
     ]
+
+    escreverConsole('Continuando treinamento ....!');
 
     // Treinando a rede (USANDO A MESMA INSTANCIA DO MODELO)
     mlp.train(inputs, targets, valorAprendizado, valorEpocas, valorEpocasMostrar);

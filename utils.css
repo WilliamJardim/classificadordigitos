@@ -5,3 +5,17 @@
 .border-none{
     border: none;
 }
+
+.no-select {
+    user-select: none; /* Funciona na maioria dos navegadores modernos */
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none;    /* Firefox */
+    -ms-user-select: none;     /* Internet Explorer e Edge */
+}
+
+.allow-select {
+    user-select: text; /* Funciona na maioria dos navegadores modernos */
+    -webkit-user-select: text; /* Safari */
+    -moz-user-select: text;    /* Firefox */
+    -ms-user-select: text;     /* Internet Explorer e Edge */
+}

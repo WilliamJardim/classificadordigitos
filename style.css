@@ -184,7 +184,10 @@ input:hover {
 }
 
 .linha-console{
+    width: 100%;
+    padding: 5px;
+    background-color: rgb(3, 3, 3);
     height: 20px;
     font-size: 15px !important;
-    color: #00ffcc;
+    color: #00ff2a;
 }
