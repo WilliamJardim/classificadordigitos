@@ -10,6 +10,14 @@ h1{
     font-family: 'Orbitron', sans-serif; /* Fonte futurista opcional */
 }
 
+p{
+    font-family: 'Orbitron', sans-serif; /* Fonte futurista opcional */
+    font-weight: bold;
+    font-size: 22px;
+    color: white;
+    text-indent: 9px;
+}
+
 div {
     background: rgba(22, 22, 22, 0.9) !important;
     color: #00ffcc !important;
@@ -39,6 +47,8 @@ button {
     margin-left: 10px;
     margin-right: 10px;
     padding: 20px;
+    margin-top: 25px;
+    margin-bottom: 5px;
 }
 
 button:hover {
