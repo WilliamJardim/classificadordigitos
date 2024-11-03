@@ -218,6 +218,31 @@ function treinarModelo(){
     return mlp;
 }
 
+function extenderTreinamento(){
+    if(!window.mlp){
+        alert('MODELO NÂO FOI INICIADO!');
+    }
+
+    // Dados de entrada para o problema XOR
+    const inputs = dataset.getDados().map( (desenho)=>{ 
+        return planificarDesenho(desenho);
+    });
+
+    //Gerar os rótulos
+    const targets = [
+        [1,0,0],
+        [0,1,0],
+        [0,0,1]
+    ]
+
+    // Treinando a rede (USANDO A MESMA INSTANCIA DO MODELO)
+    mlp.train(inputs, targets, 0.001, 2000, 1);
+
+    window.pesosFinais = mlp.exportParameters();
+
+    alert('Treinamento concluido!');
+}
+
 function medirPrecisaoTreino( instancia, dadosDataset, osTargets ){
     const acertosAmostrasTreino = Array( osTargets[0].length ).fill(0); 
 
@@ -301,4 +326,8 @@ document.getElementById('botao-testar-modelo').addEventListener('click', functio
 
 document.getElementById('botao-treinar-modelo').addEventListener('click', function(){
     treinarModelo();
+});
+
+document.getElementById('botao-continuar-treinamento-modelo').addEventListener('click', function(){
+    extenderTreinamento();
 });
