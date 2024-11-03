@@ -120,6 +120,10 @@ input:hover {
     grid-template-columns: 400px 400px;
 }
 
+.div-campo{
+    
+}
+
 .form-treino input{
     width: 80%;
     margin-top: 5px;

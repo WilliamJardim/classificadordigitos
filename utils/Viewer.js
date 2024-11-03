@@ -33,20 +33,20 @@ class Viewer{
         }
 
         this.divConteudo = `
-            <div class="cabecalho">
+            <div class="box-shadow-none cabecalho">
                 <h2> ${ this.titulo } </h2>
                 ${
                     this.criarTabela()
                 }
             </div>
 
-            <div class="corpo">
+            <div class="box-shadow-none corpo">
 
             </div>
         `;
 
         this.div = document.createElement('div');
-        this.div.setAttribute('class', 'visualizador-imagem');
+        this.div.setAttribute('class', 'box-shadow-none visualizador-imagem');
         this.div.innerHTML = this.divConteudo;
         document.getElementById(colocarEm).appendChild( this.div );
 
