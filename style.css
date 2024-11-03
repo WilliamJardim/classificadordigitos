@@ -95,6 +95,8 @@ input:hover {
     margin-top: 45px;
     width: 500px;
     height: auto;
+    display: grid;
+    grid-template-columns: 400px 400px;
 }
 
 #resultados-teste{
