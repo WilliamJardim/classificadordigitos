@@ -16,6 +16,8 @@ p{
     font-size: 22px;
     color: white;
     text-indent: 9px;
+    text-transform: uppercase;
+    text-align: center;
 }
 
 div {
@@ -35,13 +37,15 @@ canvas {
 }
 
 button {
+    width: 296px;
+    height: 80px;
+    font-size: 19pt !important;
     border: none;
     border-radius: 16px !important;
     box-shadow: 0 0 15px rgba(0, 255, 204, 0.5), inset 0 0 5px rgba(0, 255, 204, 0.3);
     background: linear-gradient(145deg, rgba(0, 255, 204, 0.15), rgba(0, 255, 204, 0.05)) !important;;
     color: #00ffcc !important;
     transition: background 0.3s, box-shadow 0.3s;
-    font-size: 28pt !important;
     font-weight: bolder;
     font-family: 'Orbitron', sans-serif; /* Fonte futurista opcional */
     margin-left: 10px;
@@ -49,6 +53,7 @@ button {
     padding: 20px;
     margin-top: 25px;
     margin-bottom: 5px;
+    text-transform: uppercase;
 }
 
 button:hover {
@@ -147,4 +152,6 @@ input:hover {
     font-weight: bold;
     color: white;
     padding: 5px;
+    margin-top: 1px;
+    margin-bottom: 9px;
 }

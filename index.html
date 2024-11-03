@@ -19,7 +19,7 @@
                     <button id="botao-salvar-dataset"> Salvar dataset </button>
                     <button id="botao-abrir-dataset"> Abrir dataset </button>
                     <input type="file" id="jsonUpload" accept=".json">
-                    <button id="botao-adicionar-desenho"> Adicionar desenho </button>
+                    <button id="botao-adicionar-desenho"> Novo desenho </button>
                 </div>
                 <div class="box-shadow-none" id="lista-dataset"></div>
             </div>
@@ -44,11 +44,16 @@
                                 <label for="campo-taxa-aprendizado"> Taxa Aprendizado </label>
                                 <input value="0.001" type="number" step="0.01" name="campo-taxa-aprendizado" id="campo-taxa-aprendizado" />
                             </div>
+
+                            <div class="box-shadow-none div-campo">
+                                <button id="botao-treinar-modelo"> Treinar modelo </button>
+                                <button id="botao-continuar-treinamento-modelo"> Continuar treino </button>
+                            </div>
+                            
                         </form>
+
                     </div>
 
-                    <button id="botao-treinar-modelo"> Treinar modelo </button>
-                    <button id="botao-continuar-treinamento-modelo"> Continuar treino </button>
                     <button id="botao-testar-modelo"> Testar modelo </button>
                 </div>
                 <div class="box-shadow-none" id="resultados-testes"></div>

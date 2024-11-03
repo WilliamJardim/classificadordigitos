@@ -229,6 +229,7 @@ function extenderTreinamento(){
 
     if(!window.mlp){
         alert('MODELO NÂO FOI INICIADO!');
+        return;
     }
 
     // Dados de entrada para o problema XOR
@@ -296,6 +297,11 @@ document.getElementById('botao-adicionar-desenho').addEventListener('click', fun
 })
 
 document.getElementById('botao-testar-modelo').addEventListener('click', function(){
+
+    if(!window.mlp){
+        alert('MODELO NÂO FOI TREINADO!');
+        return;
+    }
 
     //document.getElementById('resultados-testes').innerHTML = '';
 
