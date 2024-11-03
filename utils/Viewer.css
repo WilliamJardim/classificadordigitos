@@ -1,0 +1,32 @@
+.visualizador-imagem{
+
+}
+
+.visualizador-imagem table{
+    padding: 5px;
+}
+
+.visualizador-imagem table tr{
+    padding: 5px;
+}
+
+.visualizador-imagem table tr td{
+   margin-left: 9px;
+   margin-right: 9px;
+   border: solid 0.5px black;
+   border-radius: 16px;
+   padding: 10px;
+   font-size: 20px;
+   font-weight: bold;
+   color: white;
+   background-color: rgba(14, 14, 14, 0.514);
+   text-align: center;
+   text-transform: uppercase;
+   box-shadow: 0 0 15px rgba(0, 255, 204, 0.5), inset 0 0 5px rgba(0, 255, 204, 0.3);
+   background: linear-gradient(145deg, rgba(0, 255, 204, 0.15), rgba(0, 255, 204, 0.05)) !important;;
+   color: #00ffcc !important;
+}
+
+.visualizador-imagem table tr.tr-cabecalho td{
+    background-color: rgb(14, 14, 14);
+ }

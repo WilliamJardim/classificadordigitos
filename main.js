@@ -23,7 +23,9 @@ const editorCaracter = null;
 
 function adicionarImagemNaLista( desenho, cursor )
 {
-   const visualizador = new Viewer( 'lista-dataset', 
+   const visualizador = new Viewer( 'lista-dataset',
+                                    '',
+                                    [],
                                     cursor, 
                                     configEditor ); 
                                     
@@ -262,7 +264,7 @@ document.getElementById('botao-adicionar-desenho').addEventListener('click', fun
 
 document.getElementById('botao-testar-modelo').addEventListener('click', function(){
 
-    document.getElementById('resultados-testes').innerHTML = '';
+    //document.getElementById('resultados-testes').innerHTML = '';
 
     const editorTeste = new Editor({
         resolucao: 256,
@@ -282,13 +284,15 @@ document.getElementById('botao-testar-modelo').addEventListener('click', functio
 
             console.log('RESULTADO ESTIMADO', estimativa);
 
-            //const visualizador = new Viewer( 'resultados-testes', 
-            //                     dadosCursor, 
-            //                     configEditor);
-                                 
-            //visualizador.loadImage( desenhoTeste );
+            const visualizador = new Viewer( 'resultados-testes',
+                                             'RESULTADO ESTIMADO', 
+                                             estimativa,
+                                             dadosCursor, 
+                                             configEditor);
+                              
+            visualizador.loadImage( desenhoTeste );
 
-            //this.deletarInstancia();
+            this.deletarInstancia();
         }
     
     });

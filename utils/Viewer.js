@@ -1,9 +1,57 @@
 class Viewer{
-    constructor( colocarEm, cursor, config ){
+    constructor( colocarEm, titulo, estimativasProntas, cursor, config ){
         this.cursor = cursor;
         this.config = config;
+        this.titulo = titulo;
+
+        this.criarTabela = function(){
+            return estimativasProntas.length > 0 ? `
+                <table>
+                    <tr class='tr-cabecalho'>
+                        ${
+                            estimativasProntas.map(( valor, numero )=>{
+                                return `
+                                    <td>
+                                        Classe ${numero + 1}
+                                    </td>
+                                `
+                            })
+                        }
+                    </tr>
+                    <tr>
+                        ${
+                            estimativasProntas.map(( valor, numero )=>{
+                                return `
+                                    <td>
+                                        ${valor}
+                                    </td>
+                                `
+                            })
+                        }
+                    </tr>
+                </table>` : '';
+        }
+
+        this.divConteudo = `
+            <div class="cabecalho">
+                <h2> ${ this.titulo } </h2>
+                ${
+                    this.criarTabela()
+                }
+            </div>
+
+            <div class="corpo">
+
+            </div>
+        `;
+
+        this.div = document.createElement('div');
+        this.div.setAttribute('class', 'visualizador-imagem');
+        this.div.innerHTML = this.divConteudo;
+        document.getElementById(colocarEm).appendChild( this.div );
+
         this.canvas = document.createElement('canvas');
-        document.getElementById(colocarEm).appendChild(this.canvas);
+        this.div.querySelector('.corpo').appendChild(this.canvas);
     }
 
     /**
