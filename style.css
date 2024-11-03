@@ -113,3 +113,21 @@ input:hover {
     width: 500px;
     height: auto;
 }
+
+.form-treino{
+    padding: 5px;
+}
+
+.form-treino input{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.form-treino label{
+    display: block;
+    width: 100%;
+    font-size: 25px;
+    font-weight: bold;
+    color: white;
+    padding: 5px;
+}

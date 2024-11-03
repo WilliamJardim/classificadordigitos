@@ -177,6 +177,10 @@ var pesosInicias = null;
 var pesosFinais  = null;
 
 function treinarModelo(){
+    const valorEpocas         = document.getElementById('campo-epocas').value;
+    const valorEpocasMostrar  = document.getElementById('campo-epocas-mostrar').value;
+    const valorAprendizado    = Number( document.getElementById('campo-taxa-aprendizado').value.replace(',','.') );
+
     if( window.confirm('Deseja iniciar o treinamento( SIM/NAO ) ??? Isso pode demorar um pouco!') == false ){
         console.log('cancelado');
         return;
@@ -209,7 +213,7 @@ function treinarModelo(){
 
     
     // Treinando a rede
-    mlp.train(inputs, targets, 0.001, 2000, 1);
+    mlp.train(inputs, targets, valorAprendizado, valorEpocas, valorEpocasMostrar);
 
     window.pesosFinais = mlp.exportParameters();
 
@@ -219,6 +223,10 @@ function treinarModelo(){
 }
 
 function extenderTreinamento(){
+    const valorEpocas         = document.getElementById('campo-epocas').value;
+    const valorEpocasMostrar  = document.getElementById('campo-epocas-mostrar').value;
+    const valorAprendizado    = Number( document.getElementById('campo-taxa-aprendizado').value.replace(',','.') );
+
     if(!window.mlp){
         alert('MODELO NÂO FOI INICIADO!');
     }
@@ -236,7 +244,7 @@ function extenderTreinamento(){
     ]
 
     // Treinando a rede (USANDO A MESMA INSTANCIA DO MODELO)
-    mlp.train(inputs, targets, 0.001, 2000, 1);
+    mlp.train(inputs, targets, valorAprendizado, valorEpocas, valorEpocasMostrar);
 
     window.pesosFinais = mlp.exportParameters();
 
