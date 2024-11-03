@@ -1,5 +1,6 @@
 .visualizador-imagem{
-
+    justify-content: center;
+    align-self: center;
 }
 
 .visualizador-imagem table{

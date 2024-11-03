@@ -91,6 +91,11 @@ input:hover {
     grid-template-columns: 50% 50%;
 }
 
+.grade h1{
+    text-align: center;
+    font-size: 35px;
+}
+
 #lista-dataset{
     margin-top: 45px;
     width: 500px;
