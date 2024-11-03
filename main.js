@@ -21,6 +21,22 @@ const configEditor = {
 
 const editorCaracter = null;
 
+function escreverConsole(texto)
+{
+    const consoleElement = document.getElementsByClassName('corpo-console')[0];
+    consoleElement.innerHTML += `
+        <p class='linha-console'>${texto}</p>
+    `;
+    
+    // Define a rolagem para o final do elemento
+    consoleElement.scrollTop = consoleElement.scrollHeight;
+}
+
+function limparConsole()
+{
+    document.getElementsByClassName('corpo-console')[0].innerHTML = '';
+}
+
 function adicionarImagemNaLista( desenho, cursor )
 {
    const visualizador = new Viewer( 'lista-dataset',
@@ -183,6 +199,7 @@ function treinarModelo(){
 
     if( window.confirm('Deseja iniciar o treinamento( SIM/NAO ) ??? Isso pode demorar um pouco!') == false ){
         console.log('cancelado');
+        escreverConsole('Treinameto cancelado!');
         return;
     }
 
@@ -217,7 +234,7 @@ function treinarModelo(){
 
     window.pesosFinais = mlp.exportParameters();
 
-    alert('Treinamento concluido!');
+    escreverConsole('Treinamento concluido!');
 
     return mlp;
 }
@@ -228,7 +245,7 @@ function extenderTreinamento(){
     const valorAprendizado    = Number( document.getElementById('campo-taxa-aprendizado').value.replace(',','.') );
 
     if(!window.mlp){
-        alert('MODELO NÂO FOI INICIADO!');
+        escreverConsole('MODELO NÂO FOI INICIADO!');
         return;
     }
 
@@ -249,7 +266,7 @@ function extenderTreinamento(){
 
     window.pesosFinais = mlp.exportParameters();
 
-    alert('Treinamento concluido!');
+    escreverConsole('Treinamento concluido!');
 }
 
 function medirPrecisaoTreino( instancia, dadosDataset, osTargets ){
@@ -299,7 +316,7 @@ document.getElementById('botao-adicionar-desenho').addEventListener('click', fun
 document.getElementById('botao-testar-modelo').addEventListener('click', function(){
 
     if(!window.mlp){
-        alert('MODELO NÂO FOI TREINADO!');
+        escreverConsole('MODELO NÂO FOI TREINADO!');
         return;
     }
 
@@ -322,6 +339,7 @@ document.getElementById('botao-testar-modelo').addEventListener('click', functio
             const estimativa = window.mlp.forward( planificarDesenho( desenhoTeste ) );
 
             console.log('RESULTADO ESTIMADO', estimativa);
+            escreverConsole('RESULTADO ESTIMADO: ' + String(estimativa) );
 
             const visualizador = new Viewer( 'resultados-testes',
                                              'RESULTADO ESTIMADO', 
@@ -338,10 +356,18 @@ document.getElementById('botao-testar-modelo').addEventListener('click', functio
 
 });
 
-document.getElementById('botao-treinar-modelo').addEventListener('click', function(){
-    treinarModelo();
+document.getElementById('botao-treinar-modelo').addEventListener('click', function(e){
+    e.preventDefault();
+
+    setTimeout(()=>{
+        treinarModelo();
+    }, 1);
 });
 
-document.getElementById('botao-continuar-treinamento-modelo').addEventListener('click', function(){
-    extenderTreinamento();
+document.getElementById('botao-continuar-treinamento-modelo').addEventListener('click', function(e){
+    e.preventDefault();
+    
+    setTimeout(()=>{
+        extenderTreinamento();
+    }, 1);
 });

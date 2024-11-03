@@ -155,3 +155,36 @@ input:hover {
     margin-top: 1px;
     margin-bottom: 9px;
 }
+
+.box-console{
+    padding: 0px;
+    margin-top: 15px;
+    border: solid 1px black;
+    border-radius: 16px;
+    background-color: rgba(0, 0, 0, 0.733) !important;
+}
+
+.cabecalho-console{
+    margin-top: 0px;
+    margin-right: 0px;
+    padding: 5px;
+    background-color: rgba(0, 0, 0, 0.733) !important;
+}
+
+.corpo-console{
+    height: 200px;
+    padding: 5px;
+    border: solid 1px black;
+    border-radius: 16px;
+    background-color: rgba(0, 0, 0, 0.733) !important;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.linha-console{
+    height: 20px;
+    font-size: 15px !important;
+    color: #00ffcc;
+}
