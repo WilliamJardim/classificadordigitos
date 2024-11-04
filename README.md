@@ -8,6 +8,8 @@ O projeto é um software para reconhecimento de letras e números feito com uma 
  - [Leer en Español](./README-es.md)
  - [Leggi in Italiano](./README-it.md)
  - [Lire en Français](./README-fr.md)
+ - [日本語で読む](./README-ja.md)
+ - [Auf Deutsch lesen](./README-de.md)
 
 # Imagens de exemplo
 # Desktop
