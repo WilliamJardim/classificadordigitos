@@ -6,6 +6,14 @@
 # 言語
 [英語で読む](./README-en.md)
 
+# 詳細
+このプロジェクトは、以下の2つのプロジェクトの継続として作成されました：
+- [WilliamJardim/MLP-Mini](https://github.com/WilliamJardim/MLP-mini)  
+  MLPニューラルネットワークの実装。
+
+- [WilliamJardim/DesenhadorDigitos](https://github.com/WilliamJardim/desenhadordigitos)  
+  統合画像エディタ。
+
 # サンプル画像
 ## デスクトップ
 ![デスクトップ](./imagens/demo-desktop.png)
@@ -16,11 +24,3 @@
 ## スマートフォン
 ![スマートフォン](./imagens/demo-phone.png)
 
-# 詳細
-このプロジェクトは、以下の2つのプロジェクトの継続として作成されました：
-
-- [WilliamJardim/MLP-Mini](https://github.com/WilliamJardim/MLP-mini)  
-  MLPニューラルネットワークの実装。
-
-- [WilliamJardim/DesenhadorDigitos](https://github.com/WilliamJardim/desenhadordigitos)  
-  統合画像エディタ。

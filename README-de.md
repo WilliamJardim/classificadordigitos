@@ -6,6 +6,15 @@ Dieses Projekt ist eine Software zur Erkennung von Buchstaben und Zahlen, die mi
 # Sprachen
 [Auf Englisch lesen](./README-en.md)
 
+# Details
+Dieses Projekt wurde entwickelt, um zwei meiner anderen Projekte fortzusetzen:
+
+- [WilliamJardim/MLP-Mini](https://github.com/WilliamJardim/MLP-mini)  
+  Die Implementierung des MLP-Neuronalen Netzwerks.
+
+- [WilliamJardim/DesenhadorDigitos](https://github.com/WilliamJardim/desenhadordigitos)  
+  Der integrierte Bildeditor.
+
 # Beispielbilder
 ## Desktop
 ![Desktop](./imagens/demo-desktop.png)
@@ -15,12 +24,3 @@ Dieses Projekt ist eine Software zur Erkennung von Buchstaben und Zahlen, die mi
 
 ## Telefon
 ![Telefon](./imagens/demo-phone.png)
-
-# Details
-Dieses Projekt wurde entwickelt, um zwei meiner anderen Projekte fortzusetzen:
-
-- [WilliamJardim/MLP-Mini](https://github.com/WilliamJardim/MLP-mini)  
-  Die Implementierung des MLP-Neuronalen Netzwerks.
-
-- [WilliamJardim/DesenhadorDigitos](https://github.com/WilliamJardim/desenhadordigitos)  
-  Der integrierte Bildeditor.

@@ -11,6 +11,15 @@ O projeto é um software para reconhecimento de letras e números feito com uma 
  - [日本語で読む](./README-ja.md)
  - [Auf Deutsch lesen](./README-de.md)
 
+# Detalhes
+Este projeto foi construído para dar continuidade a dois outros projetos meus:
+
+ - [WilliamJardim/MLP-Mini](https://github.com/WilliamJardim/MLP-mini) 
+ A implantação da Rede Neural MLP.
+
+ - [WilliamJardim/DesenhadorDigitos](https://github.com/WilliamJardim/desenhadordigitos)
+ O editor de imagens integrado.
+
 # Imagens de exemplo
 # Desktop
 ![Desktop](./imagens/demo-desktop.png)
@@ -20,12 +29,3 @@ O projeto é um software para reconhecimento de letras e números feito com uma 
 
 # Phone
 ![Phone](./imagens/demo-phone.png)
-
-# Detalhes
-Este projeto foi construído para dar continuidade a dois outros projetos meus:
-
- - [WilliamJardim/MLP-Mini](https://github.com/WilliamJardim/MLP-mini) 
- A implantação da Rede Neural MLP.
-
- - [WilliamJardim/DesenhadorDigitos](https://github.com/WilliamJardim/desenhadordigitos)
- O editor de imagens integrado.

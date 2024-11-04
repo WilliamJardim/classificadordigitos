@@ -6,6 +6,15 @@ Le projet est un logiciel de reconnaissance de lettres et de chiffres réalisé 
 # 🌐 Langues
 [Lire en Anglais](./README-en.md)
 
+# Détails
+Ce projet a été créé pour poursuivre deux autres de mes projets :
+
+- [WilliamJardim/MLP-Mini](https://github.com/WilliamJardim/MLP-mini)  
+  L'implémentation du réseau neuronal MLP.
+
+- [WilliamJardim/DesenhadorDigitos](https://github.com/WilliamJardim/desenhadordigitos)  
+  L'éditeur d'images intégré.
+
 # Images d'exemple
 ## Ordinateur
 ![Ordinateur](./imagens/demo-desktop.png)
@@ -15,12 +24,3 @@ Le projet est un logiciel de reconnaissance de lettres et de chiffres réalisé 
 
 ## Téléphone
 ![Téléphone](./imagens/demo-phone.png)
-
-# Détails
-Ce projet a été créé pour poursuivre deux autres de mes projets :
-
-- [WilliamJardim/MLP-Mini](https://github.com/WilliamJardim/MLP-mini)  
-  L'implémentation du réseau neuronal MLP.
-
-- [WilliamJardim/DesenhadorDigitos](https://github.com/WilliamJardim/desenhadordigitos)  
-  L'éditeur d'images intégré.

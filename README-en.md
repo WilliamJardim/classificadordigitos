@@ -6,6 +6,15 @@ The project is software for recognizing letters and numbers made with a neural n
 # 🌐 Languages
 [Ler em Portugues](./README.md)
 
+# Details
+This project was built to continue two other my projects:
+
+ - [WilliamJardim/MLP-Mini](https://github.com/WilliamJardim/MLP-mini) 
+ The implementation of the MLP Neural Network.
+
+ - [WilliamJardim/DesenhadorDigitos](https://github.com/WilliamJardim/desenhadordigitos)
+ The built-in image editor.
+
 # Imagens de exemplo
 # Desktop
 ![Desktop](./imagens/demo-desktop.png)
@@ -15,12 +24,3 @@ The project is software for recognizing letters and numbers made with a neural n
 
 # Phone
 ![Phone](./imagens/demo-phone.png)
-
-# Details
-This project was built to continue two other my projects:
-
- - [WilliamJardim/MLP-Mini](https://github.com/WilliamJardim/MLP-mini) 
- The implementation of the MLP Neural Network.
-
- - [WilliamJardim/DesenhadorDigitos](https://github.com/WilliamJardim/desenhadordigitos)
- The built-in image editor.
