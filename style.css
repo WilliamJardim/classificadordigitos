@@ -205,6 +205,16 @@ input:hover {
         margin-left: 18px;
     }
 
+    #lista-dataset{
+        padding: 9px;
+        margin-left: 15px;
+        margin-top: 45px;
+        width: 500px;
+        height: auto;
+        display: grid;
+        grid-template-columns: 400px 400px 400px;
+    }
+
     .grade{
         display: flex;
         flex-direction: column;
@@ -275,6 +285,15 @@ input:hover {
 
 /* PARA CELULAR */
 @media only screen and (max-width: 1164px) {
+
+    #lista-dataset{
+        margin-left: -80px !important;
+        margin-top: 45px;
+        width: 500px;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+    }
 
     .div-botoes{
         padding: 20px;
