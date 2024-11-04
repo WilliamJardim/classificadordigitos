@@ -1,7 +1,7 @@
+![Icone](./imagens/icone-256x256.png.png)
+
 # classificadordigitos
-Reconhecimento de letras e números usando uma rede neural MLP feita em JavaScript
-Com esse software você pode desenhar coisas e criar um dataset. Você pode exportar o seu data para JSON e salvar em seu computador, e também pode importar.
-Você pode definir alguns parametros, treinar e testar o modelo após o treinamento de foram bem dinamica, desenhando novos desenhos e vendo como o modelo se saiu.
+O projeto é um software para reconhecimento de letras e números feito com uma rede neural em JavaScript. Com ele, você pode desenhar letras e números, criando um conjunto de dados personalizado para treinar o modelo. É possível salvar esses dados no computador em formato JSON e também importar dados para continuar adicionando novos desenhos e continuar treinando. Após o treinamento, você pode testar o modelo desenhando novas imagens e ver como ele identifica o que você desenhou.
 
 # Imagens de exemplo
 # Desktop
