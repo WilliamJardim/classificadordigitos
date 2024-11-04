@@ -1,8 +1,16 @@
+#app{
+    width: 99%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
 body {
     background: radial-gradient(circle, rgb(22, 22, 22) 0%, rgb(10, 10, 10) 100%);
     color: #00ffcc !important;
     font-family: 'Orbitron', sans-serif; /* Fonte futurista opcional */
     padding: 10px;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 
@@ -21,7 +29,6 @@ p{
 }
 
 div {
-    background: rgba(22, 22, 22, 0.9) !important;
     color: #00ffcc !important;
     box-shadow: 0 0 20px rgba(0, 255, 204, 0.1), inset 0 0 5px rgba(0, 255, 204, 0.05);
     border-radius: 10px;
@@ -100,10 +107,27 @@ input:hover {
 }
 
 .grade{
+    width: 100%;
     display: grid;
-    height: 1000px;
-    overflow-y: none;
+    height: auto;
+    overflow-y: hidden;
+    overflow-x: hidden;
     grid-template-columns: 50% 50%;
+}
+
+.div-dados{
+    width: 100%;
+    background: rgba(22, 22, 22, 0.9) !important;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    padding: 10px;
+}
+
+.div-treino{
+    width: 100%;
+    background: rgba(22, 22, 22, 0.9) !important;
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 .grade h1{
@@ -129,8 +153,12 @@ input:hover {
     height: auto;
 }
 
+.subtitulo{
+    padding: 12px;
+}
+
 .form-treino{
-    padding: 5px;
+    padding: 15px;
     display: grid;
     grid-template-columns: 400px 400px;
 }
@@ -157,30 +185,68 @@ input:hover {
 }
 
 /* Estilos para o mobile */
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 1680px) {
+    #app{
+        margin-left: 0px;
+        padding: 0px;
+    }
+
+    body{
+        padding: 0px;
+    }
+
+    div{
+        padding: 0px;
+    }
+
+    .div-botoes{
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* Centraliza horizontalmente */
+        align-items: center;    /* Centraliza verticalmente */
+    }
+
+    button{
+        margin-left: 0px;
+    }
+
     .grade{
         display: flex;
         flex-direction: column;
+        margin: 0px;
+        padding: 0px;
     }
 
     .div-dados{
         display: flex;
         flex-direction: column;
+        margin: 0px;
+        width: 100%;
+        padding: 0px;
     }
 
     .div-treino{
         display: flex;
         flex-direction: column;
+        margin: 0px;
+        width: 100%;
+        padding: 2px;
     }
  
     .form-treino{
         display: flex;
         flex-direction: column;
+        padding: 10px;
+    }
+
+    .div-campo{
+        padding: 5px;
     }
 
     .form-treino input{
-        width: 100%;
-        margin-left: 0px;
+        width: 88%;
+        margin-left: 8px;
         margin-top: 0px;
         margin-bottom: 0px;
     }
@@ -217,6 +283,7 @@ input:hover {
 }
 
 .corpo-console{
+    padding: 15px;
     height: 200px;
     padding: 5px;
     border: solid 1px black;
