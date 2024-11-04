@@ -185,6 +185,8 @@ input:hover {
 }
 
 /* Estilos para o mobile */
+
+/* PARA TABLET */
 @media only screen and (max-width: 1680px) {
     #app{
         margin-left: 0px;
@@ -199,16 +201,8 @@ input:hover {
         padding: 0px;
     }
 
-    .div-botoes{
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center; /* Centraliza horizontalmente */
-        align-items: center;    /* Centraliza verticalmente */
-    }
-
     button{
-        margin-left: 0px;
+        margin-left: 18px;
     }
 
     .grade{
@@ -245,7 +239,7 @@ input:hover {
     }
 
     .form-treino input{
-        width: 88%;
+        width: 95%;
         margin-left: 8px;
         margin-top: 0px;
         margin-bottom: 0px;
@@ -262,8 +256,39 @@ input:hover {
         margin-bottom: 0px;
     }
 
-    .form-treino button{
+    .form-treino button:first{
         margin-left: 0px;
+    }
+
+    .form-treino button{
+        margin-left: 18px;
+    }
+
+    .div-botoes{
+        padding: 20px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center; /* Centraliza horizontalmente */
+        align-items: center;    /* Centraliza verticalmente */
+    }
+}
+
+/* PARA CELULAR */
+@media only screen and (max-width: 1164px) {
+
+    .div-botoes{
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* Centraliza horizontalmente */
+        align-items: center;    /* Centraliza verticalmente */
+    }
+
+    .form-treino input{
+        width: 88%;
+        margin-left: 8px;
+        margin-top: 0px;
+        margin-bottom: 0px;
     }
 }
 
