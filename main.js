@@ -327,8 +327,8 @@ function medirPrecisaoTreino( instancia, dadosDataset, osTargets ){
 document.getElementById('botao-adicionar-desenho').addEventListener('click', function(){
     window.editorCaracter = new Editor({
         resolucao: 256,
-        top: 100,
-        left: 900,
+        top: 200,
+        left: 500,
         titulo: 'Desenhe',
         backgroundColor: 'rgb(0,0,0)',
     
@@ -358,8 +358,8 @@ document.getElementById('botao-testar-modelo').addEventListener('click', functio
 
     const editorTeste = new Editor({
         resolucao: 256,
-        top: 100,
-        left: 900,
+        top: 200,
+        left: 500,
         titulo: 'Desenhe',
         backgroundColor: 'rgb(0,0,0)',
     

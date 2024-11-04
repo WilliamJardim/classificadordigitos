@@ -109,6 +109,7 @@ class Editor{
             contexto.divFerramentas.style.top = `${ contexto.top + 180 + parseInt(contexto.divFerramentas.style.height) }px`;
         }, 200);
 
+        this.divFerramentas.setAttribute('class', 'div-ferramentas-editor');
         this.divFerramentas.style.left = `${ this.left }px`;
         this.divFerramentas.style.backgroundColor = 'white'
         this.divFerramentas.style.zIndex = 40;

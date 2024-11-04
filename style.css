@@ -191,3 +191,8 @@ input:hover {
     font-size: 15px !important;
     color: #00ff2a;
 }
+
+.div-ferramentas-editor{
+    width: 800px !important;
+    background-color: rgba(0, 0, 0, 0.877) !important;
+}
