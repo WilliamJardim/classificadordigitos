@@ -156,6 +156,51 @@ input:hover {
     margin-bottom: 9px;
 }
 
+/* Estilos para o mobile */
+@media only screen and (max-width: 600px) {
+    .grade{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .div-dados{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .div-treino{
+        display: flex;
+        flex-direction: column;
+    }
+ 
+    .form-treino{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-treino input{
+        width: 100%;
+        margin-left: 0px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    .form-treino label{
+        display: block;
+        width: 100%;
+        font-size: 25px;
+        font-weight: bold;
+        color: white;
+        padding: 5px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    .form-treino button{
+        margin-left: 0px;
+    }
+}
+
 .box-console{
     padding: 0px;
     margin-top: 15px;
