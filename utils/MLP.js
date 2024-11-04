@@ -219,7 +219,7 @@ class MLP {
         return activations;
     }
     // Função de treinamento com retropropagação
-    train(inputs, targets, learningRate = 0.1, epochs = 10000, printEpochs = 1000) {
+    train(inputs, targets, learningRate = 0.1, epochs = 10000, printEpochs = 1000, interruptor=null) {
         let trainMonitor = new ConsoleMonitor({
             name: 'TrainConsole'
         });
@@ -280,6 +280,13 @@ class MLP {
             // Log do erro para monitoramento
             if (epoch % printEpochs === 0) {
                 trainMonitor.log(`Epoch ${epoch}, Erro total: ${totalError}`);
+            }
+
+            //Se tem uma função interruptora, ele para o treinamento 
+            if( interruptor && typeof interruptor == 'function' ){
+                if( interruptor.bind(this)( this, epoch, totalError ) == true ){
+                    break;
+                }
             }
         }
         //Integra os logs atuais do treinamento no geral

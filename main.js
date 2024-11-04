@@ -42,6 +42,20 @@ function limparConsole()
     document.getElementsByClassName('corpo-console')[0].innerHTML = '';
 }
 
+function exibirCustosConsole(instanciaModelo, aCada=1)
+{   
+    //Exibe um resumo do treinamento, apenas a primeira epoca, algumas intermediarias e ultima
+    const historicoTreino = instanciaModelo.geralMonitor.history;
+    if( historicoTreino[0] != undefined ){ escreverConsole( historicoTreino[0]['message'] ) };
+    
+    for( let iHistorico = 1 ; iHistorico < historicoTreino.length-1 ; iHistorico = iHistorico + (25/100 * historicoTreino.length-1) )
+    {
+        if( historicoTreino[iHistorico] != undefined ){ escreverConsole( historicoTreino[iHistorico]['message'] ) };
+    }   
+
+    if( historicoTreino[historicoTreino.length-1] != undefined ){ escreverConsole( historicoTreino[historicoTreino.length-1]['message'] ) };
+}
+
 function adicionarImagemNaLista( desenho, cursor )
 {
    const visualizador = new Viewer( 'lista-dataset',
@@ -195,13 +209,15 @@ function planificarDesenho( desenho ){
     return desenhoPlanificado;
 }
 
-var pesosInicias = null;
-var pesosFinais  = null;
+var pesosInicias   = null;
+var pesosFinais    = null;
+var vaiInterromper = false;
 
 function treinarModelo(){
     const valorEpocas         = document.getElementById('campo-epocas').value;
     const valorEpocasMostrar  = document.getElementById('campo-epocas-mostrar').value;
     const valorAprendizado    = Number( document.getElementById('campo-taxa-aprendizado').value.replace(',','.') );
+    vaiInterromper = false;
 
     if( window.confirm('Deseja iniciar o treinamento( SIM/NAO ) ??? Isso pode demorar um pouco!') == false ){
         console.log('cancelado');
@@ -239,10 +255,13 @@ function treinarModelo(){
     escreverConsole('Treinamento iniciado!');
     
     // Treinando a rede
-    mlp.train(inputs, targets, valorAprendizado, valorEpocas, valorEpocasMostrar);
+    mlp.train(inputs, targets, valorAprendizado, valorEpocas, valorEpocasMostrar, function(){
+        return vaiInterromper ? true : false; //Sinaliza se queremos interromper o fluxo de treinamento SIM/NAO
+    });
 
     window.pesosFinais = mlp.exportParameters();
 
+    exibirCustosConsole( mlp, valorEpocasMostrar );
     escreverConsole('Treinamento concluido!');
 
     return mlp;
@@ -252,6 +271,7 @@ function extenderTreinamento(){
     const valorEpocas         = document.getElementById('campo-epocas').value;
     const valorEpocasMostrar  = document.getElementById('campo-epocas-mostrar').value;
     const valorAprendizado    = Number( document.getElementById('campo-taxa-aprendizado').value.replace(',','.') );
+    vaiInterromper = false;
 
     if(!window.mlp){
         escreverConsole('MODELO NÂO FOI INICIADO!');
@@ -273,10 +293,13 @@ function extenderTreinamento(){
     escreverConsole('Continuando treinamento ....!');
 
     // Treinando a rede (USANDO A MESMA INSTANCIA DO MODELO)
-    mlp.train(inputs, targets, valorAprendizado, valorEpocas, valorEpocasMostrar);
+    mlp.train(inputs, targets, valorAprendizado, valorEpocas, valorEpocasMostrar, function(){
+        return vaiInterromper ? true : false; //Sinaliza se queremos interromper o fluxo de treinamento SIM/NAO
+    });
 
     window.pesosFinais = mlp.exportParameters();
 
+    exibirCustosConsole( mlp, valorEpocasMostrar );
     escreverConsole('Treinamento concluido!');
 }
 
