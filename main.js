@@ -412,6 +412,10 @@ document.getElementById('botao-nova-camada').onclick = function(e){
     e.preventDefault();
     
     let tipoCamada = 'entrada';
+    if( camadasCriadas.length == 0 )
+    {
+        document.getElementById('tipoEntrada').checked = true;
+    }
 
     document.getElementById('tipoEntrada').disabled = false;
     document.getElementById('tipoOculta').disabled = true;
@@ -501,7 +505,7 @@ document.getElementById('botao-nova-camada').onclick = function(e){
                 <td> <input value='${ dadosCamada.entradas }' onchange='onAlterarValorEntradas(event, ${idNovaLinha})'></input> </td>
                 <td> <input value='${ dadosCamada.unidades }' onchange='onAlterarValorUnidades(event, ${idNovaLinha})'></input> </td>
                 <td> 
-                  <button class='botao-vermelho botao-remover-camada' onclick='window.removerCamadaLista(${idNovaLinha})'> X </button> 
+                  <button ${ dadosCamada.tipo == 'entrada' ? 'disabled' : '' } class='botao-vermelho botao-remover-camada' onclick='window.removerCamadaLista(${idNovaLinha})'> X </button> 
                 </td>
             </tr>
         `    
