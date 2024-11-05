@@ -417,6 +417,7 @@ document.getElementById('botao-nova-camada').onclick = function(e){
         document.getElementById('tipoEntrada').checked = true;
     }
 
+    document.getElementById('error-lista-camadas').innerHTML = '';
     document.getElementById('tipoEntrada').disabled = false;
     document.getElementById('tipoOculta').disabled = true;
     document.getElementById('tipoFinal') .disabled = true;
@@ -513,16 +514,39 @@ document.getElementById('botao-nova-camada').onclick = function(e){
 
     const onCriarCamada = function(){
 
+        const qtdeEntradas        = Number(document.getElementById('campo-entradas').value);
+        const qtdeUnidades        = Number(document.getElementById('campo-unidades').value);
+        const dadosCamadaAnterior = camadasCriadas[ camadasCriadas.length-1 ] || {};
+
+        if( tipoCamada != 'entrada' && 
+            dadosCamadaAnterior.unidades != qtdeEntradas 
+        ){
+            document.getElementById('error-lista-camadas').innerHTML = `ERRO: A quantidade de entradas precisa ser igual a quantidade de unidades da camada anterior!`;
+            return;
+        }
+
+        document.getElementById('error-lista-camadas').innerHTML = '';
+
         adicionarCamadaNaLista({
             tipo     : tipoCamada,
-            entradas : document.getElementById('campo-entradas').value,
-            unidades : (tipoCamada == 'entrada' ? document.getElementById('campo-entradas') : document.getElementById('campo-unidades')).value
+            entradas : qtdeEntradas,
+            unidades : (tipoCamada == 'entrada' ? qtdeEntradas : qtdeUnidades)
         });
+
+        if( document.getElementById('div-form-add-camada').isCriando == true ){
+            document.getElementById('div-form-add-camada').isCriando = false;
+            document.getElementById('div-form-add-camada').style.visibility = 'hidden';
+            document.getElementById('div-form-add-camada').style.display = 'none';
+        }
 
     }
 
     const onCancelarCamada = function(){
-
+        if( document.getElementById('div-form-add-camada').isCriando == true ){
+            document.getElementById('div-form-add-camada').isCriando = false;
+            document.getElementById('div-form-add-camada').style.visibility = 'hidden';
+            document.getElementById('div-form-add-camada').style.display = 'none';
+        }
     }
 
     if( !document.getElementById('div-form-add-camada').isCriando ){
@@ -533,27 +557,13 @@ document.getElementById('botao-nova-camada').onclick = function(e){
         //Ao criar uma nova camada
         document.getElementById('botao-criar-camada').onclick = function(e){
             e.preventDefault();
-            
             onCriarCamada();
-
-            if( document.getElementById('div-form-add-camada').isCriando == true ){
-                document.getElementById('div-form-add-camada').isCriando = false;
-                document.getElementById('div-form-add-camada').style.visibility = 'hidden';
-                document.getElementById('div-form-add-camada').style.display = 'none';
-            }
         };
 
         //Ao cancelar
         document.getElementById('botao-cancelar-camada').onclick = function(e){
             e.preventDefault();
-
             onCancelarCamada();
-
-            if( document.getElementById('div-form-add-camada').isCriando == true ){
-                document.getElementById('div-form-add-camada').isCriando = false;
-                document.getElementById('div-form-add-camada').style.visibility = 'hidden';
-                document.getElementById('div-form-add-camada').style.display = 'none';
-            }
         };
     }
 };

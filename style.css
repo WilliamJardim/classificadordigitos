@@ -293,6 +293,13 @@ input:disabled:hover{
     text-transform: uppercase;
 }
 
+.mensagem-erro{
+    font-size: 28px !important;
+    color: white;
+    font-weight: bold;
+    background-color: #ff3737;
+}
+
 
 /* Estilos para o mobile */
 
