@@ -406,9 +406,7 @@ document.getElementById('botao-continuar-treinamento-modelo').addEventListener('
     }, 1);
 });
 
-var camadasCriadas = [
-
-];
+var camadasCriadas = [];
 
 document.getElementById('botao-nova-camada').onclick = function(e){
     e.preventDefault();
@@ -424,6 +422,7 @@ document.getElementById('botao-nova-camada').onclick = function(e){
     if(camadasCriadas.length > 0)
     {
         tipoCamada = 'oculta';
+        document.getElementById('tipoOculta').checked = true;
 
         document.getElementById('tipoEntrada').disabled = true;
         document.getElementById('tipoOculta').disabled = false;
@@ -528,3 +527,15 @@ document.getElementById('botao-nova-camada').onclick = function(e){
         };
     }
 };
+
+document.getElementById('botao-apagar-todas-camadas').onclick = function(){
+    camadasCriadas = [];
+    document.getElementById('table-lista-camadas').innerHTML = `
+        <tr class='cabecalho-lista-camadas'>
+            <td> Tipo </td>
+            <td> Entradas </td>
+            <td> Unidades </td>
+            <td> <button class="hidden-button"></button> </td>
+        </tr>
+    `;
+}
