@@ -29,6 +29,8 @@ Este projeto foi construído para dar continuidade a dois outros projetos meus:
 # Imagens de exemplo
 # Desktop
 ![Desktop](./imagens/demos/demo-desktop.png)
+![Criar camada](./imagens/demos/editor-camadas/criar-camada.png)
+![Lista de camadas](./imagens/demos/editor-camadas/lista-camadas.png)
 
 # Tablet
 ![Tablet](./imagens/demos/demo-tablet.png)
