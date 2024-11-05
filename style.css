@@ -267,6 +267,11 @@ input:disabled:hover{
     text-align: center;
 }
 
+#lista-camadas input{
+    width: 40%;
+    font-size: 15px !important;
+}
+
 #lista-camadas button{
     width: 150px;
 }

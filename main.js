@@ -469,11 +469,37 @@ document.getElementById('botao-nova-camada').onclick = function(e){
         dadosCamada['id'] = idNovaLinha;
         camadasCriadas.push(dadosCamada);
 
+        window.onAlterarValorEntradas = function(e, idNovaLinha){
+            const campo = e.target;
+            const valor = campo.value;
+            camadasCriadas = camadasCriadas.map(function(camadaAtual){
+                if( camadaAtual.id == idNovaLinha )
+                {
+                    camadaAtual['entradas'] = valor;
+                }
+
+                return camadaAtual;
+            });
+        }
+
+        window.onAlterarValorUnidades = function(e, idNovaLinha){
+            const campo = e.target;
+            const valor = campo.value;
+            camadasCriadas = camadasCriadas.map(function(camadaAtual){
+                if( camadaAtual.id == idNovaLinha )
+                {
+                    camadaAtual['unidades'] = valor;
+                }
+
+                return camadaAtual;
+            });
+        }
+
         document.getElementById('table-lista-camadas').innerHTML += `
             <tr id='camada-${idNovaLinha}'>
-                <td> ${ dadosCamada.tipo } </td>
-                <td> ${ dadosCamada.entradas } </td>
-                <td> ${ dadosCamada.unidades } </td>
+                <td> <input value='${ dadosCamada.tipo }' readonly></input> </td>
+                <td> <input value='${ dadosCamada.entradas }' onchange='onAlterarValorEntradas(event, ${idNovaLinha})'></input> </td>
+                <td> <input value='${ dadosCamada.unidades }' onchange='onAlterarValorUnidades(event, ${idNovaLinha})'></input> </td>
                 <td> 
                   <button class='botao-vermelho botao-remover-camada' onclick='window.removerCamadaLista(${idNovaLinha})'> X </button> 
                 </td>
