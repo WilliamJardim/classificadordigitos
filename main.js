@@ -417,6 +417,13 @@ document.getElementById('botao-nova-camada').onclick = function(e){
         document.getElementById('tipoEntrada').checked = true;
     }
 
+    document.getElementById('botao-apagar-todas-camadas').style.visibility = 'hidden';
+    document.getElementById('botao-apagar-todas-camadas').style.display = 'none';
+    document.getElementById('botao-nova-camada').style.visibility = 'hidden';
+    document.getElementById('botao-nova-camada').style.display = 'none';
+    document.getElementById('table-lista-camadas').style.visibility = 'hidden';
+    document.getElementById('table-lista-camadas').style.display = 'none';
+
     document.getElementById('error-lista-camadas').innerHTML = '';
     document.getElementById('tipoEntrada').disabled = false;
     document.getElementById('tipoOculta').disabled = true;
@@ -539,6 +546,13 @@ document.getElementById('botao-nova-camada').onclick = function(e){
             document.getElementById('div-form-add-camada').style.display = 'none';
         }
 
+        document.getElementById('botao-apagar-todas-camadas').style.visibility = 'visible';
+        document.getElementById('botao-apagar-todas-camadas').style.display = 'inline';
+        document.getElementById('botao-nova-camada').style.visibility = 'visible';
+        document.getElementById('botao-nova-camada').style.display = 'inline';
+        document.getElementById('table-lista-camadas').style.visibility = 'visible';
+        document.getElementById('table-lista-camadas').style.display = 'inline';
+
     }
 
     const onCancelarCamada = function(){
@@ -547,6 +561,13 @@ document.getElementById('botao-nova-camada').onclick = function(e){
             document.getElementById('div-form-add-camada').style.visibility = 'hidden';
             document.getElementById('div-form-add-camada').style.display = 'none';
         }
+
+        document.getElementById('botao-apagar-todas-camadas').style.visibility = 'visible';
+        document.getElementById('botao-apagar-todas-camadas').style.display = 'inline';
+        document.getElementById('botao-nova-camada').style.visibility = 'visible';
+        document.getElementById('botao-nova-camada').style.display = 'inline';
+        document.getElementById('table-lista-camadas').style.visibility = 'visible';
+        document.getElementById('table-lista-camadas').style.display = 'inline';
     }
 
     if( !document.getElementById('div-form-add-camada').isCriando ){
