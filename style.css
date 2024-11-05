@@ -281,8 +281,15 @@ input:disabled:hover{
     font-size: 15px !important;
 }
 
+#lista-camadas .div-botoes{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 22px;
+}
+
 #lista-camadas button{
-    width: 230px;
+    width: 35%;
 }
 
 #lista-camadas td{
