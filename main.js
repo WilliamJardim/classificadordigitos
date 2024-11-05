@@ -405,3 +405,118 @@ document.getElementById('botao-continuar-treinamento-modelo').addEventListener('
         extenderTreinamento();
     }, 1);
 });
+
+var camadasCriadas = [
+
+];
+
+document.getElementById('botao-nova-camada').onclick = function(e){
+    e.preventDefault();
+    
+    let tipoCamada = 'entrada';
+
+    document.getElementById('tipoEntrada').disabled = false;
+    document.getElementById('tipoOculta').disabled = true;
+    document.getElementById('tipoFinal') .disabled = true;
+    document.getElementById('campo-unidades').disabled = true;
+
+    //Se for a primeira camada a ser criada
+    if(camadasCriadas.length > 0)
+    {
+        document.getElementById('tipoEntrada').disabled = true;
+        document.getElementById('tipoOculta').disabled = false;
+        document.getElementById('campo-unidades').disabled = false;
+        document.getElementById('tipoFinal') .disabled = true;
+
+        //Se tiver pelo menos uma camada oculta, permite criar a camada final
+        if( camadasCriadas.length >= 2 ){
+            document.getElementById('tipoFinal') .disabled = false;
+        }
+    }
+
+    window.escolheuTipoCamada = function( nomeTipoCamada ){
+        tipoCamada = nomeTipoCamada;
+
+        if(tipoCamada == 'entrada'){
+            document.getElementById('campo-unidades').disabled = true;
+        }else{
+            document.getElementById('campo-unidades').disabled = false;
+        }
+    }
+
+    window.removerCamadaLista = function( idCamada ){
+        document.getElementById(`camada-${idCamada}`).parentNode
+                                                     .removeChild( document.getElementById(`camada-${idCamada}`) );
+
+        camadasCriadas = camadasCriadas.filter( ( camadaAtual ) => {
+            if(camadaAtual.id != idCamada){
+                return camadaAtual
+            }
+        });
+    }
+
+    const adicionarCamadaNaLista = function( dadosCamada ){
+
+        const idNovaLinha = String( new Date().getTime() );
+
+        dadosCamada['id'] = idNovaLinha;
+        camadasCriadas.push(dadosCamada);
+
+        document.getElementById('table-lista-camadas').innerHTML += `
+            <tr id='camada-${idNovaLinha}'>
+                <td> ${ dadosCamada.tipo } </td>
+                <td> ${ dadosCamada.entradas } </td>
+                <td> ${ dadosCamada.unidades } </td>
+                <td> 
+                  <button class='botao-vermelho botao-remover-camada' onclick='window.removerCamadaLista(${idNovaLinha})'> X </button> 
+                </td>
+            </tr>
+        `    
+    }
+
+    const onCriarCamada = function(){
+
+        adicionarCamadaNaLista({
+            tipo     : tipoCamada,
+            entradas : document.getElementById('campo-entradas').value,
+            unidades : (tipoCamada == 'entrada' ? document.getElementById('campo-entradas') : document.getElementById('campo-unidades')).value
+        });
+
+    }
+
+    const onCancelarCamada = function(){
+
+    }
+
+    if( !document.getElementById('div-form-add-camada').isCriando ){
+        document.getElementById('div-form-add-camada').isCriando = true;
+        document.getElementById('div-form-add-camada').style.visibility = 'visible';
+        document.getElementById('div-form-add-camada').style.display = 'block';
+
+        //Ao criar uma nova camada
+        document.getElementById('botao-criar-camada').onclick = function(e){
+            e.preventDefault();
+            
+            onCriarCamada();
+
+            if( document.getElementById('div-form-add-camada').isCriando == true ){
+                document.getElementById('div-form-add-camada').isCriando = false;
+                document.getElementById('div-form-add-camada').style.visibility = 'hidden';
+                document.getElementById('div-form-add-camada').style.display = 'none';
+            }
+        };
+
+        //Ao cancelar
+        document.getElementById('botao-cancelar-camada').onclick = function(e){
+            e.preventDefault();
+
+            onCancelarCamada();
+
+            if( document.getElementById('div-form-add-camada').isCriando == true ){
+                document.getElementById('div-form-add-camada').isCriando = false;
+                document.getElementById('div-form-add-camada').style.visibility = 'hidden';
+                document.getElementById('div-form-add-camada').style.display = 'none';
+            }
+        };
+    }
+};

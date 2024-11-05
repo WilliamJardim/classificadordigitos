@@ -204,6 +204,82 @@ input:hover {
     margin-top: 0px !important;
 }
 
+.div-campo-ratio{
+    padding: 15px;
+    display: flex;
+    flex-direction: row;
+    margin-top: 25px !important;
+}
+
+.div-campo-ratio div {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 15px;
+}
+
+.div-campo-ratio input{
+    border: none;
+    box-shadow: none;
+    width: 80px;
+    height: 80px;
+}
+
+input:disabled + label {
+    color: #999; /* Cor mais clara para indicar desativação */
+    cursor: not-allowed; /* Mostra um cursor de "não permitido" */
+    background-color: black !important;
+}
+
+input:disabled {
+    cursor: not-allowed; /* Mostra um cursor de "não permitido" */
+    accent-color: #ccc; /* Altera a cor do botão de rádio desativado */
+    color: #ccc !important;
+    background: rgba(90, 90, 90, 0.2) !important;
+    box-shadow: 0 0 25px rgba(214, 214, 214, 0.7), inset 0 0 10px rgba(95, 95, 95, 0.3);
+}
+
+input[type="radio"]:disabled{
+    box-shadow: none;
+}
+
+
+input[type="radio"] + label:disabled{
+    box-shadow: none;
+}
+
+input:disabled:hover{
+    background: rgba(197, 197, 197, 0.2) !important;
+    box-shadow: 0 0 25px rgba(214, 214, 214, 0.7), inset 0 0 10px rgba(165, 165, 165, 0.3);
+}
+
+.form-add-estrutura{
+    margin-top: 45px !important;
+}
+
+#div-form-add-camada{
+    display: none;
+    visibility: hidden;
+}
+
+#lista-camadas .cabecalho-lista-camadas{
+    color: white;
+    text-align: center;
+}
+
+#lista-camadas button{
+    width: 150px;
+}
+
+#lista-camadas td{
+    width: 45%;
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+
 /* Estilos para o mobile */
 
 /* PARA TABLET */
@@ -437,4 +513,10 @@ input:hover {
     box-shadow: 0 0 15px rgba(9, 255, 0, 0.5), inset 0 0 5px rgba(30, 255, 0, 0.3);
     background: linear-gradient(145deg, rgba(0, 255, 42, 0.15), rgba(21, 255, 0, 0.05)) !important;;
     color: #70ff4d !important;
+}
+
+.botao-vermelho{
+    box-shadow: 0 0 15px rgba(255, 17, 0, 0.5), inset 0 0 5px rgba(255, 8, 0, 0.3);
+    background: linear-gradient(145deg, rgba(255, 0, 0, 0.15), rgba(255, 0, 0, 0.05)) !important;;
+    color: #ff3737 !important;
 }

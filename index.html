@@ -28,6 +28,66 @@
                 <h1 class="box-shadow-none no-select"> Testes feitos </h2>
                 <div class="no-select box-shadow-none">
                     <div>
+                        <p class="subtitulo no-select"> Estrutura do modelo </p>
+                        
+                        <div class="box-shadow-none div-campo div-botoes">
+                            <button class="botao-verde" id="botao-nova-camada"> NOVA CAMADA </button>
+                        </div>
+
+                        <div id="div-form-add-camada">
+                            <form class="no-select form-treino form-add-estrutura">
+                                <div class="box-shadow-none div-campo">
+                                    <label class="no-select" for="campo-entradas"> Entradas </label>
+                                    <input class="no-select" value="10" type="number" name="campo-entradas" id="campo-entradas" />
+                                </div>
+    
+                                <div class="box-shadow-none div-campo">
+                                    <label class="no-select" for="campo-unidades"> Unidades </label>
+                                    <input class="no-select" value="4" type="number" name="campo-unidades" id="campo-unidades" />
+                                </div>
+    
+                                <div class="box-shadow-none div-campo div-campo-ratio">
+                                    <div class="box-shadow-none div-campo">
+                                        <input checked type="radio" name="campo-tipo" id="tipoEntrada" value="1" onchange="escolheuTipoCamada('entrada')" />
+                                        <label for="tipoEntrada" class="no-select"> Entrada </label>
+                                    </div>
+    
+                                    <div class="box-shadow-none div-campo">
+                                        <input type="radio" name="campo-tipo" id="tipoOculta" value="2" onchange="escolheuTipoCamada('oculta')"  />
+                                        <label for="tipoOculta" class="no-select"> Oculta </label>
+                                    </div>
+    
+                                    <div class="box-shadow-none div-campo">
+                                        <input type="radio" name="campo-tipo" id="tipoFinal" value="3" onchange="escolheuTipoCamada('final')"  />
+                                        <label for="tipoFinal" class="no-select"> Final </label>
+                                    </div>
+                                </div>
+    
+                            </form>
+    
+                            <div class="box-shadow-none div-campo div-botoes">
+                                <button class="botao-verde" id="botao-criar-camada"> CRIAR CAMADA </button>
+                                <button class="botao-vermelho" id="botao-cancelar-camada"> CANCELAR </button>
+                            </div>
+                        </div>
+
+                        <div id="lista-camadas">
+                            <p> Lista de camadas </p>
+                            <table id="table-lista-camadas">
+                                <tr class='cabecalho-lista-camadas'>
+                                    <td> Tipo </td>
+                                    <td> Entradas </td>
+                                    <td> Unidades </td>
+                                    <td> <button class="hidden-button"></button> </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="no-select box-shadow-none">
+                    <div>
                         <p class="subtitulo no-select"> Configurações de Treino </p>
                         <form class="no-select form-treino">
                             <div class="no-select box-shadow-none div-campo">

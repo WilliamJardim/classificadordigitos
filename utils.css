@@ -20,3 +20,7 @@
     -ms-user-select: text;     /* Internet Explorer e Edge */
 }
 
+.hidden-button{
+    display: block;
+    visibility: hidden;
+}
