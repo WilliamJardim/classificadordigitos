@@ -561,8 +561,12 @@ document.getElementById('botao-nova-camada').onclick = function(e){
         document.getElementById('botao-apagar-todas-camadas').style.display = 'inline';
         document.getElementById('botao-nova-camada').style.visibility = 'visible';
         document.getElementById('botao-nova-camada').style.display = 'inline';
-        document.getElementById('table-lista-camadas').style.visibility = 'visible';
-        document.getElementById('table-lista-camadas').style.display = 'inline';
+
+        if( camadasCriadas.length > 0 )
+        {
+            document.getElementById('table-lista-camadas').style.visibility = 'visible';
+            document.getElementById('table-lista-camadas').style.display = 'inline';
+        }
 
         if( tipoCamada == 'final' ){
             //Bloquear para não permitir o usuario continuar cadastrando até que ele limpe tudo ou apague a camada final
@@ -582,8 +586,12 @@ document.getElementById('botao-nova-camada').onclick = function(e){
         document.getElementById('botao-apagar-todas-camadas').style.display = 'inline';
         document.getElementById('botao-nova-camada').style.visibility = 'visible';
         document.getElementById('botao-nova-camada').style.display = 'inline';
-        document.getElementById('table-lista-camadas').style.visibility = 'visible';
-        document.getElementById('table-lista-camadas').style.display = 'inline';
+        
+        if( camadasCriadas.length > 0 )
+        {
+            document.getElementById('table-lista-camadas').style.visibility = 'visible';
+            document.getElementById('table-lista-camadas').style.display = 'inline';
+        }
     }
 
     if( !document.getElementById('div-form-add-camada').isCriando ){
@@ -618,4 +626,12 @@ document.getElementById('botao-apagar-todas-camadas').onclick = function(){
 
     //Reativa o botão de criar nova camada
     document.getElementById('botao-nova-camada').disabled = false;
+    document.getElementById('table-lista-camadas').style.visibility = 'hidden';
+    document.getElementById('table-lista-camadas').style.display = 'none';
+
+    if( camadasCriadas.length > 0 )
+    {
+        document.getElementById('table-lista-camadas').style.visibility = 'visible';
+        document.getElementById('table-lista-camadas').style.display = 'inline';
+    }
 }

@@ -300,6 +300,11 @@ input:disabled:hover{
     background-color: #ff3737;
 }
 
+#table-lista-camadas{
+    visibility: hidden;
+    display: none;
+}
+
 
 /* Estilos para o mobile */
 
