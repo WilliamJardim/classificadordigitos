@@ -502,8 +502,8 @@ document.getElementById('botao-nova-camada').onclick = function(e){
         document.getElementById('table-lista-camadas').innerHTML += `
             <tr id='camada-${idNovaLinha}'>
                 <td> <input value='${ dadosCamada.tipo }' readonly></input> </td>
-                <td> <input value='${ dadosCamada.entradas }' onchange='onAlterarValorEntradas(event, ${idNovaLinha})'></input> </td>
-                <td> <input value='${ dadosCamada.unidades }' onchange='onAlterarValorUnidades(event, ${idNovaLinha})'></input> </td>
+                <td> <input type="number" value='${ dadosCamada.entradas }' onchange='onAlterarValorEntradas(event, ${idNovaLinha})'></input> </td>
+                <td> <input type="number" value='${ dadosCamada.unidades }' onchange='onAlterarValorUnidades(event, ${idNovaLinha})'></input> </td>
                 <td> 
                   <button ${ dadosCamada.tipo == 'entrada' ? 'disabled' : '' } class='botao-vermelho botao-remover-camada' onclick='window.removerCamadaLista(${idNovaLinha})'> X </button> 
                 </td>
