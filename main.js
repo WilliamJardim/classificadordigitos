@@ -423,6 +423,8 @@ document.getElementById('botao-nova-camada').onclick = function(e){
     //Se for a primeira camada a ser criada
     if(camadasCriadas.length > 0)
     {
+        tipoCamada = 'oculta';
+
         document.getElementById('tipoEntrada').disabled = true;
         document.getElementById('tipoOculta').disabled = false;
         document.getElementById('campo-unidades').disabled = false;
@@ -431,6 +433,12 @@ document.getElementById('botao-nova-camada').onclick = function(e){
         //Se tiver pelo menos uma camada oculta, permite criar a camada final
         if( camadasCriadas.length >= 2 ){
             document.getElementById('tipoFinal') .disabled = false;
+        }
+
+        //Se ja tem a camada final, ele não permite adicionar mais nenhuma final e nem oculta
+        if( camadasCriadas[camadasCriadas.length-1].tipo == 'final' ){
+            document.getElementById('tipoOculta') .disabled = true;
+            document.getElementById('tipoFinal') .disabled = true;
         }
     }
 
