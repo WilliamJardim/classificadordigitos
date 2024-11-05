@@ -43,6 +43,12 @@ canvas {
     animation: neonPulse 2s infinite alternate;
 }
 
+.div-dados .div-botoes{
+    display: flex;
+    flex-direction: row;
+    margin-left: -15px;
+}
+
 button {
     width: 296px;
     height: 80px;
@@ -61,6 +67,11 @@ button {
     margin-top: 25px;
     margin-bottom: 5px;
     text-transform: uppercase;
+}
+
+.div-dados button{
+    margin-left: 25px;
+    margin-right: 5px;
 }
 
 button:hover {
@@ -161,6 +172,8 @@ input:hover {
     padding: 15px;
     display: grid;
     grid-template-columns: 400px 400px;
+    justify-content: center;
+    align-items: center;
 }
 
 .div-campo{
@@ -242,15 +255,26 @@ input:hover {
         display: flex;
         flex-direction: column;
         padding: 10px;
+        width: 100%;
     }
 
     .div-campo{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 55%;
         padding: 5px;
+        margin-top: 15px;
+    }
+
+    .div-campo:first-child{
+        margin-top: -10px !important;
     }
 
     .form-treino input{
-        width: 95%;
-        margin-left: 8px;
+        width: 100% !important;
+        margin-left: 0px;
         margin-top: 0px;
         margin-bottom: 0px;
     }
@@ -263,11 +287,8 @@ input:hover {
         color: white;
         padding: 5px;
         margin-top: 0px;
-        margin-bottom: 0px;
-    }
-
-    .form-treino button:first{
-        margin-left: 0px;
+        margin-bottom: 8px;
+        margin-left: -35px;
     }
 
     .form-treino button{
@@ -281,10 +302,18 @@ input:hover {
         justify-content: center; /* Centraliza horizontalmente */
         align-items: center;    /* Centraliza verticalmente */
     }
+
+    .div-dados .div-botoes{
+        padding: 20px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center; /* Centraliza horizontalmente */
+        align-items: center;    /* Centraliza verticalmente */
+    }
 }
 
 /* PARA CELULAR */
-@media only screen and (max-width: 1164px) {
+@media only screen and (max-width: 1184px) {
 
     #lista-dataset{
         margin-left: -80px !important;
@@ -295,6 +324,27 @@ input:hover {
         flex-direction: column;
     }
 
+    .form-treino{
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        width: auto;
+    }
+
+    .div-campo{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 80%;
+        padding: 5px;
+        margin-top: 15px;
+    }
+
+    .div-campo:first-child{
+        margin-top: -10px !important;
+    }
+
     .div-botoes{
         padding: 20px;
         display: flex;
@@ -303,8 +353,16 @@ input:hover {
         align-items: center;    /* Centraliza verticalmente */
     }
 
+    .div-dados .div-botoes{
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* Centraliza horizontalmente */
+        align-items: center;    /* Centraliza verticalmente */
+    }
+
     .form-treino input{
-        width: 88%;
+        width: 80%;
         margin-left: 8px;
         margin-top: 0px;
         margin-bottom: 0px;
