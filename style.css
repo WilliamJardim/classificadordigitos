@@ -277,7 +277,7 @@ input:disabled:hover{
 }
 
 #lista-camadas input{
-    width: 40%;
+    width: 40% !important;
     font-size: 15px !important;
 }
 
@@ -286,7 +286,7 @@ input:disabled:hover{
 }
 
 #lista-camadas td{
-    width: 45%;
+    width: 400px;
     text-align: center;
     font-size: 28px;
     font-weight: bold;
