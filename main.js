@@ -412,9 +412,24 @@ document.getElementById('botao-nova-camada').onclick = function(e){
     e.preventDefault();
     
     let tipoCamada = 'entrada';
+
     if( camadasCriadas.length == 0 )
     {
         document.getElementById('tipoEntrada').checked = true;
+
+        //Se tem um dataset carregado
+        if( dataset.getDados()    != undefined &&
+            dataset.getDados()[0] != undefined
+        ){
+            const imagemBase       = dataset.getDados()[0];
+            const heightDesenho    = imagemBase.length;
+            const widthDesenho     = imagemBase[0].length;
+            const resolucaoImagem  = (widthDesenho * heightDesenho);
+
+            //Define a resolução nos campos
+            document.getElementById('campo-entradas').value = String(resolucaoImagem);
+            document.getElementById('campo-unidades').value = String(resolucaoImagem);
+        }
     }
 
     document.getElementById('botao-apagar-todas-camadas').style.visibility = 'hidden';
@@ -434,6 +449,10 @@ document.getElementById('botao-nova-camada').onclick = function(e){
     if(camadasCriadas.length > 0)
     {
         tipoCamada = 'oculta';
+        
+        //Valores padrão
+        document.getElementById('campo-unidades').value = '4';
+
         document.getElementById('tipoOculta').checked = true;
 
         document.getElementById('tipoEntrada').disabled = true;
