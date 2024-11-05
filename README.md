@@ -28,10 +28,10 @@ Este projeto foi construído para dar continuidade a dois outros projetos meus:
 
 # Imagens de exemplo
 # Desktop
-![Desktop](./imagens/demo-desktop.png)
+![Desktop](./imagens/demos/demo-desktop.png)
 
 # Tablet
-![Tablet](./imagens/demo-tablet.png)
+![Tablet](./imagens/demos/demo-tablet.png)
 
 # Phone
-![Phone](./imagens/demo-phone.png)
+![Phone](./imagens/demos/demo-phone.png)

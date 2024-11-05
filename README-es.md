@@ -18,10 +18,10 @@ Este proyecto fue creado para dar continuidad a otros dos proyectos míos:
 
 # Imágenes de ejemplo
 ## Escritorio
-![Escritorio](./imagens/demo-desktop.png)
+![Escritorio](./imagens/demos/demo-desktop.png)
 
 ## Tableta
-![Tableta](./imagens/demo-tablet.png)
+![Tableta](./imagens/demos/demo-tablet.png)
 
 ## Teléfono
-![Teléfono](./imagens/demo-phone.png)
+![Teléfono](./imagens/demos/demo-phone.png)

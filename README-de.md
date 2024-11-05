@@ -17,10 +17,10 @@ Dieses Projekt wurde entwickelt, um zwei meiner anderen Projekte fortzusetzen:
 
 # Beispielbilder
 ## Desktop
-![Desktop](./imagens/demo-desktop.png)
+![Desktop](./imagens/demos/demo-desktop.png)
 
 ## Tablet
-![Tablet](./imagens/demo-tablet.png)
+![Tablet](./imagens/demos/demo-tablet.png)
 
 ## Telefon
-![Telefon](./imagens/demo-phone.png)
+![Telefon](./imagens/demos/demo-phone.png)

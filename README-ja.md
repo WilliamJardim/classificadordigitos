@@ -16,11 +16,11 @@
 
 # サンプル画像
 ## デスクトップ
-![デスクトップ](./imagens/demo-desktop.png)
+![デスクトップ](./imagens/demos/demo-desktop.png)
 
 ## タブレット
-![タブレット](./imagens/demo-tablet.png)
+![タブレット](./imagens/demos/demo-tablet.png)
 
 ## スマートフォン
-![スマートフォン](./imagens/demo-phone.png)
+![スマートフォン](./imagens/demos/demo-phone.png)
 

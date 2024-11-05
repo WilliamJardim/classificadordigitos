@@ -17,10 +17,10 @@ Ce projet a été créé pour poursuivre deux autres de mes projets :
 
 # Images d'exemple
 ## Ordinateur
-![Ordinateur](./imagens/demo-desktop.png)
+![Ordinateur](./imagens/demos/demo-desktop.png)
 
 ## Tablette
-![Tablette](./imagens/demo-tablet.png)
+![Tablette](./imagens/demos/demo-tablet.png)
 
 ## Téléphone
-![Téléphone](./imagens/demo-phone.png)
+![Téléphone](./imagens/demos/demo-phone.png)
