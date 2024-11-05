@@ -165,7 +165,8 @@ input:hover {
 }
 
 .subtitulo{
-    padding: 12px;
+    padding: 42px;
+    margin-top: -25px;
 }
 
 .form-treino{
@@ -208,6 +209,11 @@ input:hover {
     #app{
         margin-left: 0px;
         padding: 0px;
+    }
+
+    .subtitulo{
+        margin-top: 8px;
+        padding: 22px;
     }
 
     body{
@@ -322,6 +328,11 @@ input:hover {
 
 /* PARA CELULAR */
 @media only screen and (max-width: 1184px) {
+
+    .subtitulo{
+        margin-top: 8px;
+        padding: 22px;
+    }
 
     #lista-dataset{
         margin-left: -80px !important;
