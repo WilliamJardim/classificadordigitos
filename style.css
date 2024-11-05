@@ -177,7 +177,7 @@ input:hover {
 }
 
 .div-campo{
-    
+    margin-top: -50px !important;
 }
 
 .form-treino input{
@@ -195,6 +195,10 @@ input:hover {
     padding: 5px;
     margin-top: 1px;
     margin-bottom: 9px;
+}
+
+.form-treino .div-botoes{
+    margin-top: 0px !important;
 }
 
 /* Estilos para o mobile */
@@ -258,6 +262,10 @@ input:hover {
         width: 100%;
     }
 
+    .form-treino .div-botoes{
+        margin-top: 0px !important;
+    }
+
     .div-campo{
         display: flex;
         flex-direction: column;
@@ -265,7 +273,7 @@ input:hover {
         align-items: center;
         width: 55%;
         padding: 5px;
-        margin-top: 15px;
+        margin-top: 15px !important;
     }
 
     .div-campo:first-child{
@@ -338,7 +346,7 @@ input:hover {
         align-items: center;
         width: 80%;
         padding: 5px;
-        margin-top: 15px;
+        margin-top: 15px !important;
     }
 
     .div-campo:first-child{
