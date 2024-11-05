@@ -467,11 +467,22 @@ document.getElementById('botao-nova-camada').onclick = function(e){
         document.getElementById(`camada-${idCamada}`).parentNode
                                                      .removeChild( document.getElementById(`camada-${idCamada}`) );
 
+        let tipoCamadaApagando = null;
+
         camadasCriadas = camadasCriadas.filter( ( camadaAtual ) => {
             if(camadaAtual.id != idCamada){
                 return camadaAtual
+
+            }else{
+                tipoCamadaApagando = camadaAtual.tipo;
             }
         });
+
+        if( tipoCamadaApagando == 'final' )
+        {
+            //Reativa o botão de criar nova camada
+            document.getElementById('botao-nova-camada').disabled = false;
+        }
     }
 
     const adicionarCamadaNaLista = function( dadosCamada ){
@@ -553,6 +564,11 @@ document.getElementById('botao-nova-camada').onclick = function(e){
         document.getElementById('table-lista-camadas').style.visibility = 'visible';
         document.getElementById('table-lista-camadas').style.display = 'inline';
 
+        if( tipoCamada == 'final' ){
+            //Bloquear para não permitir o usuario continuar cadastrando até que ele limpe tudo ou apague a camada final
+            document.getElementById('botao-nova-camada').disabled = true;
+        }
+
     }
 
     const onCancelarCamada = function(){
@@ -599,4 +615,7 @@ document.getElementById('botao-apagar-todas-camadas').onclick = function(){
             <td> <button class="hidden-button"></button> </td>
         </tr>
     `;
+
+    //Reativa o botão de criar nova camada
+    document.getElementById('botao-nova-camada').disabled = false;
 }
