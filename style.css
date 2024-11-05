@@ -157,6 +157,7 @@ input:hover {
     display: grid;
     grid-template-columns: 400px 400px;
     align-items: center;
+    margin-left: 85px;
 }
 
 #resultados-teste{
@@ -231,8 +232,9 @@ input:hover {
 
     #lista-dataset{
         padding: 9px;
-        margin-left: 15px;
+        margin-left: 195px;
         margin-top: 45px;
+        margin-bottom: 45px;
         width: 500px;
         height: auto;
         display: grid;
