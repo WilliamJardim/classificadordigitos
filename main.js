@@ -1,5 +1,20 @@
 const dataset        = new Dataset();
 
+//Libera alguns botões se o dataset estiver carregado
+function liberarTreinamento()
+{
+    const isCarregado = dataset.getDados().length > 0 ?  true : false;
+
+    document.getElementById('botao-treinar-modelo').disabled = !isCarregado;
+    document.getElementById('botao-continuar-treinamento-modelo').disabled = !isCarregado;
+    document.getElementById('botao-testar-modelo').disabled = !isCarregado;
+    document.getElementById('campo-epocas').disabled = !isCarregado;
+    document.getElementById('campo-epocas-mostrar').disabled = !isCarregado;
+    document.getElementById('campo-taxa-aprendizado').disabled = !isCarregado;
+}
+
+liberarTreinamento();
+
 const dadosCursor    = {
     color: 'rgb(255,255,255)',
     X: 0,
@@ -65,6 +80,7 @@ function adicionarImagemNaLista( desenho, cursor )
                                     configEditor ); 
                                     
    visualizador.loadImage( desenho );
+   liberarTreinamento();
 }
 
 //Carrega um dataset
@@ -555,10 +571,21 @@ document.getElementById('botao-nova-camada').onclick = function(e){
         const qtdeUnidades        = Number(document.getElementById('campo-unidades').value);
         const dadosCamadaAnterior = camadasCriadas[ camadasCriadas.length-1 ] || {};
 
+        //Validações
         if( tipoCamada != 'entrada' && 
             dadosCamadaAnterior.unidades != qtdeEntradas 
         ){
             document.getElementById('error-lista-camadas').innerHTML = `ERRO: A quantidade de entradas precisa ser igual a quantidade de unidades da camada anterior!`;
+            return;
+        }
+
+        if( qtdeEntradas <= 0 ){
+            document.getElementById('error-lista-camadas').innerHTML = `ERRO: A quantidade de entradas precisa ser maior que zero!`;
+            return;
+        }
+
+        if( qtdeUnidades <= 0 ){
+            document.getElementById('error-lista-camadas').innerHTML = `ERRO: A quantidade de unidades precisa ser maior que zero!`;
             return;
         }
 
