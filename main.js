@@ -39,6 +39,11 @@ const configEditor = {
     }
 }
 
+const posicaoEditor = {
+    top:  window.innerWidth >= 1676 ? 290 : 650,
+    left: window.innerWidth >= 1676 ? 500 : 500
+}
+
 const editorCaracter = null;
 
 function escreverConsole(texto)
@@ -495,8 +500,8 @@ function medirPrecisaoTreino( instancia, dadosDataset, osTargets ){
 document.getElementById('botao-adicionar-desenho').addEventListener('click', function(){
     window.editorCaracter = new Editor({
         resolucao: 256,
-        top: 200,
-        left: 500,
+        top: posicaoEditor.top,
+        left: posicaoEditor.left,
         titulo: 'Desenhe',
         backgroundColor: 'rgb(0,0,0)',
     
@@ -526,8 +531,8 @@ document.getElementById('botao-testar-modelo').addEventListener('click', functio
 
     const editorTeste = new Editor({
         resolucao: 256,
-        top: 200,
-        left: 500,
+        top: posicaoEditor.top,
+        left: posicaoEditor.left,
         titulo: 'Desenhe',
         backgroundColor: 'rgb(0,0,0)',
     
