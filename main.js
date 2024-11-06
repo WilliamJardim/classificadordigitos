@@ -227,7 +227,7 @@ function planificarDesenho( desenho ){
 
 
 var camadasCriadas = [];
-var USAR_CAMADAS_FORM = false; //Se for false, vai esconder o formulario de cadastrar camadas
+var USAR_CAMADAS_FORM = true; //Se for false, vai esconder o formulario de cadastrar camadas
 
 function liberarBotoesEditorCamada()
 {
