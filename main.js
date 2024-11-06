@@ -348,6 +348,10 @@ if( USAR_CAMADAS_FORM == true )
     document.getElementById('table-lista-camadas').style.visibility = 'visible';
     document.getElementById('table-lista-camadas').style.display = 'block';
 
+    //Bloquear para não permitir o usuario continuar cadastrando até que ele limpe tudo ou apague a camada final
+    document.getElementById('botao-nova-camada').disabled = true;
+    document.getElementById('botao-apagar-todas-camadas').disabled = false;
+
 }else{
     //SE NÂO ESTIVERMOS USANDO CAMADAS CONFIGURAVEIS, VAMOS ESCONDER O FORMULARIO
     document.getElementById('dev-config-estrutura').style.visibility = 'hidden';
