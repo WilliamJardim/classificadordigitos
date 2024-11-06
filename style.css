@@ -442,6 +442,26 @@ input:disabled:hover{
         justify-content: center; /* Centraliza horizontalmente */
         align-items: center;    /* Centraliza verticalmente */
     }
+
+    #lista-camadas{
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    #lista-camadas .div-botoes{
+        padding: 0px !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    #lista-camadas .div-botoes button{
+        padding: 0px !important;
+        width: 80%;
+        justify-self: center;
+    }
 }
 
 /* PARA CELULAR */
@@ -503,6 +523,37 @@ input:disabled:hover{
         margin-left: 8px;
         margin-top: 0px;
         margin-bottom: 0px;
+    }
+
+    #lista-camadas{
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    #lista-camadas .div-botoes{
+        padding: 0px !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        margin-top: -10px !important;
+        margin-bottom: 80px !important;
+    }
+
+    #lista-camadas #table-lista-camadas{
+        margin-top: -40px !important;
+        margin-bottom: 80px !important;
+    }
+
+    #lista-camadas .div-botoes button{
+        padding: 0px !important;
+        width: 80%;
+        justify-self: center;
+    }
+
+    #lista-camadas input[type="text"]{
+        font-size: 19px !important;
     }
 }
 
