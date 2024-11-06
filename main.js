@@ -424,6 +424,18 @@ document.getElementById('botao-continuar-treinamento-modelo').addEventListener('
 
 var camadasCriadas = [];
 
+function liberarBotoesEditorCamada()
+{
+    document.getElementById('botao-apagar-todas-camadas').disabled = camadasCriadas.length == 0;
+}
+
+function espelharCampos( campo1, campo2 )
+{
+    document.getElementById(campo2).value = document.getElementById(campo1).value;
+}
+
+liberarBotoesEditorCamada();
+
 document.getElementById('botao-nova-camada').onclick = function(e){
     e.preventDefault();
     
@@ -518,6 +530,19 @@ document.getElementById('botao-nova-camada').onclick = function(e){
             //Reativa o botão de criar nova camada
             document.getElementById('botao-nova-camada').disabled = false;
         }
+
+        liberarBotoesEditorCamada();
+    }
+
+    const controlarEspelhamentosEditorCamadas = function(){
+        if( camadasCriadas.length == 0 && tipoCamada == 'entrada' ){
+            espelharCampos( 'campo-entradas', 'campo-unidades' );
+        }
+    }
+
+    //Adiona eventos aos campos do formulario de cadastro da camada
+    document.getElementById('campo-entradas').oninput = function(){
+        controlarEspelhamentosEditorCamadas();
     }
 
     const adicionarCamadaNaLista = function( dadosCamada ){
@@ -619,6 +644,8 @@ document.getElementById('botao-nova-camada').onclick = function(e){
             document.getElementById('botao-nova-camada').disabled = true;
         }
 
+        liberarBotoesEditorCamada();
+
     }
 
     const onCancelarCamada = function(){
@@ -680,4 +707,6 @@ document.getElementById('botao-apagar-todas-camadas').onclick = function(){
         document.getElementById('table-lista-camadas').style.visibility = 'visible';
         document.getElementById('table-lista-camadas').style.display = 'inline';
     }
+
+    liberarBotoesEditorCamada();
 }
