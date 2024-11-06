@@ -107,7 +107,7 @@ class Editor{
         this.divFerramentas.style.height = `150px`;
 
         setTimeout(function(){
-            contexto.divFerramentas.style.top = `${ contexto.top + 180 + parseInt(contexto.divFerramentas.style.height) }px`;
+            contexto.divFerramentas.style.top = `${ (contexto.top - 330) + parseInt(contexto.divFerramentas.style.height) }px`;
         }, 200);
 
         this.divFerramentas.setAttribute('class', 'div-ferramentas-editor');
@@ -117,7 +117,7 @@ class Editor{
         
         //Botoes
         this.botaoAumentarResolucao = document.createElement('button');
-        this.botaoAumentarResolucao.setAttribute('class', 'botao');
+        this.botaoAumentarResolucao.setAttribute('class', 'botao botao-aumentar-desenho');
         this.divFerramentas.appendChild(this.botaoAumentarResolucao);
         this.botaoAumentarResolucao.append('+')
         this.botaoAumentarResolucao.style.width = '90px';
@@ -133,7 +133,7 @@ class Editor{
         }
 
         this.botaoDiminuirResolucao = document.createElement('button');
-        this.botaoDiminuirResolucao.setAttribute('class', 'botao');
+        this.botaoDiminuirResolucao.setAttribute('class', 'botao botao-diminuir-desenho');
         this.divFerramentas.appendChild(this.botaoDiminuirResolucao);
         this.botaoDiminuirResolucao.append('-')
         this.botaoDiminuirResolucao.style.width = '90px';
@@ -150,7 +150,7 @@ class Editor{
         }
 
         this.botaoExcluirImagem = document.createElement('button');
-        this.botaoExcluirImagem.setAttribute('class', 'botao botao-excluir');
+        this.botaoExcluirImagem.setAttribute('class', 'botao botao-excluir botao-excluir-desenho');
         this.divFerramentas.appendChild(this.botaoExcluirImagem);
         this.botaoExcluirImagem.append('X')
         this.botaoExcluirImagem.style.width = '90px';
@@ -167,7 +167,7 @@ class Editor{
         if( contexto.callbackEnviar )
         {
             this.botaoEnviarImagem = document.createElement('button');
-            this.botaoEnviarImagem.setAttribute('class', 'botao');
+            this.botaoEnviarImagem.setAttribute('class', 'botao botao-enviar-desenho');
             this.divFerramentas.appendChild(this.botaoEnviarImagem);
             this.botaoEnviarImagem.append('ENVIAR')
             this.botaoEnviarImagem.style.width = '180px';

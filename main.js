@@ -40,8 +40,13 @@ const configEditor = {
 }
 
 const posicaoEditor = {
-    top:  window.innerWidth >= 1676 ? 290 : 650,
-    left: window.innerWidth >= 1676 ? 500 : 500
+    top:    window.innerWidth >= 1676 ? 200 
+          : window.innerWidth >= 1184 ? 280 
+          : 280,
+
+    left:   window.innerWidth >= 1676 ? 500 
+          : window.innerWidth >= 1184 ? 500 
+          : 50
 }
 
 const editorCaracter = null;
