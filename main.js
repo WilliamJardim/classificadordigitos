@@ -1,5 +1,10 @@
 const dataset        = new Dataset();
 
+function isDatasetCarregado()
+{
+    return dataset.getDados().length > 0 ?  true : false;
+}
+
 //Libera alguns botões se o dataset estiver carregado
 function liberarTreinamento()
 {
@@ -306,9 +311,27 @@ function adicionarCamadaNaLista( dadosCamada ){
 
     document.getElementById('table-lista-camadas').innerHTML += `
         <tr id='camada-${idNovaLinha}'>
-            <td> <input type="text"   value='${ dadosCamada.tipoPT }' readonly></input> </td>
-            <td> <input type="number" value='${ dadosCamada.entradas }' onchange='onAlterarValorEntradas(event, ${idNovaLinha})'></input> </td>
-            <td> <input type="number" value='${ dadosCamada.unidades }' onchange='onAlterarValorUnidades(event, ${idNovaLinha})'></input> </td>
+            <td> <input type="text"   
+                       value='${ dadosCamada.tipoPT }' 
+                       readonly 
+                       ${ dadosCamada.tipo == LayerType.Input && isDatasetCarregado() ? 'readonly disabled' : '' } >
+                 </input> 
+            </td>
+            
+            <td> <input type="number" 
+                        value='${ dadosCamada.entradas }' 
+                        onchange='onAlterarValorEntradas(event, ${idNovaLinha})'
+                        ${ dadosCamada.tipo == LayerType.Input && isDatasetCarregado() ? 'readonly disabled' : '' } >
+                 </input> 
+            </td>
+            
+            <td> <input type="number" 
+                        value='${ dadosCamada.unidades }' 
+                        onchange='onAlterarValorUnidades(event, ${idNovaLinha})'
+                        ${ dadosCamada.tipo == LayerType.Input && isDatasetCarregado() ? 'readonly disabled' : '' } >
+                 </input> 
+            </td>
+            
             <td> 
               <button ${ dadosCamada.tipo == LayerType.Input ? 'disabled' : '' } class='botao-vermelho botao-remover-camada' onclick='window.removerCamadaLista(${idNovaLinha})'> X </button> 
             </td>

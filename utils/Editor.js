@@ -92,6 +92,7 @@ class Editor{
         this.divTitulo.style.left = `${ this.left }px`;
         this.divTitulo.style.backgroundColor = 'white'
         this.divTitulo.style.zIndex = 1;
+        this.divTitulo.setAttribute('class', 'div-titulo-editor');
 
         this.divTitulo.innerHTML = `
             <h1> ${ this.titulo || '' } </h1>    
