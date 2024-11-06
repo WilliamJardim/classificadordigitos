@@ -292,6 +292,10 @@ input:disabled:hover{
     width: 35%;
 }
 
+#lista-camadas .botao-remover-camada{
+    width: 80% !important;
+}
+
 #lista-camadas td{
     width: 400px;
     text-align: center;
