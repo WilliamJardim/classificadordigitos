@@ -439,7 +439,7 @@ liberarBotoesEditorCamada();
 document.getElementById('botao-nova-camada').onclick = function(e){
     e.preventDefault();
     
-    let tipoCamada = 'entrada';
+    let tipoCamada = LayerType.Input;
 
     if( camadasCriadas.length == 0 )
     {
@@ -476,7 +476,7 @@ document.getElementById('botao-nova-camada').onclick = function(e){
     //Se for a primeira camada a ser criada
     if(camadasCriadas.length > 0)
     {
-        tipoCamada = 'oculta';
+        tipoCamada = LayerType.Hidden;
         
         //Valores padrão
         document.getElementById('campo-unidades').value = '4';
@@ -501,9 +501,12 @@ document.getElementById('botao-nova-camada').onclick = function(e){
     }
 
     window.escolheuTipoCamada = function( nomeTipoCamada ){
-        tipoCamada = nomeTipoCamada;
+        tipoCamada =   nomeTipoCamada == 'entrada' ? LayerType.Input 
+                     : nomeTipoCamada == 'oculta'  ? LayerType.Hidden 
+                     : nomeTipoCamada == 'final'   ? LayerType.Final 
+                     : null;
 
-        if(tipoCamada == 'entrada'){
+        if( tipoCamada == LayerType.Input ){
             document.getElementById('campo-unidades').disabled = true;
         }else{
             document.getElementById('campo-unidades').disabled = false;
@@ -525,7 +528,7 @@ document.getElementById('botao-nova-camada').onclick = function(e){
             }
         });
 
-        if( tipoCamadaApagando == 'final' )
+        if( tipoCamadaApagando == LayerType.Final )
         {
             //Reativa o botão de criar nova camada
             document.getElementById('botao-nova-camada').disabled = false;
@@ -558,7 +561,7 @@ document.getElementById('botao-nova-camada').onclick = function(e){
             camadasCriadas = camadasCriadas.map(function(camadaAtual){
                 if( camadaAtual.id == idNovaLinha )
                 {
-                    camadaAtual['entradas'] = valor;
+                    camadaAtual['entradas'] = Number(valor);
                 }
 
                 return camadaAtual;
@@ -571,7 +574,7 @@ document.getElementById('botao-nova-camada').onclick = function(e){
             camadasCriadas = camadasCriadas.map(function(camadaAtual){
                 if( camadaAtual.id == idNovaLinha )
                 {
-                    camadaAtual['unidades'] = valor;
+                    camadaAtual['unidades'] = Number(valor);
                 }
 
                 return camadaAtual;
@@ -580,11 +583,11 @@ document.getElementById('botao-nova-camada').onclick = function(e){
 
         document.getElementById('table-lista-camadas').innerHTML += `
             <tr id='camada-${idNovaLinha}'>
-                <td> <input value='${ dadosCamada.tipo }' readonly></input> </td>
+                <td> <input value='${ dadosCamada.tipoPT }' readonly></input> </td>
                 <td> <input type="number" value='${ dadosCamada.entradas }' onchange='onAlterarValorEntradas(event, ${idNovaLinha})'></input> </td>
                 <td> <input type="number" value='${ dadosCamada.unidades }' onchange='onAlterarValorUnidades(event, ${idNovaLinha})'></input> </td>
                 <td> 
-                  <button ${ dadosCamada.tipo == 'entrada' ? 'disabled' : '' } class='botao-vermelho botao-remover-camada' onclick='window.removerCamadaLista(${idNovaLinha})'> X </button> 
+                  <button ${ dadosCamada.tipo == LayerType.Input ? 'disabled' : '' } class='botao-vermelho botao-remover-camada' onclick='window.removerCamadaLista(${idNovaLinha})'> X </button> 
                 </td>
             </tr>
         `    
@@ -597,7 +600,7 @@ document.getElementById('botao-nova-camada').onclick = function(e){
         const dadosCamadaAnterior = camadasCriadas[ camadasCriadas.length-1 ] || {};
 
         //Validações
-        if( tipoCamada != 'entrada' && 
+        if( tipoCamada != LayerType.Input && 
             dadosCamadaAnterior.unidades != qtdeEntradas 
         ){
             document.getElementById('error-lista-camadas').innerHTML = `ERRO: A quantidade de entradas precisa ser igual a quantidade de unidades da camada anterior!`;
@@ -618,8 +621,9 @@ document.getElementById('botao-nova-camada').onclick = function(e){
 
         adicionarCamadaNaLista({
             tipo     : tipoCamada,
+            tipoPT   : tipoCamada == LayerType.Input ? 'Entrada' : tipoCamada == LayerType.Hidden ? 'Oculta' : tipoCamada == LayerType.Final ? 'Final' : '', //Em portugues
             entradas : qtdeEntradas,
-            unidades : (tipoCamada == 'entrada' ? qtdeEntradas : qtdeUnidades)
+            unidades : (tipoCamada == LayerType.Input ? qtdeEntradas : qtdeUnidades)
         });
 
         if( document.getElementById('div-form-add-camada').isCriando == true ){
@@ -639,7 +643,7 @@ document.getElementById('botao-nova-camada').onclick = function(e){
             document.getElementById('table-lista-camadas').style.display = 'inline';
         }
 
-        if( tipoCamada == 'final' ){
+        if( tipoCamada == LayerType.Final ){
             //Bloquear para não permitir o usuario continuar cadastrando até que ele limpe tudo ou apague a camada final
             document.getElementById('botao-nova-camada').disabled = true;
         }
