@@ -300,6 +300,10 @@ input:disabled:hover{
     text-transform: uppercase;
 }
 
+#lista-camadas input[type="text"]{
+    text-align: center !important;
+}
+
 .mensagem-erro{
     font-size: 28px !important;
     color: white;

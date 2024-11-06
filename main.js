@@ -552,7 +552,11 @@ document.getElementById('botao-nova-camada').onclick = function(e){
 
         const idNovaLinha = String( new Date().getTime() );
 
-        dadosCamada['id'] = idNovaLinha;
+        //Faz uma normalização de atributos
+        dadosCamada['id']     = idNovaLinha;
+        dadosCamada['type']   = dadosCamada['tipo'];
+        dadosCamada['inputs'] = dadosCamada['entradas'];
+        dadosCamada['units']  = dadosCamada['unidades'];
         camadasCriadas.push(dadosCamada);
 
         window.onAlterarValorEntradas = function(e, idNovaLinha){
@@ -562,6 +566,7 @@ document.getElementById('botao-nova-camada').onclick = function(e){
                 if( camadaAtual.id == idNovaLinha )
                 {
                     camadaAtual['entradas'] = Number(valor);
+                    camadaAtual['inputs'] = camadaAtual['entradas'];
                 }
 
                 return camadaAtual;
@@ -575,6 +580,7 @@ document.getElementById('botao-nova-camada').onclick = function(e){
                 if( camadaAtual.id == idNovaLinha )
                 {
                     camadaAtual['unidades'] = Number(valor);
+                    camadaAtual['units'] = camadaAtual['unidades'];
                 }
 
                 return camadaAtual;
@@ -583,7 +589,7 @@ document.getElementById('botao-nova-camada').onclick = function(e){
 
         document.getElementById('table-lista-camadas').innerHTML += `
             <tr id='camada-${idNovaLinha}'>
-                <td> <input value='${ dadosCamada.tipoPT }' readonly></input> </td>
+                <td> <input type="text"   value='${ dadosCamada.tipoPT }' readonly></input> </td>
                 <td> <input type="number" value='${ dadosCamada.entradas }' onchange='onAlterarValorEntradas(event, ${idNovaLinha})'></input> </td>
                 <td> <input type="number" value='${ dadosCamada.unidades }' onchange='onAlterarValorUnidades(event, ${idNovaLinha})'></input> </td>
                 <td> 
