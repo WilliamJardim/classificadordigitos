@@ -225,9 +225,134 @@ function planificarDesenho( desenho ){
     return desenhoPlanificado;
 }
 
+
+var camadasCriadas = [];
+var USAR_CAMADAS_FORM = false; //Se for false, vai esconder o formulario de cadastrar camadas
+
+function liberarBotoesEditorCamada()
+{
+    document.getElementById('botao-apagar-todas-camadas').disabled = camadasCriadas.length == 0;
+}
+
+function espelharCampos( campo1, campo2 )
+{
+    document.getElementById(campo2).value = document.getElementById(campo1).value;
+}
+
+liberarBotoesEditorCamada();
+
+function removerCamadaLista( idCamada ){
+    document.getElementById(`camada-${idCamada}`).parentNode
+                                                 .removeChild( document.getElementById(`camada-${idCamada}`) );
+
+    let tipoCamadaApagando = null;
+
+    camadasCriadas = camadasCriadas.filter( ( camadaAtual ) => {
+        if(camadaAtual.id != idCamada){
+            return camadaAtual
+
+        }else{
+            tipoCamadaApagando = camadaAtual.tipo;
+        }
+    });
+
+    if( tipoCamadaApagando == LayerType.Final )
+    {
+        //Reativa o botão de criar nova camada
+        document.getElementById('botao-nova-camada').disabled = false;
+    }
+
+    liberarBotoesEditorCamada();
+}
+
+function adicionarCamadaNaLista( dadosCamada ){
+
+    const idNovaLinha = String( new Date().getTime() ) + String(camadasCriadas.length);
+
+    //Faz uma normalização de atributos
+    dadosCamada['id']     = idNovaLinha;
+    dadosCamada['type']   = dadosCamada['tipo'];
+    dadosCamada['inputs'] = dadosCamada['entradas'];
+    dadosCamada['units']  = dadosCamada['unidades'];
+    camadasCriadas.push(dadosCamada);
+
+    window.onAlterarValorEntradas = function(e, idNovaLinha){
+        const campo = e.target;
+        const valor = campo.value;
+        camadasCriadas = camadasCriadas.map(function(camadaAtual){
+            if( camadaAtual.id == idNovaLinha )
+            {
+                camadaAtual['entradas'] = Number(valor);
+                camadaAtual['inputs'] = camadaAtual['entradas'];
+            }
+
+            return camadaAtual;
+        });
+    }
+
+    window.onAlterarValorUnidades = function(e, idNovaLinha){
+        const campo = e.target;
+        const valor = campo.value;
+        camadasCriadas = camadasCriadas.map(function(camadaAtual){
+            if( camadaAtual.id == idNovaLinha )
+            {
+                camadaAtual['unidades'] = Number(valor);
+                camadaAtual['units'] = camadaAtual['unidades'];
+            }
+
+            return camadaAtual;
+        });
+    }
+
+    document.getElementById('table-lista-camadas').innerHTML += `
+        <tr id='camada-${idNovaLinha}'>
+            <td> <input type="text"   value='${ dadosCamada.tipoPT }' readonly></input> </td>
+            <td> <input type="number" value='${ dadosCamada.entradas }' onchange='onAlterarValorEntradas(event, ${idNovaLinha})'></input> </td>
+            <td> <input type="number" value='${ dadosCamada.unidades }' onchange='onAlterarValorUnidades(event, ${idNovaLinha})'></input> </td>
+            <td> 
+              <button ${ dadosCamada.tipo == LayerType.Input ? 'disabled' : '' } class='botao-vermelho botao-remover-camada' onclick='window.removerCamadaLista(${idNovaLinha})'> X </button> 
+            </td>
+        </tr>
+    `    
+}
+
 var pesosInicias   = null;
 var pesosFinais    = null;
 var vaiInterromper = false;
+
+// Estrutura da rede: 65536 unidades na entrada, 2 unidades na camada oculta, e 1 na saída
+var mlpConfig = {
+    layers: [
+        { type: LayerType.Input,  inputs: 4096,   units: 4096 }, //Aqui são apenas 65536 entradas, preciso melhorar esse método
+        { type: LayerType.Hidden, inputs: 4096,   units: 4, functions: Array(4).fill('Sigmoid')  }, 
+        { type: LayerType.Final,  inputs: 4,      units: 3, functions: [ 'Sigmoid', 'Sigmoid', 'Sigmoid' ]  }
+    ],
+    initialization: Initialization.Random
+};
+
+if( USAR_CAMADAS_FORM == true )
+{
+    document.getElementById('dev-config-estrutura').style.visibility = 'visible';
+    document.getElementById('dev-config-estrutura').style.display = 'block';
+
+    //Adiciona os valores padrão na lista para manter o padrão que estava antes da atualização
+    adicionarCamadaNaLista({ 
+        tipo: LayerType.Input, tipoPT: 'Entrada', entradas: 4096, unidades: 4096 
+    });
+    adicionarCamadaNaLista({ 
+        tipo: LayerType.Hidden, tipoPT: 'Oculta', entradas: 4096, unidades: 4 
+    });
+    adicionarCamadaNaLista({ 
+        tipo: LayerType.Final, tipoPT: 'Final',  entradas: 4, unidades: 3 
+    });
+    document.getElementById('table-lista-camadas').style.visibility = 'visible';
+    document.getElementById('table-lista-camadas').style.display = 'block';
+
+}else{
+    //SE NÂO ESTIVERMOS USANDO CAMADAS CONFIGURAVEIS, VAMOS ESCONDER O FORMULARIO
+    document.getElementById('dev-config-estrutura').style.visibility = 'hidden';
+    document.getElementById('dev-config-estrutura').style.display = 'none';
+}
 
 function treinarModelo(){
     const valorEpocas         = document.getElementById('campo-epocas').value;
@@ -243,16 +368,16 @@ function treinarModelo(){
 
     escreverConsole('Modelo criado!');
 
-    // Estrutura da rede: 65536 unidades na entrada, 2 unidades na camada oculta, e 1 na saída
-    const mlpConfig = {
-        layers: [
-            { type: LayerType.Input,  inputs: 4096,   units: 4096 }, //Aqui são apenas 65536 entradas, preciso melhorar esse método
-            { type: LayerType.Hidden, inputs: 4096,   units: 4, functions: Array(4).fill('Sigmoid')  }, 
-            { type: LayerType.Final,  inputs: 4,      units: 3, functions: [ 'Sigmoid', 'Sigmoid', 'Sigmoid' ]  }
-        ],
-        initialization: Initialization.Random
-    };
+    if( USAR_CAMADAS_FORM == true )
+    {
+        //Pega as configurações de camadas do formulario e joga aqui no mlpConfig.layers
+        mlpConfig.layers = [...camadasCriadas];
+        
+    }else{
+        console.warn('USANDO CONFIGURAÇÔES DE INTERNAS DE DESENVOLVIMENTOS definidas em mlpConfig');
+    }
 
+    //Cria a rede
     window.mlp = new MLP(mlpConfig);
     window.pesosInicias = mlp.initialParameters;
 
@@ -422,20 +547,6 @@ document.getElementById('botao-continuar-treinamento-modelo').addEventListener('
     }, 1);
 });
 
-var camadasCriadas = [];
-
-function liberarBotoesEditorCamada()
-{
-    document.getElementById('botao-apagar-todas-camadas').disabled = camadasCriadas.length == 0;
-}
-
-function espelharCampos( campo1, campo2 )
-{
-    document.getElementById(campo2).value = document.getElementById(campo1).value;
-}
-
-liberarBotoesEditorCamada();
-
 document.getElementById('botao-nova-camada').onclick = function(e){
     e.preventDefault();
     
@@ -479,6 +590,7 @@ document.getElementById('botao-nova-camada').onclick = function(e){
         tipoCamada = LayerType.Hidden;
         
         //Valores padrão
+        document.getElementById('campo-entradas').value = camadasCriadas[camadasCriadas.length-1].unidades;
         document.getElementById('campo-unidades').value = '4';
 
         document.getElementById('tipoOculta').checked = true;
@@ -513,30 +625,6 @@ document.getElementById('botao-nova-camada').onclick = function(e){
         }
     }
 
-    window.removerCamadaLista = function( idCamada ){
-        document.getElementById(`camada-${idCamada}`).parentNode
-                                                     .removeChild( document.getElementById(`camada-${idCamada}`) );
-
-        let tipoCamadaApagando = null;
-
-        camadasCriadas = camadasCriadas.filter( ( camadaAtual ) => {
-            if(camadaAtual.id != idCamada){
-                return camadaAtual
-
-            }else{
-                tipoCamadaApagando = camadaAtual.tipo;
-            }
-        });
-
-        if( tipoCamadaApagando == LayerType.Final )
-        {
-            //Reativa o botão de criar nova camada
-            document.getElementById('botao-nova-camada').disabled = false;
-        }
-
-        liberarBotoesEditorCamada();
-    }
-
     const controlarEspelhamentosEditorCamadas = function(){
         if( camadasCriadas.length == 0 && tipoCamada == 'entrada' ){
             espelharCampos( 'campo-entradas', 'campo-unidades' );
@@ -546,57 +634,6 @@ document.getElementById('botao-nova-camada').onclick = function(e){
     //Adiona eventos aos campos do formulario de cadastro da camada
     document.getElementById('campo-entradas').oninput = function(){
         controlarEspelhamentosEditorCamadas();
-    }
-
-    const adicionarCamadaNaLista = function( dadosCamada ){
-
-        const idNovaLinha = String( new Date().getTime() );
-
-        //Faz uma normalização de atributos
-        dadosCamada['id']     = idNovaLinha;
-        dadosCamada['type']   = dadosCamada['tipo'];
-        dadosCamada['inputs'] = dadosCamada['entradas'];
-        dadosCamada['units']  = dadosCamada['unidades'];
-        camadasCriadas.push(dadosCamada);
-
-        window.onAlterarValorEntradas = function(e, idNovaLinha){
-            const campo = e.target;
-            const valor = campo.value;
-            camadasCriadas = camadasCriadas.map(function(camadaAtual){
-                if( camadaAtual.id == idNovaLinha )
-                {
-                    camadaAtual['entradas'] = Number(valor);
-                    camadaAtual['inputs'] = camadaAtual['entradas'];
-                }
-
-                return camadaAtual;
-            });
-        }
-
-        window.onAlterarValorUnidades = function(e, idNovaLinha){
-            const campo = e.target;
-            const valor = campo.value;
-            camadasCriadas = camadasCriadas.map(function(camadaAtual){
-                if( camadaAtual.id == idNovaLinha )
-                {
-                    camadaAtual['unidades'] = Number(valor);
-                    camadaAtual['units'] = camadaAtual['unidades'];
-                }
-
-                return camadaAtual;
-            });
-        }
-
-        document.getElementById('table-lista-camadas').innerHTML += `
-            <tr id='camada-${idNovaLinha}'>
-                <td> <input type="text"   value='${ dadosCamada.tipoPT }' readonly></input> </td>
-                <td> <input type="number" value='${ dadosCamada.entradas }' onchange='onAlterarValorEntradas(event, ${idNovaLinha})'></input> </td>
-                <td> <input type="number" value='${ dadosCamada.unidades }' onchange='onAlterarValorUnidades(event, ${idNovaLinha})'></input> </td>
-                <td> 
-                  <button ${ dadosCamada.tipo == LayerType.Input ? 'disabled' : '' } class='botao-vermelho botao-remover-camada' onclick='window.removerCamadaLista(${idNovaLinha})'> X </button> 
-                </td>
-            </tr>
-        `    
     }
 
     const onCriarCamada = function(){

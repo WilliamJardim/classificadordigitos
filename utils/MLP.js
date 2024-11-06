@@ -170,6 +170,7 @@ class MLP {
             weights: JSON.parse(JSON.stringify([...this.weights])),
             biases: JSON.parse(JSON.stringify([...this.biases])),
             layers: this.layers,
+            layersDeclarated: [... this.config.layers],
             //Other info
             generatedAt: new Date().getTime()
         };
