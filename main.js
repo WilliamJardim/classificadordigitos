@@ -572,6 +572,7 @@ document.getElementById('botao-nova-camada').onclick = function(e){
             //Define a resolução nos campos
             document.getElementById('campo-entradas').value = String(resolucaoImagem);
             document.getElementById('campo-unidades').value = String(resolucaoImagem);
+            document.getElementById('campo-entradas').disabled = true;
         }
     }
 
@@ -592,9 +593,11 @@ document.getElementById('botao-nova-camada').onclick = function(e){
     if(camadasCriadas.length > 0)
     {
         tipoCamada = LayerType.Hidden;
-        
+
         //Valores padrão
         document.getElementById('campo-entradas').value = camadasCriadas[camadasCriadas.length-1].unidades;
+        document.getElementById('campo-entradas').disabled = true;
+        
         document.getElementById('campo-unidades').value = '4';
 
         document.getElementById('tipoOculta').checked = true;
